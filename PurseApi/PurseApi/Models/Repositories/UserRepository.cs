@@ -25,11 +25,27 @@ namespace PurseApi.Models.Repositories
         FamalyCode = 11
     }
 
+    public enum UserAction
+    {
+        Empty = 0,
+        Id = 1,
+        Login = 2,
+        List = 3,
+        Family = 4
+    }
+
+
     public class UserRepository : GenericRepository<UserData>
     {
         private const string SQL_INSERT = "INSERT INTO [USER]([FIRST_NAME],[LAST_NAME],[NAME],[EMAIL],[PASSWORD],[PHONE],[COLOR],[BIRTHDAY],[CREATE_DATE]) VALUES(?,?,?,?,?,?,?,?,?)";
-        private string SQL_UNIQUE = "SELECT COUNT(*) FROM [USER] WHERE {0} LIKE ?";
+        private const string SQL_UNIQUE = "SELECT COUNT(*) FROM [USER] WHERE {0} LIKE '{1}'";
+        private const string SQL_SELECT = "SELECT [CODE],[FIRST_NAME],[LAST_NAME],[NAME],[EMAIL],[CASH],[PHONE],[FAMILY_CODE],[COLOR],[BIRTHDAY],[CREATE_DATE],[LAST_LOGIN],[STATUS_USER] FROM [USER]";
+        private const string SQL_WHERE = " WHERE {0}";
 
+        private int _actionCode;
+        private int _code;
+        private string _login;
+        private string _password;
 
         private Dictionary<UserField, string> _uniqueFields = new Dictionary<UserField, string>()
         {
@@ -38,14 +54,93 @@ namespace PurseApi.Models.Repositories
             { UserField.Phone, "[PHONE]"}
         };
 
-        public UserRepository(bool empty = true) : base(empty)
+        public UserRepository()
         {
 
         }
-        
+
+        public UserRepository(int action)
+        {
+            _actionCode = action;
+        }
+
+        public UserData GetUser(int code)
+        {
+            if (_actionCode == (int)UserAction.Id)
+            {
+                _code = code;
+                SelectData();
+                return data.FirstOrDefault();
+            }
+
+            return null;
+        }
+
+        public UserData GetUser(string nick, string password)
+        {
+            if (_actionCode == (int)UserAction.Login)
+            {
+                _login = nick;
+                _password = password;
+                SelectData();
+                return data.FirstOrDefault();
+            }
+            return null;
+        }
+
+        public List<UserData> GetList(int familyCode)
+        {
+            if (_actionCode == (int)UserAction.Family)
+            {
+                _code = familyCode;
+                SelectData();
+                return data;
+            }
+            return null;
+        }
+
+        public List<UserData> GetList()
+        {
+            if (_actionCode == (int)UserAction.List)
+            {
+                SelectData();
+                return data;
+            }
+            return null;
+        }
+
+        protected override string TableWhere
+        {
+            get
+            {
+                string parametr = string.Empty;
+                switch ((UserAction)_actionCode)
+                {
+                    case UserAction.Family:
+                        parametr = string.Format("[FAMILY_CODE] = {0}", _code);
+                        return string.Format(SQL_WHERE, parametr);
+                    case UserAction.Id:
+                        parametr = string.Format("[CODE] = {0}", _code);
+                        return string.Format(SQL_WHERE, parametr);
+                    case UserAction.Login:
+                        parametr = string.Format("[NAME] LIKE '{0}' AND [PASSWORD] LIKE '{1}'", _login, _password);
+                        return string.Format(SQL_WHERE, parametr);
+                }
+                return string.Empty;
+            }
+        }
+
+
+
         public void UpdateUserData(UserData user)
         {
 
+        }
+
+        public UserData LoginUser(string userName, string password)
+        {
+
+            return null;
         }
 
         public bool IsUnique(UserField field, string value)
@@ -58,8 +153,8 @@ namespace PurseApi.Models.Repositories
 
                 using (var conn = Connection.GetConnection(Constants.MAIN_CONNECTION))
                 {
-                    
-                    var cmd = conn.CreateCommand(string.Format(SQL_UNIQUE, column));
+
+                    var cmd = conn.CreateCommand(string.Format(SQL_UNIQUE, column, value));
                     using (var rdr = cmd.ExecuteReader())
                     {
                         if (rdr.Read())
@@ -91,14 +186,14 @@ namespace PurseApi.Models.Repositories
                     cmd.SetStringParam(5, user.Phone);
                     cmd.SetStringParam(6, user.Color);
                     cmd.SetParam(7, user.Birthday);
-                    cmd.SetParam(8, user.CreateDate);
+                    cmd.SetParam(8, DateTime.Now);
 
                     code = cmd.Execute();
 
                     conn.Close();
                 }
                 return code;
-            }  
+            }
             catch (Exception ex)
             {
                 throw ex;
@@ -110,11 +205,18 @@ namespace PurseApi.Models.Repositories
             {"", "CODE"},
             {"FirstName", "FIRST_NAME"},
             {"LastName", "LAST_NAME"},
+            {"NickName", "NAME"},
+            {"Email", "EMAIL" },
+            {"Phone", "PHONE" },
+            {"Cash", "CASH" },
+            {"LastLogin", "LAST_LOGIN" },
+            {"CreateDate", "CREATE_DATE" },
             {"Birthday", "BIRTHDAY"},
             {"Color", "COLOR"},
-            {"FamilyCode", "FAMILY_CODE"}
+            {"FamilyCode", "FAMILY_CODE"},
+            {"StatusCode", "STATUS_USER" }, 
         };
-
+       
         protected override string TableName
         {
             get

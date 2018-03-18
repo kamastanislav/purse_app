@@ -16,7 +16,6 @@ namespace PurseApi.Models.Entities
     {
         private readonly int _code;
         private Family _userFamily;
-        private int _statusUser;
 
         public int Code
         {
@@ -33,7 +32,7 @@ namespace PurseApi.Models.Entities
         public string Phone { get; set; }
         [JsonIgnore]
         public string Password { get; set; }
-        public double Cash { get; set; }
+        public decimal Cash { get; set; }
         public DateTime LastLogin { get; set; }
         [JsonIgnore]
         public DateTime CreateDate { get; set; }
@@ -41,20 +40,22 @@ namespace PurseApi.Models.Entities
         
         public string Color { get; set; }
         public int FamilyCode { get; set; }
+        public int StatusCode { get; set; }
 
+        [JsonIgnore]
         public bool IsAdmin
         {
-            get { return _statusUser == (int)StatusUser.Admin; }
+            get { return StatusCode == (int)StatusUser.Admin; }
         }
-
+        [JsonIgnore]
         public bool IsUser
         {
-            get { return _statusUser == (int)StatusUser.User; }
+            get { return StatusCode == (int)StatusUser.User; }
         }
-
+        [JsonIgnore]
         public bool IsNoneFamily
         {
-            get { return _statusUser == (int)StatusUser.NoneFamily; }
+            get { return StatusCode == (int)StatusUser.NoneFamily; }
         }
         [JsonIgnore]
         public Family UserFamily
@@ -78,9 +79,5 @@ namespace PurseApi.Models.Entities
             _code = code;
         }
 
-        public void SetStatus(int status)
-        {
-            _statusUser = status;
-        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using PurseApi.Models.Entity;
+﻿using Newtonsoft.Json;
+using PurseApi.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace PurseApi.Models.Entities
         public double ActualBudget { get; set; }
         public int CurrencyCode { get; set; }
         public string Comment { get; set; }
+        [JsonIgnore]
         public int OwnerCode { get; set; }
         public UserData Owner { get; }
 

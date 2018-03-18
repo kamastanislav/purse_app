@@ -7,12 +7,9 @@ using System.Web.Http;
 
 namespace PurseApi.Controllers
 {
-    [RoutePrefix("api/access")]
-    public class AccessController : ApiController
+    [RoutePrefix("api/plan")]
+    public class PlanController : ApiController
     {
-        public string Post()
-        {
-            return "test";
-        }
+
     }
 }

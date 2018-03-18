@@ -17,7 +17,6 @@ namespace PurseApi.Models.Entities
             }
         }
 
-        public string Name { get; set; }
         public DateTime CalendarPeriodStart { get; set; }
         public DateTime CalendarPeriodEnd { get; set; }
         public int OwnerCode { get; }

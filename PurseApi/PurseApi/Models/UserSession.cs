@@ -1,4 +1,5 @@
 ﻿using PurseApi.Models.Entities;
+using PurseApi.Models.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,7 @@ namespace PurseApi.Models
         public const string SESSION_NAME = "_user_session_";
         
         public UserData User { get; set; }
-        public DateTime LastRequestTime { get; set; }
-        private DateTime _createdDate;
+        private DateTime CreatedDate;
         private static int _expiredHours = 12;
 
         public object this[string key]
@@ -40,10 +40,26 @@ namespace PurseApi.Models
             }
         }
 
-        public static UserSession Create(bool withException, string userName = "", string password = "", string email = "", int? userCode = null)
+        public static UserSession Create(string userName = "", string password = "")
         {
             UserSession ret = null;
-            //@TODO
+           
+            if (userName != string.Empty && password != string.Empty)
+            {
+                var userRepo = new UserRepository((int)UserAction.Login);
+                var user = userRepo.GetUser(userName, password);
+                if (user != null)
+                {
+                    ret = new UserSession() {
+                        User = user,
+                        CreatedDate = DateTime.Now                       
+                    };
+                    HttpContext ctx = HttpContext.Current;
+                 //   ctx.Session[SESSION_NAME] = ret;
+                    // HttpContext.Current.Session.Add(SESSION_NAME, ret);
+                }
+            }
+
             return ret;
         }
 
@@ -51,7 +67,7 @@ namespace PurseApi.Models
         {
             if (Current != null)
             {
-                if (Current._createdDate.AddHours(_expiredHours) <= DateTime.UtcNow)
+                if (Current.CreatedDate.AddHours(_expiredHours) <= DateTime.UtcNow)
                 {
                     HttpContext.Current.Session.Remove(SESSION_NAME);
                     return true;

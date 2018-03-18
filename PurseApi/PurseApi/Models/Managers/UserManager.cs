@@ -9,10 +9,26 @@ namespace PurseApi.Models.Managers
 {
     public class UserManager
     {
-        public static List<UserData> GetUsers()
+        public static List<UserData> GetUsers(int? famalyCode)
         {
-            var userRepo = new UserRepository(false);
-            return userRepo.List;
+            UserRepository userRepo;
+            if (famalyCode.HasValue)
+            {
+                userRepo = new UserRepository((int)UserAction.Family);
+                return userRepo.GetList(famalyCode.Value);
+            }
+            else
+            {
+                userRepo = new UserRepository((int)UserAction.List);
+                return userRepo.GetList();
+            }
+        }
+
+        public static UserData GetUser(int userCode)
+        {
+            UserRepository userRepo = new UserRepository((int)UserAction.Id);
+            var user = userRepo.GetUser(userCode);
+            return user;
         }
 
         public static bool CreateUser(UserData user)
@@ -20,9 +36,16 @@ namespace PurseApi.Models.Managers
             return true; 
         }
 
-        public UserData LoginUser(string login, string password)
+        public static UserData LoginUser(string login, string password)
         {
-            return null;
+            var userSession = UserSession.Create(login, password);
+            return userSession != null ? userSession.User : null;
+        }
+
+        public static bool IsUnique(int field, string value)
+        {
+            UserRepository userRepo = new UserRepository();
+            return userRepo.IsUnique((UserField)field, value);
         }
     }
 }

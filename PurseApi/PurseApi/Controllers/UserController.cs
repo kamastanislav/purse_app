@@ -1,4 +1,5 @@
-﻿using PurseApi.Models.Entities;
+﻿using PurseApi.Models;
+using PurseApi.Models.Entities;
 using PurseApi.Models.Managers;
 using System;
 using System.Collections.Generic;
@@ -14,22 +15,45 @@ namespace PurseApi.Controllers
     public class UserController : ApiController
     {
         [Route("list")]
-        public IEnumerable<UserData> GetUsers()
+        [ResponseType(typeof(List<UserData>))]
+        public IHttpActionResult GetUsers()
         {
-            return UserManager.GetUsers();
+            return Ok(UserManager.GetUsers(null));
         }
 
         [Route("{id}")]
         [ResponseType(typeof(UserData))]
         public IHttpActionResult GetUser(int id)
         {
-            var user = UserManager.GetUsers().FirstOrDefault(x => x.Code == id);
+            var user = UserManager.GetUser(id);
             if (user == null)
             {
-                return NotFound();
+                return Ok(user);
             }
 
             return Ok(user);
+        }
+
+        [Route("unique")]
+        public IHttpActionResult PostUnique(int field, string value)
+        {
+            var result = UserManager.IsUnique(field, value);
+            return Ok(result);
+        }
+        
+        [Route("login")]
+        public IHttpActionResult PostLogin(string login, string password)
+        {
+            var user = UserManager.LoginUser(login, password);
+
+            return Ok(true);
+        }
+
+        [Route("logout")]
+        public IHttpActionResult PostLogout()
+        {
+
+            return Ok(true);
         }
 
         [Route("update")]
