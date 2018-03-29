@@ -38,7 +38,6 @@ namespace PurseApi.Models.Entities
         public DateTime CreateDate { get; set; }
         public DateTime Birthday { get; set; }
         
-        public string Color { get; set; }
         public int FamilyCode { get; set; }
         public int StatusCode { get; set; }
 
@@ -77,6 +76,23 @@ namespace PurseApi.Models.Entities
         public UserData(int code)
         {
             _code = code;
+        }
+
+        public UserData(UserData user, int code)
+        {
+            this._code = code;
+            this.FirstName = user.FirstName;
+            this.LastName = user.LastName;
+            this.NickName = user.NickName;
+            this.Email = user.Email;
+            this.Phone = user.Phone;
+            this.Password = user.Password;
+            this.Cash = user.Cash;
+            this.LastLogin = user.LastLogin;
+            this.CreateDate = user.CreateDate;
+            this.Birthday = user.Birthday;
+            this.FamilyCode = user.FamilyCode;
+            this.StatusCode = user.StatusCode;
         }
 
     }

@@ -17,10 +17,13 @@ namespace PurseApi.Models.Entities
                 return _code;
             }
         }
-        public double Cash { get; set; }
-        public DateTime DateAction { get; set; }
+        
         public int UserCode { get; set; }
+        public DateTime DateAction { get; set; }
+        public double Cash { get; set; }
         public int CategoryCode { get; set; }
+        public int PlanCode { get; set; }
+        public int FamilyCode { get; set; }
 
         public HistoryCash(int code)
         {

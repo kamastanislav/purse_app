@@ -18,6 +18,7 @@ namespace PurseApi.Models.Entities
             }
         }
         public string Name { get; set; }
+        public string Color { get; set; }
         public int CategoryCode { get; set; }
 
         public Service(int code)

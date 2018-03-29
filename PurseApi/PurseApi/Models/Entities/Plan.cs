@@ -34,13 +34,15 @@ namespace PurseApi.Models.Entities
         public DateTime EndDate { get; set; }
         public double PlannedBudget { get; set; }
         public double ActualBudget { get; set; }
+        public int FamilyCode { get; set; }
+        public int Status { get; set; }
         public int CurrencyCode { get; set; }
+        public bool IsPrivate { get; set; }
+
         public Currency CurrencyPlan
         {
             get;
         }
-        public int Status { get; set; }
-        public bool IsPrivate { get; set; }
 
         public Plan(int code)
         {

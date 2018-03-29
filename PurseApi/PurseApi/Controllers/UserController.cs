@@ -11,7 +11,7 @@ using System.Web.Http.Description;
 
 namespace PurseApi.Controllers
 {
-    [RoutePrefix("api/user")]
+    [RoutePrefix("user")]
     public class UserController : ApiController
     {
         [Route("list")]
@@ -21,47 +21,92 @@ namespace PurseApi.Controllers
             return Ok(UserManager.GetUsers(null));
         }
 
-        [Route("{id}")]
-        [ResponseType(typeof(UserData))]
-        public IHttpActionResult GetUser(int id)
+        [Route("data/{id}")]
+        public IHttpActionResult PostUser(int id)
         {
             var user = UserManager.GetUser(id);
-            if (user == null)
-            {
-                return Ok(user);
-            }
+      
 
             return Ok(user);
         }
 
-        [Route("unique")]
-        public IHttpActionResult PostUnique(int field, string value)
+        [Route("unique_field")]
+        public IHttpActionResult PostUniqueField(int field, string value)
         {
             var result = UserManager.IsUnique(field, value);
             return Ok(result);
         }
         
         [Route("login")]
+        [ResponseType(typeof(UserData))]
         public IHttpActionResult PostLogin(string login, string password)
         {
             var user = UserManager.LoginUser(login, password);
 
-            return Ok(true);
+            return Ok(user);
         }
 
-        [Route("logout")]
-        public IHttpActionResult PostLogout()
+        [Route("registration")]
+        public IHttpActionResult PostRegistration(UserData user, string password)
         {
-
-            return Ok(true);
+            var newUser = UserManager.CreateNewUser(user, password);
+            if (newUser != null)
+            {
+                return Ok(newUser);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
-        [Route("update")]
-        [ResponseType(typeof(UserData))]
-        public UserData PutUser(UserData user)
+        [Route("logout/{id}")]
+        public IHttpActionResult PostLogout(int id)
         {
-            
-            return user;
+            var result = UserManager.LogoutUser(id);
+            return Ok(result);
+        }
+
+        [Route("update/{id}")]
+        public IHttpActionResult PutUser(int id, UserData user)
+        {
+            try
+            {
+                var updateUser = UserManager.UpdateUserData(id, user);
+                return Ok(updateUser);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        [Route("update_password/{id}")]
+        public IHttpActionResult PutUpdatePassword(int id, string password)
+        {
+            try
+            {
+                var updateUser = UserManager.UpdateUserData(id, password);
+                return Ok(true);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        [Route("check_password/{id}")]
+        public IHttpActionResult PostCheckPassword(int id, string password)
+        {
+            try
+            {
+                bool isUserPassword = UserManager.CheckPassword(id, password);
+                return Ok(isUserPassword);
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
     }
 }

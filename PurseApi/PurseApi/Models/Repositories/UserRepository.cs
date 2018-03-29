@@ -12,17 +12,17 @@ namespace PurseApi.Models.Repositories
 {
     public enum UserField
     {
-        Name = 1,
-        Email = 2,
-        Phone = 3,
-        LastLogin = 4,
-        Cash = 5,
-        Birthday = 6,
-        Color = 7,
-        FirstName = 8,
-        LastName = 9,
-        Password = 10,
-        FamalyCode = 11
+        FirstName = 1,
+        LastName = 2,
+        NickName = 3,
+        Email = 4,
+        Phone = 5,
+        Cash = 6,
+        LastLogin = 7,
+        Birthday = 8,
+        FamilyCode = 9,
+        StatusCode = 10,
+        Password = 11
     }
 
     public enum UserAction
@@ -37,19 +37,20 @@ namespace PurseApi.Models.Repositories
 
     public class UserRepository : GenericRepository<UserData>
     {
-        private const string SQL_INSERT = "INSERT INTO [USER]([FIRST_NAME],[LAST_NAME],[NAME],[EMAIL],[PASSWORD],[PHONE],[COLOR],[BIRTHDAY],[CREATE_DATE]) VALUES(?,?,?,?,?,?,?,?,?)";
-        private const string SQL_UNIQUE = "SELECT COUNT(*) FROM [USER] WHERE {0} LIKE '{1}'";
-        private const string SQL_SELECT = "SELECT [CODE],[FIRST_NAME],[LAST_NAME],[NAME],[EMAIL],[CASH],[PHONE],[FAMILY_CODE],[COLOR],[BIRTHDAY],[CREATE_DATE],[LAST_LOGIN],[STATUS_USER] FROM [USER]";
+        private const string SQL_UNIQUE = "SELECT [CODE] FROM [USER] WHERE {0} LIKE '{1}'";
         private const string SQL_WHERE = " WHERE {0}";
+        private const string SQL_CHECK_USER_PASSWORD = "SELECT [CODE] FROM [USER] WHERE [CODE] = {0} AND [PASSWORD] LIKE '{1}'";
 
         private int _actionCode;
         private int _code;
         private string _login;
         private string _password;
 
+        private List<int> _fields = new List<int>();
+        
         private Dictionary<UserField, string> _uniqueFields = new Dictionary<UserField, string>()
         {
-            { UserField.Name, "[NAME]"},
+            { UserField.NickName, "[NAME]"},
             { UserField.Email, "[EMAIL]"},
             { UserField.Phone, "[PHONE]"}
         };
@@ -60,6 +61,11 @@ namespace PurseApi.Models.Repositories
         }
 
         public UserRepository(int action)
+        {
+            _actionCode = action;
+        }
+
+        public void SetActionCode(int action)
         {
             _actionCode = action;
         }
@@ -86,6 +92,16 @@ namespace PurseApi.Models.Repositories
                 return data.FirstOrDefault();
             }
             return null;
+        }
+
+        public bool DeleteUser(int code)
+        {
+            if (_actionCode == (int)UserAction.Id)
+            {
+                _code = code;
+                return DeleteData();
+            }
+            return false;
         }
 
         public List<UserData> GetList(int familyCode)
@@ -130,17 +146,36 @@ namespace PurseApi.Models.Repositories
             }
         }
 
-
-
-        public void UpdateUserData(UserData user)
+        public UserData UpdateUserData(UserData user, List<int> fields)
         {
-
+            if (_actionCode == (int)UserAction.Id)
+            {
+                _code = user.Code;
+                _fields = fields;
+                if (UpdateData(user))
+                    return user;
+            }
+            return null;
         }
 
-        public UserData LoginUser(string userName, string password)
+        public bool CheckUserPassword(int code, string password)
         {
+            try
+            {
+                using (var conn = Connection.GetConnection(Constants.MAIN_CONNECTION))
+                {
 
-            return null;
+                    var cmd = conn.CreateCommand(string.Format(SQL_CHECK_USER_PASSWORD, code, password));
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        return rdr.Read();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public bool IsUnique(UserField field, string value)
@@ -157,9 +192,8 @@ namespace PurseApi.Models.Repositories
                     var cmd = conn.CreateCommand(string.Format(SQL_UNIQUE, column, value));
                     using (var rdr = cmd.ExecuteReader())
                     {
-                        if (rdr.Read())
-                            return rdr.GetInt(0) == 0;
-                        throw new Exception();
+                        return rdr.Read();
+                        //throw new Exception();
                     }
                 }
             }
@@ -169,38 +203,7 @@ namespace PurseApi.Models.Repositories
             }
         }
 
-        public int CreateUser(UserData user)
-        {
-            try
-            {
-                int code = 0;
-                using (var conn = Connection.GetConnection(Constants.MAIN_CONNECTION))
-                {
-                    var cmd = conn.CreateCommand(SQL_INSERT + ";" + SQL_SCOPE_IDENTITY);
-
-                    cmd.SetStringParam(0, user.FirstName);
-                    cmd.SetStringParam(1, user.LastName);
-                    cmd.SetStringParam(2, user.NickName);
-                    cmd.SetStringParam(3, user.Email);
-                    cmd.SetStringParam(4, user.Password);
-                    cmd.SetStringParam(5, user.Phone);
-                    cmd.SetStringParam(6, user.Color);
-                    cmd.SetParam(7, user.Birthday);
-                    cmd.SetParam(8, DateTime.Now);
-
-                    code = cmd.Execute();
-
-                    conn.Close();
-                }
-                return code;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        //FIRST_NAME],[LAST_NAME],[NAME],[EMAIL],[PASSWORD],[PHONE],[COLOR],[BIRTHDAY],[CREATE_DATE]) VALUES(?,?,?,?,?,?,?,?,
-        private readonly Dictionary<string, string> field = new Dictionary<string, string>()
+        private readonly Dictionary<string, string> fieldSelect = new Dictionary<string, string>()
         {
             {"", "CODE"},
             {"FirstName", "FIRST_NAME"},
@@ -212,11 +215,38 @@ namespace PurseApi.Models.Repositories
             {"LastLogin", "LAST_LOGIN" },
             {"CreateDate", "CREATE_DATE" },
             {"Birthday", "BIRTHDAY"},
-            {"Color", "COLOR"},
             {"FamilyCode", "FAMILY_CODE"},
             {"StatusCode", "STATUS_USER" }, 
         };
-       
+
+        private readonly Dictionary<string, string> fieldInsert = new Dictionary<string, string>()
+        {
+            {"FirstName", "FIRST_NAME"},
+            {"LastName", "LAST_NAME"},
+            {"NickName", "NAME"},
+            {"Email", "EMAIL" },
+            {"Phone", "PHONE" },
+            {"Password", "PASSWORD" },
+            {"LastLogin", "LAST_LOGIN" },
+            {"CreateDate", "CREATE_DATE" },
+            {"Birthday", "BIRTHDAY"}
+        };
+
+        private readonly Dictionary<string, string> fieldUpdate = new Dictionary<string, string>()
+        {
+            {"FirstName","FIRST_NAME"},
+            {"LastName","LAST_NAME"},
+            {"NickName","NAME"},
+            {"Email","EMAIL"},
+            {"Phone","PHONE"},
+            {"Password","PASSWORD"},
+            {"Cash","CASH"},
+            {"LastLogin","LAST_LOGIN"},
+            {"Birthday","BIRTHDAY"},
+            {"FamilyCode","FAMILY_CODE"},
+            {"StatusCode","STATUS_USER"}
+        };
+
         protected override string TableName
         {
             get
@@ -225,32 +255,19 @@ namespace PurseApi.Models.Repositories
             }
         }
 
-        protected override Dictionary<string, string> GetFieldsConformity()
+        protected override Dictionary<string, string> GetFieldsConformity(int action)
         {
-            return field;
+            switch(action)
+            {
+                case (int)Action.Select:
+                    return fieldSelect;
+                case (int)Action.Insert:
+                    return fieldInsert;
+                case (int)Action.Update:
+                    return fieldUpdate.Where(x => _fields.Any(y => ((UserField)y).ToString() == x.Key)).ToDictionary(x => x.Key, x => x.Value);
+                default:
+                    return new Dictionary<string, string>();
+            }
         }
     }
 }
-
-/*
-    [CODE] INT IDENTITY(1, 1) NOT NULL PRIMARY KEY,
-
-	[FIRST_NAME] NVARCHAR(100) NOT NULL,
-
-	[LAST_NAME] NVARCHAR(100) NOT NULL,
-
-	[NAME] NVARCHAR(10) NOT NULL,
-	[EMAIL] NVARCHAR(100) NOT NULL,
-
-	[PASSWORD] NVARCHAR(MAX) NOT NULL,
-	[CASH] NUMERIC(16, 2) DEFAULT 0,
-
-    [CREATE_DATE] DATETIME NOT NULL,
-	
-    [PHONE] NVARCHAR(100) NOT NULL,
-	[FAMILY_CODE] INT NULL,
-	[COLOR] NVARCHAR(6) NOT NULL,
-
-	[LAST_LOGIN] DATETIME NULL,
-	[STATUS_USER] INT DEFAULT 0, 
-*/

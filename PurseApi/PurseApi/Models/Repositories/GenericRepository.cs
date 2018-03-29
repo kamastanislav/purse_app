@@ -13,17 +13,30 @@ using System.Text;
 
 namespace PurseApi.Models
 {
+    public enum Action
+    {
+        Insert = 1,
+        Select = 2,
+        Update = 3
+    }
+
     public abstract class GenericRepository<T>: Repository<T> where T : class, IEntity
     {
+      
+        public GenericRepository(bool empty = true) : base(empty)
+        {
+
+        }
+
         private string GenerateSelectQuery()
         {
             StringBuilder query = new StringBuilder();
-            if (GetFieldsConformity().Count == 0 || String.IsNullOrEmpty(TableName))
+            if (GetFieldsConformity((int)Action.Select).Count == 0 || String.IsNullOrEmpty(TableName))
                 return String.Empty;
             try
             {
                 query.Append("SELECT ");
-                foreach (KeyValuePair<string, string> entry in GetFieldsConformity())
+                foreach (KeyValuePair<string, string> entry in GetFieldsConformity((int)Action.Select))
                 {
                     query.Append(entry.Value + ", ");
                 }
@@ -39,20 +52,115 @@ namespace PurseApi.Models
             return query.ToString();
         }
 
-        private string GenerateInsertQuery()
-        {
-            StringBuilder query = new StringBuilder();
-            return query.ToString();
-        }
-
         private string GenerateDeleteQuery()
         {
             StringBuilder query = new StringBuilder();
+            if (GetFieldsConformity((int)Action.Select).Count == 0 || String.IsNullOrEmpty(TableName))
+                return String.Empty;
+            try
+            {
+                query.Append("DELETE ");
+                query.Append("FROM " + TableName);
+                query.Append(TableWhere);
+            }
+            catch (Exception e)
+            {
+                Logger.Logger.WriteError(e);
+                return null;
+            }
             return query.ToString();
         }
 
-        public GenericRepository(bool empty = true) : base(empty) {
-            
+        private string GenerateInsertQuery()
+        {
+            StringBuilder query = new StringBuilder();
+            if (GetFieldsConformity((int)Action.Insert).Count == 0 || String.IsNullOrEmpty(TableName))
+                return String.Empty;
+            try
+            {
+                query.Append(string.Format("INSERT INTO {0}(", TableName));
+                foreach (KeyValuePair<string, string> entry in GetFieldsConformity((int)Action.Insert))
+                {
+                    query.Append(entry.Value + ", ");
+                }
+                query.Replace(',', ')', query.Length - 2, 1);
+                query.Append("VALUES (");
+                for (var i =0; i<GetFieldsConformity((int)Action.Insert).Count; i++)
+                {
+                    query.Append("?,");
+                }
+                query.Replace(',', ')', query.Length - 1, 1);
+            }
+            catch (Exception e)
+            {
+                Logger.Logger.WriteError(e);
+                return null;
+            }
+            return query.ToString();
+        }
+
+        private string GenerateUpdateQuery()
+        {
+            StringBuilder query = new StringBuilder();
+            if (GetFieldsConformity((int)Action.Insert).Count == 0 || String.IsNullOrEmpty(TableName))
+                return String.Empty;
+            try
+            {
+                query.Append(string.Format("UPDATE {0} SET ", TableName));
+                foreach (KeyValuePair<string, string> entry in GetFieldsConformity((int)Action.Update))
+                {
+                    query.Append(entry.Value + " = ?,");
+                }
+                query.Replace(',', ' ', query.Length - 1, 1);
+                query.Append(TableWhere);
+
+            }
+            catch (Exception e)
+            {
+                Logger.Logger.WriteError(e);
+                return null;
+            }
+            return query.ToString();
+        }
+
+        public int InsertData(T obj)
+        {
+            try
+            {
+                int code = 0;
+                string sql = GenerateInsertQuery();
+                if (String.IsNullOrEmpty(sql))
+                    throw new Exception("Impossible to obtain data from a database for [" + this.ToString() + "] Repository");
+
+                sql += (";" + SQL_SCOPE_IDENTITY);
+
+                PropertyInfo[] properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                using (var conn = Connection.GetConnection(Constants.MAIN_CONNECTION))
+                {
+                    var cmd = conn.CreateCommand(sql);
+
+                    var index = 0;
+                    for (int i = 0; i < properties.Length; i++)
+                    {
+                        PropertyInfo p = properties[i];
+                        if (p.CanWrite && GetFieldsConformity((int)Action.Insert).ContainsKey(p.Name))
+                        {
+                            cmd.SetParam(index, p.GetValue(obj));
+                            index++;
+                        }
+                    }
+                    
+                    code = cmd.Execute();
+                    conn.Close();
+                }
+                return code;
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.WriteError(ex);
+                return -1;
+            }
+
         }
 
         protected override void SelectData()
@@ -96,7 +204,7 @@ namespace PurseApi.Models
                             for (int i = 0; i < properties.Length; i++)
                             {
                                 PropertyInfo p = properties[i];
-                                if (p.CanWrite && GetFieldsConformity().ContainsKey(p.Name))
+                                if (p.CanWrite && GetFieldsConformity((int)Action.Select).ContainsKey(p.Name))
                                 {
                                     object fieldValue = rdr.GetValue(j); // columns and fields must be in the same order 
                                     if (fieldValue == DBNull.Value)
@@ -120,11 +228,69 @@ namespace PurseApi.Models
             }
         }
 
+        protected bool DeleteData()
+        {
+            try
+            {
+                string sql = GenerateDeleteQuery();
+                if (String.IsNullOrEmpty(sql))
+                    throw new Exception("Impossible to obtain data from a database for [" + this.ToString() + "] Repository");
+
+                using (var conn = Connection.GetConnection(Constants.MAIN_CONNECTION))
+                {
+                    var cmd = conn.CreateCommand(sql);
+                    cmd.Execute();
+                    conn.Close();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.WriteError(ex);
+                return false;
+            }
+        }
+
+        protected bool UpdateData(T obj)
+        {
+            try
+            {
+                string sql = GenerateUpdateQuery();
+                if (String.IsNullOrEmpty(sql))
+                    throw new Exception("Impossible to obtain data from a database for [" + this.ToString() + "] Repository");
+
+                PropertyInfo[] properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                using (var conn = Connection.GetConnection(Constants.MAIN_CONNECTION))
+                {
+                    var cmd = conn.CreateCommand(sql);
+
+                    var index = 0;
+                    for (int i = 0; i < properties.Length; i++)
+                    {
+                        PropertyInfo p = properties[i];
+                        if (p.CanWrite && GetFieldsConformity((int)Action.Update).ContainsKey(p.Name))
+                        {
+                            cmd.SetParam(index, p.GetValue(obj));
+                            index++;
+                        }
+                    }
+                    cmd.Execute();
+                    conn.Close();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Logger.WriteError(ex);
+                return false;
+            }
+        }
+
         protected abstract string TableName { get; }
 
         protected virtual string TableWhere { get { return ""; } }
 
-        protected abstract Dictionary<string, string> GetFieldsConformity();
+        protected abstract Dictionary<string, string> GetFieldsConformity(int action);
   
     }
 }

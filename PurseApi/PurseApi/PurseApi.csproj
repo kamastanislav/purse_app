@@ -112,7 +112,9 @@
     <Content Include="Global.asax" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -133,10 +135,23 @@
     <Compile Include="Models\Entities\UserData.cs" />
     <Compile Include="Models\Helpers\Constants.cs" />
     <Compile Include="Models\Helpers\FastInvoke.cs" />
+    <Compile Include="Models\Helpers\SessionControllerHandler.cs" />
     <Compile Include="Models\Logger\Logger.cs" />
+    <Compile Include="Models\Managers\FamilyManager.cs" />
+    <Compile Include="Models\Managers\FilterManager.cs" />
+    <Compile Include="Models\Managers\FlightManager.cs" />
+    <Compile Include="Models\Managers\HistoryCashManager.cs" />
+    <Compile Include="Models\Managers\PlanManager.cs" />
     <Compile Include="Models\Managers\UserManager.cs" />
+    <Compile Include="Models\Repositories\CategoryServiceRepository.cs" />
+    <Compile Include="Models\Repositories\CurrencyRepository.cs" />
+    <Compile Include="Models\Repositories\FamilyRepository.cs" />
+    <Compile Include="Models\Repositories\FlightRepository.cs" />
     <Compile Include="Models\Repositories\GenericRepository.cs" />
+    <Compile Include="Models\Repositories\HistoryCashRepository.cs" />
+    <Compile Include="Models\Repositories\PlanRepository.cs" />
     <Compile Include="Models\Repositories\Repository.cs" />
+    <Compile Include="Models\Repositories\ServiceRepository.cs" />
     <Compile Include="Models\Repositories\UserRepository.cs" />
     <Compile Include="Models\UserSession.cs" />
     <Compile Include="Models\Utils\Connection.cs" />
@@ -151,6 +166,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ClassDiagram1.cd" />
+    <None Include="Properties\PublishProfiles\Setup.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

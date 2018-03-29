@@ -25,6 +25,7 @@ namespace PurseApi.Models.Entities
         public string Comment { get; set; }
         [JsonIgnore]
         public int OwnerCode { get; set; }
+        public int Status { get; set; }
         public UserData Owner { get; }
 
         public Flight(int code)

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.SessionState;
 
 namespace PurseApi.Models
 {
@@ -50,14 +51,31 @@ namespace PurseApi.Models
                 var user = userRepo.GetUser(userName, password);
                 if (user != null)
                 {
+                    
+                    userRepo.SetActionCode((int)UserAction.Id);
+
+                    user.LastLogin = DateTime.Now;
+                    var userLogin = userRepo.UpdateUserData(user, new List<int>() { (int)UserField.LastLogin });
+
                     ret = new UserSession() {
-                        User = user,
+                        User = userLogin != null ? userLogin : user,
                         CreatedDate = DateTime.Now                       
                     };
-                    HttpContext ctx = HttpContext.Current;
-                 //   ctx.Session[SESSION_NAME] = ret;
-                    // HttpContext.Current.Session.Add(SESSION_NAME, ret);
+                    HttpContext.Current.Session.Add(SESSION_NAME, ret);
                 }
+            }
+
+            return ret;
+        }
+
+        public static UserSession UpdateSession(UserData user)
+        {
+            UserSession ret = null;
+            if (Current != null)
+            {
+                ret = Current;
+                ret.User = user;
+                HttpContext.Current.Session[SESSION_NAME] = ret;
             }
 
             return ret;
