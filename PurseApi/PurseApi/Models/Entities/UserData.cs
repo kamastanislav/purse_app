@@ -1,17 +1,11 @@
 ﻿using Newtonsoft.Json;
 using PurseApi.Models.Entity;
+using PurseApi.Models.Helper;
 using System;
 using System.Collections.Generic;
 
 namespace PurseApi.Models.Entities
 {
-    enum StatusUser
-    {
-        NoneFamily = 0,
-        Admin = 1,
-        User = 2
-    }
-
     public class UserData : IEntity
     {
         private readonly int _code;
@@ -30,13 +24,12 @@ namespace PurseApi.Models.Entities
         public string NickName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        [JsonIgnore]
         public string Password { get; set; }
         public decimal Cash { get; set; }
-        public DateTime LastLogin { get; set; }
+        public long LastLogin { get; set; }
         [JsonIgnore]
-        public DateTime CreateDate { get; set; }
-        public DateTime Birthday { get; set; }
+        public long CreateDate { get; set; }
+        public long Birthday { get; set; }
         
         public int FamilyCode { get; set; }
         public int StatusCode { get; set; }
@@ -44,17 +37,17 @@ namespace PurseApi.Models.Entities
         [JsonIgnore]
         public bool IsAdmin
         {
-            get { return StatusCode == (int)StatusUser.Admin; }
+            get { return StatusCode == (int)Constants.StatusUser.Admin; }
         }
         [JsonIgnore]
         public bool IsUser
         {
-            get { return StatusCode == (int)StatusUser.User; }
+            get { return StatusCode == (int)Constants.StatusUser.User; }
         }
         [JsonIgnore]
         public bool IsNoneFamily
         {
-            get { return StatusCode == (int)StatusUser.NoneFamily; }
+            get { return StatusCode == (int)Constants.StatusUser.NoneFamily; }
         }
         [JsonIgnore]
         public Family UserFamily

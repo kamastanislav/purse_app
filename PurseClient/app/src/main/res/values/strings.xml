@@ -11,7 +11,10 @@
     <string name="last_name">Фамилия</string>
     <string name="phone">Телефон</string>
     <string name="date_birthday">День рождения</string>
-
+    <string name="action_create_user">Создать пользователя</string>
+    <string name="menu_registration">Регистрация</string>
+    <string name="is_private_check_box">Приватный план</string>
+    <string name="save_plan">Сохранить план</string>
 
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>

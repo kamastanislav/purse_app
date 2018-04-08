@@ -1,4 +1,5 @@
 ﻿using PurseApi.Models.Entities;
+using PurseApi.Models.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,12 +7,6 @@ using System.Web;
 
 namespace PurseApi.Models.Repositories
 {
-    public enum HistoryCashAction
-    {
-        Id = 1,
-        Family = 2,
-        Category = 3
-    }
     public class HistoryCashRepository : GenericRepository<HistoryCash>
     {
         private int _actionCode;
@@ -32,14 +27,12 @@ namespace PurseApi.Models.Repositories
         {
             get
             {
-                switch ((HistoryCashAction)_actionCode)
+                switch ((Constants.HistoryCashAction)_actionCode)
                 {
-                    case HistoryCashAction.Id:
-                        return string.Format("WHERE [CODE] = {0}", _code);
-                    case HistoryCashAction.Family:
-                        return string.Format("WHERE [PLAN_CODE] = {0}", _code);
-                    case HistoryCashAction.Category:
-                        return string.Format("WHERE [PLAN_CODE] = {0}", _code);
+                    case Constants.HistoryCashAction.Family:
+                        return string.Format("WHERE [FAMILY_CODE] = {0}", _code);
+                    case Constants.HistoryCashAction.UserCode:
+                        return string.Format("WHERE [USER_CODE] = {0}", _code);
                 }
                 return string.Empty;
             }

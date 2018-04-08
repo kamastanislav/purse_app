@@ -118,6 +118,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\FamilyController.cs" />
+    <Compile Include="Controllers\FlightController.cs" />
+    <Compile Include="Controllers\HistoryCashController.cs" />
     <Compile Include="Controllers\PlanController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -135,7 +138,9 @@
     <Compile Include="Models\Entities\UserData.cs" />
     <Compile Include="Models\Helpers\Constants.cs" />
     <Compile Include="Models\Helpers\FastInvoke.cs" />
+    <Compile Include="Models\Helpers\FilterPlan.cs" />
     <Compile Include="Models\Helpers\SessionControllerHandler.cs" />
+    <Compile Include="Models\Helpers\UserLogin.cs" />
     <Compile Include="Models\Logger\Logger.cs" />
     <Compile Include="Models\Managers\FamilyManager.cs" />
     <Compile Include="Models\Managers\FilterManager.cs" />

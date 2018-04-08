@@ -158,7 +158,7 @@ namespace PurseApi.Models
             catch (Exception ex)
             {
                 Logger.Logger.WriteError(ex);
-                return -1;
+                throw ex;
             }
 
         }

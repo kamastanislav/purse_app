@@ -1,4 +1,6 @@
 ﻿using PurseApi.Models.Entities;
+using PurseApi.Models.Helper;
+using PurseApi.Models.Helpers;
 using PurseApi.Models.Repositories;
 using System;
 using System.Collections.Generic;
@@ -14,62 +16,66 @@ namespace PurseApi.Models.Managers
             UserRepository userRepo;
             if (famalyCode.HasValue)
             {
-                userRepo = new UserRepository((int)UserAction.Family);
+                userRepo = new UserRepository((int)Constants.UserAction.Family);
                 return userRepo.GetList(famalyCode.Value);
             }
             else
             {
-                userRepo = new UserRepository((int)UserAction.List);
+                userRepo = new UserRepository((int)Constants.UserAction.List);
                 return userRepo.GetList();
             }
         }
 
         public static UserData GetUser(int userCode)
         {
-            UserRepository userRepo = new UserRepository((int)UserAction.Id);
+            UserRepository userRepo = new UserRepository((int)Constants.UserAction.Code);
             var user = userRepo.GetUser(userCode);
             return user;
         }
 
-        public static UserData CreateNewUser(UserData user, string password)
+        public static int CreateNewUser(UserData user)
         {
             try
             {
+                user.CreateDate = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                user.LastLogin = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
                 UserRepository userRepo = new UserRepository();
-                user.Password = password;
                 var code = userRepo.InsertData(user);
-                return new UserData(user, code);
+                return code;
             }
             catch (Exception)
             {
-                return null;
+                return Constants.DEFAULT_CODE;
             }
         }
 
         public static UserData UpdateUser(UserData user, List<int> fields)
         {
-            UserRepository userRepo = new UserRepository((int)UserAction.Id);
+            UserRepository userRepo = new UserRepository((int)Constants.UserAction.Code);
 
             user = userRepo.UpdateUserData(user, fields);
             return user;
         }
 
-        public static int LogoutUser(int id)
+        public static bool LogoutUser(int id)
         {
-            var user = UserSession.Current.User;
-            if (user == null)
-                return -1;
-
-            if (user.Code != id)
-                return -2;
-
-            return UserSession.DestroyIfExpired() ? 1 : 0;
+            try
+            {
+                var user = UserSession.Current.User;
+                if (user != null && user.Code == id)
+                    return UserSession.DestroyIfExpired();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return false;
         }
 
-        public static UserData LoginUser(string login, string password)
+        public static int LoginUser(UserLogin userLogin)
         {
-            var userSession = UserSession.Create(login, password);
-            return userSession != null ? userSession.User : null;
+            var userSession = UserSession.Create(userLogin.NickName, userLogin.Password);
+            return userSession != null ? userSession.User.Code : Constants.DEFAULT_CODE;
         }
 
         public static UserData UpdateUserData(int id, UserData user)
@@ -77,11 +83,11 @@ namespace PurseApi.Models.Managers
             var userData = UserSession.Current.User;
             if (userData != null && user.Code == id)
             {
-                var userRepo = new UserRepository((int)UserAction.Id);
+                var userRepo = new UserRepository((int)Constants.UserAction.Code);
                 var fields = CheckFieldsForUpdate(user, userData);
                 if (fields.Any())
                 {
-                    user.LastLogin = DateTime.Now;
+                    user.LastLogin = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
                     user = userRepo.UpdateUserData(user, fields);
                     var userSession = UserSession.UpdateSession(user);
                     return userSession != null ? userSession.User : null;
@@ -95,25 +101,25 @@ namespace PurseApi.Models.Managers
             List<int> fields = new List<int>();
 
             if (user.FirstName != userData.FirstName)
-                fields.Add((int)UserField.FirstName);
+                fields.Add((int)Constants.UserField.FirstName);
 
             if (user.LastName != userData.LastName)
-                fields.Add((int)UserField.LastName);
+                fields.Add((int)Constants.UserField.LastName);
 
             if (user.NickName != userData.NickName)
-                fields.Add((int)UserField.NickName);
+                fields.Add((int)Constants.UserField.NickName);
 
             if (user.Email != userData.Email)
-                fields.Add((int)UserField.Email);
+                fields.Add((int)Constants.UserField.Email);
 
             if (user.Phone != userData.Phone)
-                fields.Add((int)UserField.Phone);
+                fields.Add((int)Constants.UserField.Phone);
 
             if (user.Birthday != userData.Birthday)
-                fields.Add((int)UserField.Birthday);
+                fields.Add((int)Constants.UserField.Birthday);
             
             if (fields.Any())
-                fields.Add((int)UserField.LastLogin);
+                fields.Add((int)Constants.UserField.LastLogin);
             return fields;
         }
 
@@ -122,10 +128,10 @@ namespace PurseApi.Models.Managers
             var user = UserSession.Current.User;
             if (user != null && user.Code == id)
             {
-                var userRepo = new UserRepository((int)UserAction.Id);
+                var userRepo = new UserRepository((int)Constants.UserAction.Code);
                 user.Password = password;
-                user.LastLogin = DateTime.Now;
-                userRepo.UpdateUserData(user, new List<int>() { (int)UserField.Password, (int)UserField.LastLogin });
+                user.LastLogin = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                userRepo.UpdateUserData(user, new List<int>() { (int)Constants.UserField.Password, (int)Constants.UserField.LastLogin });
                 return true;
             }
             throw new Exception();
@@ -145,12 +151,12 @@ namespace PurseApi.Models.Managers
         public static bool IsUnique(int field, string value)
         {
             UserRepository userRepo = new UserRepository();
-            return userRepo.IsUnique((UserField)field, value);
+            return userRepo.IsUnique((Constants.UserField)field, value);
         }
 
         public static bool DeleteUser(int code)
         {
-            UserRepository userRepo = new UserRepository((int)UserAction.Id);
+            UserRepository userRepo = new UserRepository((int)Constants.UserAction.Code);
             return userRepo.DeleteUser(code);
         }
     }

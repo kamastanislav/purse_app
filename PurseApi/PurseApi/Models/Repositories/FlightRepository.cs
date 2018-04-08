@@ -1,4 +1,5 @@
 ﻿using PurseApi.Models.Entities;
+using PurseApi.Models.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,21 +7,6 @@ using System.Web;
 
 namespace PurseApi.Models.Repositories
 {
-    public enum FlightField
-    {
-        PlannedBudge = 1,
-        ActualBudget = 2,
-        CurrencyCode = 3,
-        Comment = 4,
-        Status = 5
-    }
-
-    public enum FlightAction
-    {
-        Id = 1,
-        Plan = 2
-    }
-
     public class FlightRepository : GenericRepository<Flight>
     {
         private int _code;
@@ -37,7 +23,7 @@ namespace PurseApi.Models.Repositories
 
         public Flight UpdateFlight(Flight flight, List<int> fields)
         {
-            if (_actionCode == (int)FlightAction.Id)
+            if (_actionCode == (int)Constants.FlightAction.Code)
             {
                 _fields = fields;
                 if (UpdateData(flight))
@@ -48,7 +34,7 @@ namespace PurseApi.Models.Repositories
 
         public bool DeleteFlight()
         {
-            if (_actionCode == (int)FlightAction.Id)
+            if (_actionCode == (int)Constants.FlightAction.Code)
             {
                 return DeleteData();
             }
@@ -64,7 +50,8 @@ namespace PurseApi.Models.Repositories
             { "CurrencyCode", "CURRCODE" },
             { "Comment", "COMMENT" },
             { "OwnerCode", "OWNER" },
-            { "Status", "STATUS" }
+            { "Status", "STATUS" }, 
+            { "DateCreate", "DATE_CREATE" }
         };
 
         protected override string TableName
@@ -83,7 +70,8 @@ namespace PurseApi.Models.Repositories
             { "CurrencyCode", "CURRCODE" },
             { "Comment", "COMMENT" },
             { "OwnerCode", "OWNER" },
-            { "Status", "STATUS" }
+            { "Status", "STATUS" },
+            { "DateCreate", "DATE_CREATE" }
         };
 
         private readonly Dictionary<string, string> fieldUpdate = new Dictionary<string, string>()
@@ -92,7 +80,8 @@ namespace PurseApi.Models.Repositories
             { "ActualBudget", "ACTUAL_BUDGET" },
             { "CurrencyCode", "CURRCODE" },
             { "Comment", "COMMENT" },
-            { "Status", "STATUS" }
+            { "Status", "STATUS" },
+            { "DateCreate", "DATE_CREATE" }
         };
 
         protected override Dictionary<string, string> GetFieldsConformity(int action)
@@ -104,7 +93,7 @@ namespace PurseApi.Models.Repositories
                 case (int)Action.Insert:
                     return fieldInsert;
                 case (int)Action.Update:
-                    return fieldUpdate.Where(x => _fields.Any(y => ((FlightField)y).ToString() == x.Key)).ToDictionary(x => x.Key, x => x.Value);
+                    return fieldUpdate.Where(x => _fields.Any(y => ((Constants.FlightField)y).ToString() == x.Key)).ToDictionary(x => x.Key, x => x.Value);
                 default:
                     return new Dictionary<string, string>();
             }
@@ -114,11 +103,11 @@ namespace PurseApi.Models.Repositories
         {
             get
             {
-                switch ((FlightAction)_actionCode)
+                switch ((Constants.FlightAction)_actionCode)
                 {
-                    case FlightAction.Id:
+                    case Constants.FlightAction.Code:
                         return string.Format("WHERE [CODE] = {0}", _code);
-                    case FlightAction.Plan:
+                    case Constants.FlightAction.Plan:
                         return string.Format("WHERE [PLAN_CODE] = {0}", _code);
                    
                 }

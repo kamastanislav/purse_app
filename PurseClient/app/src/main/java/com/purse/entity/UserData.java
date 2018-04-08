@@ -9,9 +9,10 @@ public class UserData {
     public String NickName;
     public String Email;
     public String Phone;
+    public String Password;
     public double Cash;
-    public Date LastLogin;
-    public Date Birthday;
+    public long LastLogin;
+    public long Birthday;
     public int FamilyCode;
     public int StatusCode;
 }

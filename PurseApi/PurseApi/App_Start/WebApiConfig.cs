@@ -14,7 +14,7 @@ namespace PurseApi
         {
             // Конфигурация и службы веб-API
             var httpControllerRouteHandler = typeof(HttpControllerRouteHandler).GetField("_instance",
-        System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+            System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
 
             if (httpControllerRouteHandler != null)
             {

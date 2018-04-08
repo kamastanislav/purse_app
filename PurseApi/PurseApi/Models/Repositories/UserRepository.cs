@@ -10,31 +10,6 @@ using System.Web;
 
 namespace PurseApi.Models.Repositories
 {
-    public enum UserField
-    {
-        FirstName = 1,
-        LastName = 2,
-        NickName = 3,
-        Email = 4,
-        Phone = 5,
-        Cash = 6,
-        LastLogin = 7,
-        Birthday = 8,
-        FamilyCode = 9,
-        StatusCode = 10,
-        Password = 11
-    }
-
-    public enum UserAction
-    {
-        Empty = 0,
-        Id = 1,
-        Login = 2,
-        List = 3,
-        Family = 4
-    }
-
-
     public class UserRepository : GenericRepository<UserData>
     {
         private const string SQL_UNIQUE = "SELECT [CODE] FROM [USER] WHERE {0} LIKE '{1}'";
@@ -48,11 +23,11 @@ namespace PurseApi.Models.Repositories
 
         private List<int> _fields = new List<int>();
         
-        private Dictionary<UserField, string> _uniqueFields = new Dictionary<UserField, string>()
+        private Dictionary<Constants.UserField, string> _uniqueFields = new Dictionary<Constants.UserField, string>()
         {
-            { UserField.NickName, "[NAME]"},
-            { UserField.Email, "[EMAIL]"},
-            { UserField.Phone, "[PHONE]"}
+            { Constants.UserField.NickName, "[NAME]"},
+            { Constants.UserField.Email, "[EMAIL]"},
+            { Constants.UserField.Phone, "[PHONE]"}
         };
 
         public UserRepository()
@@ -72,7 +47,7 @@ namespace PurseApi.Models.Repositories
 
         public UserData GetUser(int code)
         {
-            if (_actionCode == (int)UserAction.Id)
+            if (_actionCode == (int)Constants.UserAction.Code)
             {
                 _code = code;
                 SelectData();
@@ -84,7 +59,7 @@ namespace PurseApi.Models.Repositories
 
         public UserData GetUser(string nick, string password)
         {
-            if (_actionCode == (int)UserAction.Login)
+            if (_actionCode == (int)Constants.UserAction.Login)
             {
                 _login = nick;
                 _password = password;
@@ -96,7 +71,7 @@ namespace PurseApi.Models.Repositories
 
         public bool DeleteUser(int code)
         {
-            if (_actionCode == (int)UserAction.Id)
+            if (_actionCode == (int)Constants.UserAction.Code)
             {
                 _code = code;
                 return DeleteData();
@@ -106,7 +81,7 @@ namespace PurseApi.Models.Repositories
 
         public List<UserData> GetList(int familyCode)
         {
-            if (_actionCode == (int)UserAction.Family)
+            if (_actionCode == (int)Constants.UserAction.Family)
             {
                 _code = familyCode;
                 SelectData();
@@ -117,7 +92,7 @@ namespace PurseApi.Models.Repositories
 
         public List<UserData> GetList()
         {
-            if (_actionCode == (int)UserAction.List)
+            if (_actionCode == (int)Constants.UserAction.List)
             {
                 SelectData();
                 return data;
@@ -130,15 +105,15 @@ namespace PurseApi.Models.Repositories
             get
             {
                 string parametr = string.Empty;
-                switch ((UserAction)_actionCode)
+                switch ((Constants.UserAction)_actionCode)
                 {
-                    case UserAction.Family:
+                    case Constants.UserAction.Family:
                         parametr = string.Format("[FAMILY_CODE] = {0}", _code);
                         return string.Format(SQL_WHERE, parametr);
-                    case UserAction.Id:
+                    case Constants.UserAction.Code:
                         parametr = string.Format("[CODE] = {0}", _code);
                         return string.Format(SQL_WHERE, parametr);
-                    case UserAction.Login:
+                    case Constants.UserAction.Login:
                         parametr = string.Format("[NAME] LIKE '{0}' AND [PASSWORD] LIKE '{1}'", _login, _password);
                         return string.Format(SQL_WHERE, parametr);
                 }
@@ -148,7 +123,7 @@ namespace PurseApi.Models.Repositories
 
         public UserData UpdateUserData(UserData user, List<int> fields)
         {
-            if (_actionCode == (int)UserAction.Id)
+            if (_actionCode == (int)Constants.UserAction.Code)
             {
                 _code = user.Code;
                 _fields = fields;
@@ -178,7 +153,7 @@ namespace PurseApi.Models.Repositories
             }
         }
 
-        public bool IsUnique(UserField field, string value)
+        public bool IsUnique(Constants.UserField field, string value)
         {
             try
             {
@@ -264,7 +239,7 @@ namespace PurseApi.Models.Repositories
                 case (int)Action.Insert:
                     return fieldInsert;
                 case (int)Action.Update:
-                    return fieldUpdate.Where(x => _fields.Any(y => ((UserField)y).ToString() == x.Key)).ToDictionary(x => x.Key, x => x.Value);
+                    return fieldUpdate.Where(x => _fields.Any(y => ((Constants.UserField)y).ToString() == x.Key)).ToDictionary(x => x.Key, x => x.Value);
                 default:
                     return new Dictionary<string, string>();
             }

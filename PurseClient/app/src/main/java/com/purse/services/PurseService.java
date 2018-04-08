@@ -1,43 +1,43 @@
 package com.purse.services;
 
 import com.purse.entity.UserData;
+import com.purse.helper.UserLogin;
+
 import java.util.List;
 
-import retrofit.Callback;
-import retrofit.http.Body;
-import retrofit.http.DELETE;
-import retrofit.http.Field;
-import retrofit.http.GET;
-import retrofit.http.POST;
-import retrofit.http.PUT;
-import retrofit.http.Path;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface PurseService {
     //user controller
 
-    @GET("/user/list")
-    public void registration(Callback<List<UserData>> callback);
+    @GET("user/list")
+    public Call<List<UserData>> registration();
 
-    @POST("/user/registration")
-    public void registrationUser(@Body UserData user, String password);
+    @POST("user/registration")
+    public Call<Integer> registrationUser(@Body UserData user);
 
-    @POST("/user/login")
-    public void loginUser(@Field("login") String login, @Field("password") String password, Callback<UserData> callback);
+    @POST("user/login")
+    public Call<Integer> loginUser(@Body UserLogin userLogin);
 
-    @POST("/user/data/{id}")
-    public void getUser(@Path("id") Integer id);
+    @POST("user/data/{code}")
+    public Call<UserData> getUser(@Path("code") Integer code);
 
-    @POST("/user/logout/{id}")
-    public void logoutUser(@Path("id") Integer id);
+    @POST("user/logout/{code}")
+    public Call<Boolean> logoutUser(@Path("code") Integer code);
 
-    @PUT("/user/update/{id}")
-    public void updateUser(@Path("id") Integer id, @Body UserData user);
+    @PUT("/user/update/{code}")
+    public void updateUser(@Path("code") Integer code, @Body UserData user);
 
-    @PUT("/user/update_password/{id}")
-    public void updatePasswordUser(@Path("id") Integer id, String password);
+    @PUT("/user/update_password/{code}")
+    public void updatePasswordUser(@Path("code") Integer code, String password);
 
-    @POST("/user/check_password/{id}")
-    public void checkPasswordUser(@Path("id") Integer id, String password);
+    @POST("/user/check_password/{code}")
+    public void checkPasswordUser(@Path("code") Integer code, String password);
 
     @POST("/user/unique_field")
     public void uniqueField(Integer field, String value);
