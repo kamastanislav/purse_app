@@ -2,8 +2,109 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c0d0c8ad-cf95-4f63-ace8-bdc113ca6950" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-hdpi/ic_account_balance_wallet_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-hdpi/ic_assignment_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-hdpi/ic_exit_to_app_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-hdpi/ic_history_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-hdpi/ic_home_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-hdpi/ic_people_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-hdpi/ic_settings_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-mdpi/ic_account_balance_wallet_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-mdpi/ic_assignment_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-mdpi/ic_exit_to_app_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-mdpi/ic_history_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-mdpi/ic_home_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-mdpi/ic_people_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-mdpi/ic_settings_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xhdpi/ic_account_balance_wallet_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xhdpi/ic_assignment_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xhdpi/ic_exit_to_app_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xhdpi/ic_history_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xhdpi/ic_home_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xhdpi/ic_people_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xhdpi/ic_settings_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xxhdpi/ic_account_balance_wallet_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xxhdpi/ic_assignment_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xxhdpi/ic_exit_to_app_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xxhdpi/ic_history_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xxhdpi/ic_home_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xxhdpi/ic_people_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xxhdpi/ic_settings_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xxxhdpi/ic_account_balance_wallet_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xxxhdpi/ic_assignment_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xxxhdpi/ic_exit_to_app_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xxxhdpi/ic_history_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xxxhdpi/ic_home_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xxxhdpi/ic_people_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable-xxxhdpi/ic_settings_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable/android/drawable-hdpi/ic_settings_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable/android/drawable-mdpi/ic_settings_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable/android/drawable-xhdpi/ic_settings_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable/android/drawable-xxhdpi/ic_settings_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable/android/drawable-xxxhdpi/ic_settings_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/mipmap-mdpi/android/drawable-hdpi/ic_settings_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/mipmap-mdpi/android/drawable-mdpi/ic_settings_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/mipmap-mdpi/android/drawable-xhdpi/ic_settings_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/mipmap-mdpi/android/drawable-xxhdpi/ic_settings_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/mipmap-mdpi/android/drawable-xxxhdpi/ic_settings_black_24dp.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/purseclient/MenuActivity.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/purseclient/PlanFragment.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/purseclient/UserFragment.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/layout/activity_menu.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/layout/app_bar_menu.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/layout/fragment_plan.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/layout/fragment_user.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/layout/nav_header_menu.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/menu/activity_menu_drawer.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/purseclient/ChangePasswordActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/purseclient/EditorFlightActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/purseclient/EditorPlanActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/purseclient/FamilyActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/purseclient/FlightActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/purseclient/LoggerFamilyActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/purseclient/PlanActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/purseclient/SettingActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/purseclient/UserActivity.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable/ic_menu_camera.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable/ic_menu_gallery.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable/ic_menu_manage.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable/ic_menu_send.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable/ic_menu_share.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable/ic_menu_slideshow.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/layout/activity_family.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/layout/activity_flight.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/layout/activity_logger_family.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/layout/activity_plan.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/layout/activity_setting.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/layout/activity_user.xml" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/layout/activity_change_password.xml" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/layout/content_menu.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseApi/.vs/PurseApi/v14/.suo" afterPath="$PROJECT_DIR$/PurseApi/.vs/PurseApi/v14/.suo" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseApi/PurseApi/bin/PurseApi.dll" afterPath="$PROJECT_DIR$/PurseApi/PurseApi/bin/PurseApi.dll" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseApi/PurseApi/bin/PurseApi.pdb" afterPath="$PROJECT_DIR$/PurseApi/PurseApi/bin/PurseApi.pdb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseApi/PurseApi/obj/Debug/PurseApi.dll" afterPath="$PROJECT_DIR$/PurseApi/PurseApi/obj/Debug/PurseApi.dll" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseApi/PurseApi/obj/Debug/PurseApi.pdb" afterPath="$PROJECT_DIR$/PurseApi/PurseApi/obj/Debug/PurseApi.pdb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseApi/PurseApi/obj/Release/Package/PackageTmp/bin/PurseApi.dll" afterPath="$PROJECT_DIR$/PurseApi/PurseApi/obj/Release/Package/PackageTmp/bin/PurseApi.dll" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseApi/PurseApi/obj/Release/PurseApi.dll" afterPath="$PROJECT_DIR$/PurseApi/PurseApi/obj/Release/PurseApi.dll" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseApi/PurseApi/obj/Release/PurseApi.pdb" afterPath="$PROJECT_DIR$/PurseApi/PurseApi/obj/Release/PurseApi.pdb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseApi/PurseApi/Controllers/UserController.cs" afterPath="$PROJECT_DIR$/PurseApi/PurseApi/Controllers/UserController.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseApi/PurseApi/Models/Entities/Family.cs" afterPath="$PROJECT_DIR$/PurseApi/PurseApi/Models/Entities/Family.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseApi/PurseApi/Models/Entities/Plan.cs" afterPath="$PROJECT_DIR$/PurseApi/PurseApi/Models/Entities/Plan.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseApi/PurseApi/Models/Helpers/Constants.cs" afterPath="$PROJECT_DIR$/PurseApi/PurseApi/Models/Helpers/Constants.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseApi/PurseApi/Models/Managers/UserManager.cs" afterPath="$PROJECT_DIR$/PurseApi/PurseApi/Models/Managers/UserManager.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseApi/PurseApi/Models/Repositories/FamilyRepository.cs" afterPath="$PROJECT_DIR$/PurseApi/PurseApi/Models/Repositories/FamilyRepository.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseApi/PurseApi/Models/Repositories/PlanRepository.cs" afterPath="$PROJECT_DIR$/PurseApi/PurseApi/Models/Repositories/PlanRepository.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseApi/PurseApi/Properties/PublishProfiles/Setup.pubxml.user" afterPath="$PROJECT_DIR$/PurseApi/PurseApi/Properties/PublishProfiles/Setup.pubxml.user" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseClient/app/build.gradle" afterPath="$PROJECT_DIR$/PurseClient/app/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/purseclient/LoginActivity.java" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/purseclient/LoginActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/purseclient/RegistrationActivity.java" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/purseclient/RegistrationActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/services/PurseService.java" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/java/com/purse/services/PurseService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable/side_nav_bar.xml" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/drawable/side_nav_bar.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/layout/activity_editor_flight.xml" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/layout/activity_editor_flight.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/layout/activity_editor_plan.xml" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/layout/activity_editor_plan.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/values/dimens.xml" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/values/dimens.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseClient/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/PurseClient/app/src/main/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PurseDB/Purse script db.sql" afterPath="$PROJECT_DIR$/PurseDB/Purse script db.sql" />
     </list>
     <ignored path="purse_app.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,9 +131,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="952" />
-    <option name="width" value="976" />
-    <option name="height" value="1038" />
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
+    <option name="width" value="1938" />
+    <option name="height" value="1048" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -59,11 +161,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="AndroidView">
-        <subPane />
-      </pane>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -112,6 +209,11 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="AndroidView">
+        <subPane />
+      </pane>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -206,22 +308,22 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="952" y="0" width="976" height="1038" extended-state="0" />
+    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2497309" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12268641" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />

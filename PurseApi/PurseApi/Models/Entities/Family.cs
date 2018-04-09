@@ -17,8 +17,7 @@ namespace PurseApi.Models.Entities
             }
         }
 
-        public long CalendarPeriodStart { get; set; }
-        public long CalendarPeriodEnd { get; set; }
+        public long CalendarDayStart { get; set; }
         public int OwnerCode { get; }
         public int CurrencyCode { get; set; }
         public Currency CurrencyFamily

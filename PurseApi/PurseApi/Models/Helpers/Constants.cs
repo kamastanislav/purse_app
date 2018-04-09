@@ -51,18 +51,19 @@ namespace PurseApi.Models.Helper
 
         public enum PlanField
         {
-            LastUpdate = 1,
-            ExecutorCode = 2,
-            StartDate = 3,
-            EndDate = 4,
-            PlannedBudget = 5,
-            ActualBudget = 6,
-            Status = 7,
-            CurrencyCode = 8,
-            IsPrivate = 9,
-            CountFlight = 10,
-            CategoryCode = 11,
-            ServiceCode = 12
+            Name = 1,
+            LastUpdate = 2,
+            ExecutorCode = 3,
+            StartDate = 4,
+            EndDate = 5,
+            PlannedBudget = 6,
+            ActualBudget = 7,
+            Status = 8,
+            CurrencyCode = 9,
+            IsPrivate = 10,
+            CountFlight = 11,
+            CategoryCode = 12,
+            ServiceCode = 13
         }
 
         public enum UserField

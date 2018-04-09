@@ -18,9 +18,6 @@ import com.purse.services.RestService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 
 public class LoginActivity extends AppCompatActivity {
     private EditText fieldNick;
@@ -34,11 +31,16 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Авторизация");
+        }
+
         fieldNick = (EditText) findViewById(R.id.nickName);
         fieldPassword = (EditText) findViewById(R.id.password);
       //  restAdapter = new RestService();
         progress = new ProgressDialog(this);
-        intent = new Intent(this, UserActivity.class);
+        intent = new Intent(this, MenuActivity.class);
     }
 
     public  void  login(View view) {
@@ -76,9 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Integer code = response.body();
 
-
                     if (code != null && code != Constants.DEFAULT_CODE) {
-                        intent.putExtra(Constants.USER_CODE, code);
                         startActivity(intent);
                     } else {
                         Toast.makeText(LoginActivity.this, "NO", Toast.LENGTH_LONG).show();

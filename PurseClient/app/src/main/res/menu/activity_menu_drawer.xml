@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_my_page"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Моя страница" />
+        <item
+            android:id="@+id/nav_family"
+            android:icon="@drawable/ic_people_black_24dp"
+            android:title="Семья" />
+        <item
+            android:id="@+id/nav_logger"
+            android:icon="@drawable/ic_account_balance_wallet_black_24dp"
+            android:title="Финансовый журнал" />
+        <item
+            android:id="@+id/nav_plan"
+            android:icon="@drawable/ic_assignment_black_24dp"
+            android:title="Планы" />
+        <item
+            android:id="@+id/nav_history"
+            android:icon="@drawable/ic_history_black_24dp"
+            android:title="История" />
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="Настройки" />
+
+        <item
+            android:id="@+id/nav_exit"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:title="Выход" />
+    </group>
+
+</menu>

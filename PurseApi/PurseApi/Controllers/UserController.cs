@@ -25,6 +25,16 @@ namespace PurseApi.Controllers
             return Ok(user);
         }
 
+        [Route("session")]
+        [ResponseType(typeof(UserData))]
+        public IHttpActionResult PostSessionUser()
+        {
+            var user = UserSession.Current.User;
+
+
+            return Ok(user);
+        }
+
         [Route("unique_field")]
         public IHttpActionResult PostUniqueField(int field, string value)
         {
@@ -48,11 +58,11 @@ namespace PurseApi.Controllers
             return Ok(code);
         }
 
-        [Route("logout/{code}")]
+        [Route("logout")]
         [ResponseType(typeof(bool))]
-        public IHttpActionResult PostLogout(int code)
+        public IHttpActionResult PostLogout()
         {
-            var result = UserManager.LogoutUser(code);
+            var result = UserManager.LogoutUser();
             return Ok(result);
         }
 

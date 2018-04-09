@@ -19,6 +19,7 @@ namespace PurseApi.Models.Entities
             }
         }
 
+        public string Name { get; set; }
         public long CreateDate { get; set; }
         public long LastUpdate { get; set; }
         public int OwnerCode { get; set; } 

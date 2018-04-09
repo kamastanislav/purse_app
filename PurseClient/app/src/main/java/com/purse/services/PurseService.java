@@ -11,6 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface PurseService {
     //user controller
@@ -27,8 +28,11 @@ public interface PurseService {
     @POST("user/data/{code}")
     public Call<UserData> getUser(@Path("code") Integer code);
 
-    @POST("user/logout/{code}")
-    public Call<Boolean> logoutUser(@Path("code") Integer code);
+    @POST("user/session")
+    public Call<UserData> getSessionUser();
+
+    @POST("user/logout")
+    public Call<Boolean> logoutUser();
 
     @PUT("/user/update/{code}")
     public void updateUser(@Path("code") Integer code, @Body UserData user);
@@ -39,8 +43,8 @@ public interface PurseService {
     @POST("/user/check_password/{code}")
     public void checkPasswordUser(@Path("code") Integer code, String password);
 
-    @POST("/user/unique_field")
-    public void uniqueField(Integer field, String value);
+    @POST("user/unique_field")
+    public Call<Boolean> uniqueField(@Query("field") Integer field, @Query("value") String value);
 }
 
 

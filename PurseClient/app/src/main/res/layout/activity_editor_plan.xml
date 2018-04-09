@@ -26,6 +26,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <TextView android:id="@+id/name_plan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/date_birthday"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginTop="12sp"
+                    android:textSize="18sp" />
+
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/owner_plan"
                     android:layout_width="match_parent"
@@ -125,7 +140,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:id="@+id/email_sign_in_button"
+                android:id="@+id/save_plan"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

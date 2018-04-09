@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.DatePicker;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.purse.entity.UserData;
 import com.purse.helper.Constants;
+import com.purse.helper.UniqueFieldUser;
 import com.purse.services.RestService;
 
 import java.util.Calendar;
@@ -34,14 +37,21 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText fieldFirstName;
     private EditText fieldLastName;
     private EditText fieldPhone;
-   // private RestService restAdapter;
     private ProgressDialog progress;
     private Intent intent;
+
+    private boolean isUniqueNickName = true;
+    private boolean isUniqueEmail = true;
+    private boolean isUniquePhone = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Регистрация");
+        }
 
         fieldNick = (EditText)findViewById(R.id.nickName);
         fieldPassword = (EditText)findViewById(R.id.password);
@@ -54,8 +64,97 @@ public class RegistrationActivity extends AppCompatActivity {
         fieldDateBirthday = (TextView)findViewById(R.id.date_birthday);
         setInitialDateTime();
         progress = new ProgressDialog(this);
-    //    restAdapter = new RestService();
-        intent = new Intent(this, UserActivity.class);
+
+        setFocusListenerEditorField();
+
+        intent = new Intent(this, MenuActivity.class);
+    }
+
+    private void setFocusListenerEditorField() {
+        fieldNick.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                String nickName = fieldNick.getText().toString();
+                if (!hasFocus && !TextUtils.isEmpty(nickName)) {
+                    Call<Boolean> call = RestService.getService().uniqueField(UniqueFieldUser.NICK_NAME, nickName);
+                    call.enqueue(new Callback<Boolean>() {
+                        @Override
+                        public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                            progress.dismiss();
+                            if (response.isSuccessful() && response.body() != null) {
+                                isUniqueNickName = response.body();
+                                if (!isUniqueNickName)
+                                    fieldNick.setError("Nick name is not unique!");
+                            } else {
+                                Toast.makeText(RegistrationActivity.this, "NO", Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Boolean> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+        });
+        fieldEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                String email = fieldEmail.getText().toString();
+                if (!hasFocus && !TextUtils.isEmpty(email)) {
+                    Call<Boolean> call = RestService.getService().uniqueField(UniqueFieldUser.EMAIL, email);
+                    call.enqueue(new Callback<Boolean>() {
+                        @Override
+                        public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                            progress.dismiss();
+                            if (response.isSuccessful() && response.body() != null) {
+                                isUniqueEmail = response.body();
+                                if (!isUniqueEmail)
+                                    fieldEmail.setError("Email is not unique!");
+                            } else {
+                                Toast.makeText(RegistrationActivity.this, "NO", Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Boolean> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+        });
+        fieldPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                String phone = fieldPhone.getText().toString();
+                if (!hasFocus && !TextUtils.isEmpty(phone)) {
+                    Call<Boolean> call = RestService.getService().uniqueField(UniqueFieldUser.PHONE, phone);
+                    call.enqueue(new Callback<Boolean>() {
+                        @Override
+                        public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                            progress.dismiss();
+                            if (response.isSuccessful() && response.body() != null) {
+                                isUniquePhone = response.body();
+                                if (!isUniquePhone)
+                                    fieldPhone.setError("Phone is not unique!");
+                            } else {
+                                Toast.makeText(RegistrationActivity.this, "NO", Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Boolean> call, Throwable t) {
+
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void setInitialDateTime() {
@@ -83,6 +182,10 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void registrationUser(View view) {
+
+        if(!isUniqueNickName || !isUniquePhone || !isUniqueEmail)
+            return;
+
         String nickName = fieldNick.getText().toString();
         String email = fieldEmail.getText().toString();
         String password = fieldPassword.getText().toString();
@@ -131,6 +234,13 @@ public class RegistrationActivity extends AppCompatActivity {
         if (hasEmptyField)
             return;
 
+        if (!password.equals(confirmPassword))
+        {
+            fieldPassword.setError("Error");
+            fieldConfirmPassword.setError("Error");
+            return;
+        }
+
         UserData userData = new UserData();
 
         userData.NickName = nickName;
@@ -154,9 +264,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     Integer code = response.body();
 
-
                     if (code != null && code != Constants.DEFAULT_CODE) {
-                        intent.putExtra(Constants.USER_CODE, code);
                         startActivity(intent);
                     } else {
                         Toast.makeText(RegistrationActivity.this, "NO", Toast.LENGTH_LONG).show();
@@ -172,25 +280,5 @@ public class RegistrationActivity extends AppCompatActivity {
 
             }
         });
-     /*   restService.getService().registrationUser(userData, new Callback<Integer>(){
-            @Override
-            public void success(Integer code, Response response) {
-                progress.dismiss();
-                if (code != Constants.DEFAULT_CODE) {
-                    intent.putExtra(Constants.USER_CODE, code);
-                    startActivity(intent);
-                }
-                else {
-                    Toast.makeText(RegistrationActivity.this, "NO", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                progress.dismiss();
-                Toast.makeText(RegistrationActivity.this, error.getMessage().toString(), Toast.LENGTH_LONG).show();
-
-            }
-        });*/
     }
 }

@@ -43,7 +43,7 @@
         <activity android:name=".FamilyActivity" />
         <activity android:name=".SettingActivity" />
         <activity android:name=".ChangePasswordActivity" />
-        <activity android:name=".LoggerFamilyActivity"></activity>
+        <activity android:name=".LoggerFamilyActivity" />
     </application>
 
 </manifest>

@@ -75,6 +75,7 @@ namespace PurseApi.Models.Repositories
         private readonly Dictionary<string, string> fieldSelect = new Dictionary<string, string>()
         {
             {"", "CODE"},
+            {"Name", "NAME" },
             {"CreateDate", "DATE_CREATE" },
             {"LastUpdate", "LAST_UPDATE" },
             {"OwnerCode", "OWNER" },
@@ -94,6 +95,7 @@ namespace PurseApi.Models.Repositories
 
         private readonly Dictionary<string, string> fieldInsert = new Dictionary<string, string>()
         {
+            {"Name", "NAME" },
             {"LastUpdate", "LAST_UPDATE" },
             {"OwnerCode", "OWNER" },
             {"ExecutorCode", "EXECUTOR" },
@@ -112,6 +114,7 @@ namespace PurseApi.Models.Repositories
 
         private readonly Dictionary<string, string> fieldUpdate = new Dictionary<string, string>()
         {
+            {"Name", "NAME" },
             {"LastUpdate", "LAST_UPDATE" },
             {"ExecutorCode", "EXECUTOR" },
             {"StartDate", "START_DATE" },

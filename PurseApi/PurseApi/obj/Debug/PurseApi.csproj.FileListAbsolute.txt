@@ -85,3 +85,4 @@ C:\Users\Lenovo\Documents\GitHub\purse_app\PurseApi\PurseApi\bin\ru\System.Web.H
 C:\Users\Lenovo\Documents\GitHub\purse_app\PurseApi\PurseApi\bin\ru\System.Web.Http.WebHost.resources.dll
 C:\Users\Lenovo\Documents\GitHub\purse_app\PurseApi\PurseApi\obj\Debug\PurseApi.dll
 C:\Users\Lenovo\Documents\GitHub\purse_app\PurseApi\PurseApi\obj\Debug\PurseApi.pdb
+C:\Users\Lenovo\Documents\GitHub\purse_app\PurseApi\PurseApi\obj\Debug\PurseApi.csprojResolveAssemblyReference.cache

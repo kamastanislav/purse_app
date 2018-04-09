@@ -57,19 +57,16 @@ namespace PurseApi.Models.Managers
             return user;
         }
 
-        public static bool LogoutUser(int id)
+        public static bool LogoutUser()
         {
             try
             {
-                var user = UserSession.Current.User;
-                if (user != null && user.Code == id)
-                    return UserSession.DestroyIfExpired();
+                return UserSession.DestroyIfExpired();
             }
             catch (Exception)
             {
                 return false;
             }
-            return false;
         }
 
         public static int LoginUser(UserLogin userLogin)
@@ -151,7 +148,7 @@ namespace PurseApi.Models.Managers
         public static bool IsUnique(int field, string value)
         {
             UserRepository userRepo = new UserRepository();
-            return userRepo.IsUnique((Constants.UserField)field, value);
+            return !userRepo.IsUnique((Constants.UserField)field, value);
         }
 
         public static bool DeleteUser(int code)
