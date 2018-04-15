@@ -3,12 +3,12 @@ package com.purse.purseclient;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 public class SettingFragment extends Fragment {
-
 
     public SettingFragment() {
         // Required empty public constructor

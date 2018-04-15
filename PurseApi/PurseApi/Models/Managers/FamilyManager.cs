@@ -7,5 +7,6 @@ namespace PurseApi.Models.Managers
 {
     public class FamilyManager
     {
+
     }
 }

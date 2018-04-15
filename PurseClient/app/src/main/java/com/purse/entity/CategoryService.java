@@ -1,8 +1,10 @@
 package com.purse.entity;
 
-/**
- * Created by Lenovo on 18.03.2018.
- */
+import java.util.List;
 
 public class CategoryService {
+    public int Code;
+    public String Name;
+    public String Color;
+    public List<Service> Services;
 }

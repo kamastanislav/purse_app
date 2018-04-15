@@ -27,12 +27,54 @@
                 android:layout_height="wrap_content"
                 tools:ignore="HardcodedText" />
 
-
             <TextView
-                android:id="@+id/password_user"
+                android:id="@+id/email_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/first_name_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/birthday_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/last_name_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/phone_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/cash_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/action_send_cash"
+                android:text=""
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/id"
+                android:text=""
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
         </LinearLayout>
     </ScrollView>
 

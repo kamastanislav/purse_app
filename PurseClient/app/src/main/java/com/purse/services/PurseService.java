@@ -1,6 +1,8 @@
 package com.purse.services;
 
+import com.purse.entity.Plan;
 import com.purse.entity.UserData;
+import com.purse.helper.FilterPlan;
 import com.purse.helper.UserLogin;
 
 import java.util.List;
@@ -14,8 +16,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface PurseService {
-    //user controller
-
+    /*user controller*/
     @GET("user/list")
     public Call<List<UserData>> registration();
 
@@ -34,7 +35,25 @@ public interface PurseService {
     @POST("user/logout")
     public Call<Boolean> logoutUser();
 
-    @PUT("/user/update/{code}")
+    @POST("user/unique_field")
+    public Call<Boolean> uniqueField(@Query("field") Integer field, @Query("value") String value);
+
+    /*family controller*/
+    @POST("family/having_family")
+    public Call<Boolean> havingFamily();
+
+
+    /*plan controller*/
+    @POST("plan/filter_data")
+    public Call<FilterPlan> setFilterPlan();
+
+    @POST("plan/create")
+    public Call<Boolean> savePlan(@Body Plan plan);
+
+    /*flight controller*/
+
+
+  /*  @PUT("/user/update/{code}")
     public void updateUser(@Path("code") Integer code, @Body UserData user);
 
     @PUT("/user/update_password/{code}")
@@ -43,8 +62,7 @@ public interface PurseService {
     @POST("/user/check_password/{code}")
     public void checkPasswordUser(@Path("code") Integer code, String password);
 
-    @POST("user/unique_field")
-    public Call<Boolean> uniqueField(@Query("field") Integer field, @Query("value") String value);
+    */
 }
 
 

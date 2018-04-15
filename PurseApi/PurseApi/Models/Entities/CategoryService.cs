@@ -9,6 +9,7 @@ namespace PurseApi.Models.Entities
 {
     public class CategoryService : IEntity
     {
+        private static ServiceRepository repo = new ServiceRepository(false);
         private readonly int _code;
         private List<Service> _services;
         public int Code
@@ -25,11 +26,8 @@ namespace PurseApi.Models.Entities
         {
             get
             {
-                if (_services != null)
-                {
-                    var repo = new ServiceRepository(false);
+                if (_services == null)
                     _services = repo.List.Where(x => x.CategoryCode == _code).ToList();
-                }
                 return _services;
             }
         }

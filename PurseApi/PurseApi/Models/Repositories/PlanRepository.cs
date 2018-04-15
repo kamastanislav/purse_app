@@ -14,13 +14,15 @@ namespace PurseApi.Models.Repositories
         private int _actionCode;
         private int _code;
         private bool _isPlanned;
+        private bool _all;
         private List<int> _fields = new List<int>();
 
-        public PlanRepository(bool empty = true, int actionCode = 0, int code = 0, bool isPlanned = true)
+        public PlanRepository(bool empty = true, int actionCode = 0, int code = 0, bool isPlanned = true, bool all = true)
         {
             _actionCode = actionCode;
             _code = code;
             _isPlanned = isPlanned;
+            _all = all;
             if (!empty)
                 SelectData();
         }
@@ -77,35 +79,55 @@ namespace PurseApi.Models.Repositories
             {"", "CODE"},
             {"Name", "NAME" },
             {"CreateDate", "DATE_CREATE" },
-            {"LastUpdate", "LAST_UPDATE" },
-            {"OwnerCode", "OWNER" },
-            {"ExecutorCode", "EXECUTOR" },
-            {"StartDate", "START_DATE" },
-            {"EndDate", "END_DATE" },
-            {"PlannedBudget", "PLANNED_BUDGET" },
-            {"ActualBudget", "ACTUAL_BUDGET" },
+            {"LastUpdate", "LAST_UPDATE_PLAN" },
+            {"OwnerCode", "OWNER_CODE" },
+            {"ExecutorCode", "EXECUTOR_CODE" },
+            {"StartDate", "START_DATE_PLAN" },
+            {"EndDate", "END_DATE_PLAN" },
+            {"PlannedBudget", "PLANNED_BUDGET_PLAN" },
+            {"ActualBudget", "ACTUAL_BUDGET_PLAN" },
             {"FamilyCode", "FAMILY_CODE" },
             {"Status", "STATUS" },
-            {"CurrencyCode", "CURRCODE" },
+         //   {"CurrencyCode", "CURRCODE" },
             {"IsPrivate", "IS_PRIVATE" },
             {"CountFlight", "COUNT_FLIGHT"},
             {"CategoryCode", "CATEGORY_CODE"},
             {"ServiceCode", "SERVICE_CODE"}
-        };     
+        };
 
         private readonly Dictionary<string, string> fieldInsert = new Dictionary<string, string>()
         {
             {"Name", "NAME" },
-            {"LastUpdate", "LAST_UPDATE" },
-            {"OwnerCode", "OWNER" },
-            {"ExecutorCode", "EXECUTOR" },
-            {"StartDate", "START_DATE" },
-            {"EndDate", "END_DATE" },
-            {"PlannedBudget", "PLANNED_BUDGET" },
-            {"ActualBudget", "ACTUAL_BUDGET" },
+            {"CreateDate", "DATE_CREATE" },
+            {"LastUpdate", "LAST_UPDATE_PLAN" },
+            {"OwnerCode", "OWNER_CODE" },
+            {"ExecutorCode", "EXECUTOR_CODE" },
+            {"StartDate", "START_DATE_PLAN" },
+            {"EndDate", "END_DATE_PLAN" },
+            {"PlannedBudget", "PLANNED_BUDGET_PLAN" },
+            {"ActualBudget", "ACTUAL_BUDGET_PLAN" },
+            {"Status", "STATUS" },
+         //   {"CurrencyCode", "CURRCODE" },
+            {"IsPrivate", "IS_PRIVATE" },
+            {"CountFlight", "COUNT_FLIGHT"},
+            {"CategoryCode", "CATEGORY_CODE"},
+            {"ServiceCode", "SERVICE_CODE"}
+        };
+
+        private readonly Dictionary<string, string> fieldInsertAll = new Dictionary<string, string>()
+        {
+            {"Name", "NAME" },
+            {"CreateDate", "DATE_CREATE" },
+            {"LastUpdate", "LAST_UPDATE_PLAN" },
+            {"OwnerCode", "OWNER_CODE" },
+            {"ExecutorCode", "EXECUTOR_CODE" },
+            {"StartDate", "START_DATE_PLAN" },
+            {"EndDate", "END_DATE_PLAN" },
+            {"PlannedBudget", "PLANNED_BUDGET_PLAN" },
+            {"ActualBudget", "ACTUAL_BUDGET_PLAN" },
             {"FamilyCode", "FAMILY_CODE" },
             {"Status", "STATUS" },
-            {"CurrencyCode", "CURRCODE" },
+         //   {"CurrencyCode", "CURRCODE" },
             {"IsPrivate", "IS_PRIVATE" },
             {"CountFlight", "COUNT_FLIGHT"},
             {"CategoryCode", "CATEGORY_CODE"},
@@ -115,14 +137,17 @@ namespace PurseApi.Models.Repositories
         private readonly Dictionary<string, string> fieldUpdate = new Dictionary<string, string>()
         {
             {"Name", "NAME" },
-            {"LastUpdate", "LAST_UPDATE" },
-            {"ExecutorCode", "EXECUTOR" },
-            {"StartDate", "START_DATE" },
-            {"EndDate", "END_DATE" },
-            {"PlannedBudget", "PLANNED_BUDGET" },
-            {"ActualBudget", "ACTUAL_BUDGET" },
+            {"CreateDate", "DATE_CREATE" },
+            {"LastUpdate", "LAST_UPDATE_PLAN" },
+            {"OwnerCode", "OWNER_CODE" },
+            {"ExecutorCode", "EXECUTOR_CODE" },
+            {"StartDate", "START_DATE_PLAN" },
+            {"EndDate", "END_DATE_PLAN" },
+            {"PlannedBudget", "PLANNED_BUDGET_PLAN" },
+            {"ActualBudget", "ACTUAL_BUDGET_PLAN" },
+            {"FamilyCode", "FAMILY_CODE" },
             {"Status", "STATUS" },
-            {"CurrencyCode", "CURRCODE" },
+         //   {"CurrencyCode", "CURRCODE" },
             {"IsPrivate", "IS_PRIVATE" },
             {"CountFlight", "COUNT_FLIGHT"},
             {"CategoryCode", "CATEGORY_CODE"},
@@ -133,7 +158,7 @@ namespace PurseApi.Models.Repositories
         {
             get
             {
-                return "[USER]";
+                return "[PLAN]";
             }
         }
 
@@ -144,7 +169,7 @@ namespace PurseApi.Models.Repositories
                 case (int)Action.Select:
                     return fieldSelect;
                 case (int)Action.Insert:
-                    return fieldInsert;
+                    return _all ? fieldInsertAll : fieldInsert;
                 case (int)Action.Update:
                     return fieldUpdate.Where(x => _fields.Any(y => ((Constants.PlanField)y).ToString() == x.Key)).ToDictionary(x => x.Key, x => x.Value);
                 default:

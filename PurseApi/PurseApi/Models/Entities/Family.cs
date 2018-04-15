@@ -7,7 +7,7 @@ namespace PurseApi.Models.Entities
     public class Family : IEntity
     {
         private readonly int _code;
-        private Currency _currency;
+       // private Currency _currency;
 
         public int Code
         {
@@ -17,9 +17,9 @@ namespace PurseApi.Models.Entities
             }
         }
 
-        public long CalendarDayStart { get; set; }
+        public int CalendarDayStart { get; set; }
         public int OwnerCode { get; }
-        public int CurrencyCode { get; set; }
+    /*    public int CurrencyCode { get; set; }
         public Currency CurrencyFamily
         {
             get
@@ -30,7 +30,7 @@ namespace PurseApi.Models.Entities
                 }
                 return _currency;
             }
-        }
+        }*/
 
         public Family(int code)
         {

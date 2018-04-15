@@ -47,7 +47,7 @@ namespace PurseApi.Models.Repositories
             { "PlanCode", "PLAN_CODE" },
             { "PlannedBudget", "PLANNED_BUDGET" },
             { "ActualBudget", "ACTUAL_BUDGET" },
-            { "CurrencyCode", "CURRCODE" },
+       //     { "CurrencyCode", "CURRCODE" },
             { "Comment", "COMMENT" },
             { "OwnerCode", "OWNER" },
             { "Status", "STATUS" }, 
@@ -67,7 +67,7 @@ namespace PurseApi.Models.Repositories
             { "PlanCode", "PLAN_CODE" },
             { "PlannedBudget", "PLANNED_BUDGET" },
             { "ActualBudget", "ACTUAL_BUDGET" },
-            { "CurrencyCode", "CURRCODE" },
+         //   { "CurrencyCode", "CURRCODE" },
             { "Comment", "COMMENT" },
             { "OwnerCode", "OWNER" },
             { "Status", "STATUS" },
@@ -78,7 +78,7 @@ namespace PurseApi.Models.Repositories
         {
             { "PlannedBudget", "PLANNED_BUDGET" },
             { "ActualBudget", "ACTUAL_BUDGET" },
-            { "CurrencyCode", "CURRCODE" },
+           // { "CurrencyCode", "CURRCODE" },
             { "Comment", "COMMENT" },
             { "Status", "STATUS" },
             { "DateCreate", "DATE_CREATE" }

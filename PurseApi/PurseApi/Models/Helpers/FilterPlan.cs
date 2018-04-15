@@ -9,7 +9,8 @@ namespace PurseApi.Models.Helpers
     public class FilterPlan
     {
         public List<CategoryService> CategoryServices { get; set; }
-        public Dictionary<int, string> Executors { get; set; }
-        public string CurrencySymbol { get; set; }
+        public List<UserData> Executors { get; set; }
+        public string OwnerUser { get; set; }
+        public bool HavingFamily { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 package com.purse.entity;
 
-/**
- * Created by Lenovo on 18.03.2018.
- */
-
 public class Service {
+    public int Code;
+    public String Name;
+    public String Color;
+    public int CategoryCode;
 }

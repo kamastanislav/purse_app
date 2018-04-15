@@ -21,7 +21,7 @@ namespace PurseApi.Models.Entities
         public int PlanCode { get; set; }
         public decimal PlannedBudget { get; set; }
         public decimal ActualBudget { get; set; }
-        public int CurrencyCode { get; set; }
+      //  public int CurrencyCode { get; set; }
         public string Comment { get; set; } 
         public int OwnerCode { get; set; }
         public int Status { get; set; }
@@ -40,7 +40,7 @@ namespace PurseApi.Models.Entities
             this.PlanCode = flight.PlanCode;
             this.PlannedBudget = flight.PlannedBudget;
             this.ActualBudget = flight.ActualBudget;
-            this.CurrencyCode = flight.CurrencyCode;
+      //      this.CurrencyCode = flight.CurrencyCode;
             this.Comment = flight.Comment;
             this.OwnerCode = flight.OwnerCode;
             this.Status = flight.Status;

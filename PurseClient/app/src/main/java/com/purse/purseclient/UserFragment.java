@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.purse.entity.UserData;
 import com.purse.services.RestService;
 
+import java.util.Date;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,8 +23,13 @@ import retrofit2.Response;
 public class UserFragment extends Fragment {
 
     private TextView fieldNick;
-    private TextView fieldPassword;
+    private TextView fieldEmail;
+    private TextView fieldPhone;
+    private TextView fieldFirstName;
+    private TextView fieldLastName;
+    private TextView fieldCash;
     private TextView fieldCode;
+    private TextView fieldBirthday;
     private ProgressDialog progress;
     private View view;
     public UserFragment() {
@@ -42,12 +49,15 @@ public class UserFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_user, container, false);
 
         fieldNick = (TextView)view.findViewById(R.id.nickName_user);
-        fieldPassword = (TextView)view.findViewById(R.id.password_user);
-
+        fieldEmail = (TextView)view.findViewById(R.id.email_user);
+        fieldLastName = (TextView)view.findViewById(R.id.first_name_user);
+        fieldFirstName = (TextView)view.findViewById(R.id.last_name_user);
+        fieldPhone = (TextView)view.findViewById(R.id.phone_user);
+        fieldCash = (TextView)view.findViewById(R.id.cash_user);
+        fieldEmail = (TextView)view.findViewById(R.id.email_user);
         fieldCode = (TextView)view.findViewById(R.id.code_user);
+        fieldBirthday = (TextView)view.findViewById(R.id.birthday_user);
         progress = new ProgressDialog(view.getContext());
-
-        //   restAdapter = new RestService();
 
         initializationData();
 
@@ -73,7 +83,13 @@ public class UserFragment extends Fragment {
                     if (userData != null) {
                         fieldCode.setText(String.valueOf(userData.Code));
                         fieldNick.setText(userData.NickName);
-                        fieldPassword.setText(userData.Password);
+                        fieldCash.setText(String.valueOf(userData.Cash));
+                        fieldFirstName.setText(userData.FirstName);
+                        fieldLastName.setText(userData.LastName);
+                        fieldPhone.setText(userData.Phone);
+                        fieldEmail.setText(userData.Email);
+                        Date birthday = new Date(userData.Birthday);
+                        fieldBirthday.setText(String.valueOf(birthday));
                         progress.dismiss();
 
 

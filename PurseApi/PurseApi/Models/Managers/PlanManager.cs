@@ -25,14 +25,21 @@ namespace PurseApi.Models.Managers
             throw new Exception();
         }
 
-        public static Plan CreatePlan(Plan plan)
+        public static bool CreatePlan(Plan plan)
         {
             var user = UserSession.Current.User;
-            if (user != null && user.Code == plan.OwnerCode)
+            if (user != null)
             {
-                var repo = new PlanRepository();
+                plan.OwnerCode = user.Code;
+                plan.CreateDate = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                plan.LastUpdate = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                if (!user.IsNoneFamily)
+                    plan.FamilyCode = user.FamilyCode;
+                plan.Status = 1;
+                var repo = new PlanRepository(all: !user.IsNoneFamily);
                 var code = repo.InsertData(plan);
-                return new Plan(code, plan);
+                Logger.Logger.WriteInfo("Create plan");
+                return code > 0;
             }
             throw new Exception();
         }

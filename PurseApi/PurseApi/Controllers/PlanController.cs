@@ -1,5 +1,6 @@
 ﻿using PurseApi.Models.Entities;
 using PurseApi.Models.Helper;
+using PurseApi.Models.Logger;
 using PurseApi.Models.Managers;
 using PurseApi.Models.Repositories;
 using System;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace PurseApi.Controllers
 {
@@ -101,6 +103,7 @@ namespace PurseApi.Controllers
         }
 
         [Route("create")]
+        [ResponseType(typeof(bool))]
         public IHttpActionResult PostCreatePlan(Plan plan)
         {
             try
@@ -135,6 +138,19 @@ namespace PurseApi.Controllers
             {
                 var result = PlanManager.UpdatePlan(plan);
                 return Ok(result);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
+        [Route("filter_data")]
+        public IHttpActionResult PostSendFilterPlan()
+        {
+            try
+            {
+                return Ok(FilterManager.GetFilterPlan());
             }
             catch (Exception)
             {

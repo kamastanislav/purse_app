@@ -135,6 +135,7 @@
     <Compile Include="Models\Entities\IEntity.cs" />
     <Compile Include="Models\Entities\Plan.cs" />
     <Compile Include="Models\Entities\Service.cs" />
+    <Compile Include="Models\Entities\TotalLog.cs" />
     <Compile Include="Models\Entities\UserData.cs" />
     <Compile Include="Models\Helpers\Constants.cs" />
     <Compile Include="Models\Helpers\FastInvoke.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="Models\Repositories\PlanRepository.cs" />
     <Compile Include="Models\Repositories\Repository.cs" />
     <Compile Include="Models\Repositories\ServiceRepository.cs" />
+    <Compile Include="Models\Repositories\TotalLogRepository.cs" />
     <Compile Include="Models\Repositories\UserRepository.cs" />
     <Compile Include="Models\UserSession.cs" />
     <Compile Include="Models\Utils\Connection.cs" />

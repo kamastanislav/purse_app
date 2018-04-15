@@ -38,14 +38,14 @@ namespace PurseApi.Models.Repositories
             {"", "CODE"},
             {"CalendarDayStart", "CALENDAR_DAY_START" },
             {"OwnerCode", "OWNER_CODE" },
-            {"CurrencyCode", "CURRCODE" }
+       //     {"CurrencyCode", "CURRCODE" }
         };
 
         private readonly Dictionary<string, string> fieldInsert = new Dictionary<string, string>()
         {
             {"CalendarDayStart", "CALENDAR_DAY_START" },
             {"OwnerCode", "OWNER_CODE" },
-            {"CurrencyCode", "CURRCODE" }
+         //   {"CurrencyCode", "CURRCODE" }
         };
 
         protected override string TableName

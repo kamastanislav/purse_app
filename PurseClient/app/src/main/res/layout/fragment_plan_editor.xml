@@ -1,15 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.purse.purseclient.EditorPlanActivity">
+    tools:context="com.purse.purseclient.PlanEditorFragment">
 
     <ScrollView
         android:id="@+id/login_form"
@@ -29,7 +22,7 @@
                 <TextView android:id="@+id/name_plan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/date_birthday"
+                    android:hint="@string/name_plan"
                     android:layout_marginLeft="5sp"
                     android:layout_marginTop="12sp"
                     android:textSize="18sp" />
@@ -45,7 +38,7 @@
                     android:id="@+id/owner_plan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/nick_name"
+                    android:hint="@string/owner_plan"
                     android:layout_marginLeft="5sp"
                     android:layout_marginTop="12sp"
                     android:maxLines="1" />
@@ -89,8 +82,7 @@
                 <TextView android:id="@+id/start_date_plan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/date_birthday"
-                    android:onClick="setDate"
+                    android:hint="@string/date_start_plan"
                     android:layout_marginLeft="5sp"
                     android:layout_marginTop="12sp"
                     android:textSize="18sp" />
@@ -101,29 +93,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <TextView android:id="@+id/end_date_plan"
+                <TextView
+                    android:id="@+id/end_date_plan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/date_birthday"
-                    android:onClick="setDate"
                     android:layout_marginLeft="5sp"
-                    android:layout_marginTop="12sp"
+                    android:hint="@string/date_end_plan"
                     android:textSize="18sp" />
 
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <AutoCompleteTextView
-                    android:id="@+id/planned_budget_plan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/nick_name"
-                    android:inputType="numberDecimal"
-                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -135,7 +112,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/is_private_check_box"/>
-
 
             </android.support.design.widget.TextInputLayout>
 
@@ -153,4 +129,4 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+</FrameLayout>

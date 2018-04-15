@@ -224,6 +224,7 @@ namespace PurseApi.Models
             }
             catch (Exception ex)
             {
+                Logger.Logger.WriteError(ex);
                 throw ex;
             }
         }
