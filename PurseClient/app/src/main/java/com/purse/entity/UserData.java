@@ -1,5 +1,6 @@
 package com.purse.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class UserData {
@@ -10,7 +11,7 @@ public class UserData {
     public String Email;
     public String Phone;
     public String Password;
-    public double Cash;
+    public BigDecimal Cash;
     public long LastLogin;
     public long Birthday;
     public int FamilyCode;

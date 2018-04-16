@@ -64,10 +64,10 @@ namespace PurseApi.Models.Repositories
                         parametr = string.Format("[CODE] = {0}", _code);
                         break;
                     case Constants.PlanAction.Owner:
-                        parametr = string.Format("[OWNER] = {0}", _code);
+                        parametr = string.Format("[OWNER_CODE] = {0}", _code);
                         break;
                     case Constants.PlanAction.Executor:
-                        parametr = string.Format("[EXECUTOR] = {0}", _code);
+                        parametr = string.Format("[EXECUTOR_CODE] = {0}", _code);
                         break;
                 }
                 return parametr != string.Empty ? string.Format(SQL_WHERE, parametr, _isPlanned ? "!=" : "=") : string.Empty;

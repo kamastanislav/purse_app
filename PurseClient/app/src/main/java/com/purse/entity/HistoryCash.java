@@ -1,8 +1,14 @@
 package com.purse.entity;
 
-/**
- * Created by Lenovo on 18.03.2018.
- */
+import java.math.BigDecimal;
 
 public class HistoryCash {
+    public int Code;
+    public int UserCode;
+    public long DateAction;
+    public BigDecimal Cash;
+    public int CategoryCode;
+    public String Name ;
+    public int PlanCode ;
+    public int FamilyCode ;
 }

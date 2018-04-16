@@ -66,12 +66,12 @@ namespace PurseApi.Controllers
             return Ok(result);
         }
 
-        [Route("update/{code}")]
-        public IHttpActionResult PutUser(int code, UserData user)
+        [Route("update")]
+        public IHttpActionResult PutUser(UserData user)
         {
             try
             {
-                var updateUser = UserManager.UpdateUserData(code, user);
+                var updateUser = UserManager.UpdateUserData(user);
                 return Ok(updateUser);
             }
             catch
@@ -80,12 +80,12 @@ namespace PurseApi.Controllers
             }
         }
 
-        [Route("update_password/{code}")]
-        public IHttpActionResult PutUpdatePassword(int code, string password)
+        [Route("update_password")]
+        public IHttpActionResult PutUpdatePassword(string password)
         {
             try
             {
-                var updateUser = UserManager.UpdateUserData(code, password);
+                var updateUser = UserManager.UpdateUserData(password);
                 return Ok(true);
             }
             catch
@@ -94,18 +94,33 @@ namespace PurseApi.Controllers
             }
         }
 
-        [Route("check_password/{code}")]
-        public IHttpActionResult PostCheckPassword(int code, string password)
+        [Route("check_password")]
+        public IHttpActionResult PostCheckPassword(string password)
         {
             try
             {
-                bool isUserPassword = UserManager.CheckPassword(code, password);
+                bool isUserPassword = UserManager.CheckPassword(password);
                 return Ok(isUserPassword);
             }
             catch
             {
                 return NotFound();
             }
+        }
+
+        [Route("name")]
+        public IHttpActionResult PostNameUser()
+        {
+            try
+            {
+                
+                return Ok(UserManager.GetSessionUserName());
+            }
+            catch
+            {
+                return NotFound();
+            }
+            
         }
     }
 }

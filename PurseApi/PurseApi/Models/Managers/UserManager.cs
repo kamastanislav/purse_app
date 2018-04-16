@@ -26,6 +26,14 @@ namespace PurseApi.Models.Managers
             }
         }
 
+        public static string GetSessionUserName()
+        {
+            var userData = UserSession.Current.User;
+            if (userData != null)
+                return string.Format("{0} {1} ({2})", userData.FirstName, userData.LastName, userData.NickName);
+            return null;
+        }
+
         public static UserData GetUser(int userCode)
         {
             UserRepository userRepo = new UserRepository((int)Constants.UserAction.Code);
@@ -37,8 +45,8 @@ namespace PurseApi.Models.Managers
         {
             try
             {
-                user.CreateDate = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
-                user.LastLogin = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                user.CreateDate = Constants.TotalMilliseconds;
+                user.LastLogin = Constants.TotalMilliseconds;
                 UserRepository userRepo = new UserRepository();
                 var code = userRepo.InsertData(user);
                 return code;
@@ -75,17 +83,20 @@ namespace PurseApi.Models.Managers
             return userSession != null ? userSession.User.Code : Constants.DEFAULT_CODE;
         }
 
-        public static UserData UpdateUserData(int id, UserData user)
+        public static UserData UpdateUserData(UserData user)
         {
             var userData = UserSession.Current.User;
-            if (userData != null && user.Code == id)
+            if (userData != null && user.Code == userData.Code)
             {
                 var userRepo = new UserRepository((int)Constants.UserAction.Code);
                 var fields = CheckFieldsForUpdate(user, userData);
+                Logger.Logger.WriteInfo(string.Join(", ", fields));
+                Logger.Logger.WriteInfo(""+userData.Cash + " "+user.Cash);
                 if (fields.Any())
                 {
-                    user.LastLogin = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                    user.LastLogin = Constants.TotalMilliseconds;
                     user = userRepo.UpdateUserData(user, fields);
+                    Logger.Logger.WriteInfo("Update");
                     var userSession = UserSession.UpdateSession(user);
                     return userSession != null ? userSession.User : null;
                 }
@@ -112,35 +123,38 @@ namespace PurseApi.Models.Managers
             if (user.Phone != userData.Phone)
                 fields.Add((int)Constants.UserField.Phone);
 
+            if (user.Cash != userData.Cash)
+                fields.Add((int)Constants.UserField.Cash);
+
             if (user.Birthday != userData.Birthday)
                 fields.Add((int)Constants.UserField.Birthday);
-            
+
             if (fields.Any())
                 fields.Add((int)Constants.UserField.LastLogin);
             return fields;
         }
 
-        public static bool UpdateUserData(int id, string password)
+        public static bool UpdateUserData(string password)
         {
             var user = UserSession.Current.User;
-            if (user != null && user.Code == id)
+            if (user != null)
             {
                 var userRepo = new UserRepository((int)Constants.UserAction.Code);
                 user.Password = password;
-                user.LastLogin = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                user.LastLogin = Constants.TotalMilliseconds;
                 userRepo.UpdateUserData(user, new List<int>() { (int)Constants.UserField.Password, (int)Constants.UserField.LastLogin });
                 return true;
             }
             throw new Exception();
         }
 
-        public static bool CheckPassword(int id, string password)
+        public static bool CheckPassword(string password)
         {
             var user = UserSession.Current.User;
-            if (user != null && user.Code == id)
+            if (user != null)
             {
                 var userRepo = new UserRepository();
-                return userRepo.CheckUserPassword(id, password);
+                return userRepo.CheckUserPassword(user.Code, password);
             }
             throw new Exception();
         }

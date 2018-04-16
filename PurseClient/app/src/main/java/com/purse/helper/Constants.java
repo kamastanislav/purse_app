@@ -16,4 +16,6 @@ public class Constants {
 
         return restService.getService();
     }
+
+    public static String userName;
 }

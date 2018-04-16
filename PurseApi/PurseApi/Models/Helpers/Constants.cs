@@ -96,5 +96,43 @@ namespace PurseApi.Models.Helper
             Family = 1,
             UserCode = 2
         }
+
+        public enum HistoryCashInsertAction
+        {
+            All = 1,
+            Empty = 2,
+            Plan = 3,
+            Family = 4
+        }
+
+        public enum InformationAction
+        {
+            Select = 1,
+            Delete = 2
+        }
+
+        public static long TotalMilliseconds
+        {
+            get
+            {
+                return (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+            }
+        }
+
+        public static long TotalMillisecondsTwoWeeksOld
+        {
+            get
+            {
+                return (long)(DateTime.Now.AddDays(-14) - new DateTime(1970, 1, 1)).TotalMilliseconds;
+            }
+        }
+
+        public static readonly string BudgetReplenishment = "Пополнение бюджета {0}";
+        public static readonly string Transfer = "Перевод от {0} к {1}";
+        public static readonly string Plan = "План {0}";
+        public static readonly string CreatePlanOwner = "Вы создатель плана {0}";
+        public static readonly string CreatePlanExecutor = "Вы исполнитель план {0}";
+        public static readonly string DeletedPlanExecutor = "План {0} удален";
+        public static readonly string ExecutedPlan = "План {0} выполнен";
     }
 }

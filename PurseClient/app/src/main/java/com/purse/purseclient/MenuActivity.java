@@ -52,6 +52,28 @@ public class MenuActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        loadUserName();
+    }
+
+    private void loadUserName() {
+        Call<String> call = RestService.getService().getNameUser();
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful())
+                {
+                    String name = response.body();
+                    Constants.userName = name != null? name : "";
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
     }
 
     private void loadStartFragment() {

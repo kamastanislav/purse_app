@@ -4,10 +4,25 @@
     android:layout_height="match_parent"
     tools:context="com.purse.purseclient.LoggerFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
+        android:id="@+id/logger_data_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Logger" />
+        android:clipToPadding="true"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/logger_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <ListView
+                android:id="@+id/logger_list_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>

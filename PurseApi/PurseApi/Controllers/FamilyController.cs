@@ -1,4 +1,5 @@
 ﻿using PurseApi.Models;
+using PurseApi.Models.Entities;
 using PurseApi.Models.Helper;
 using PurseApi.Models.Managers;
 using System;
@@ -34,6 +35,21 @@ namespace PurseApi.Controllers
                 return Ok(user.FamilyCode != Constants.DEFAULT_CODE);
             else
                 return NotFound();
+        }
+
+        [Route("users")]
+        [ResponseType(typeof(List<UserData>))]
+        public IHttpActionResult PostUser()
+        {
+            try
+            {
+                var users = FamilyManager.GetUsersFamily();
+                return Ok(users);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
         }
     }
 }

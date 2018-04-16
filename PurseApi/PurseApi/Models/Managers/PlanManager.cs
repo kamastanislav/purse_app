@@ -10,17 +10,22 @@ namespace PurseApi.Models.Managers
 {
     public class PlanManager
     {
-        public static List<Plan> GetPlans(int code, int action)
+        public static List<Plan> GetPlans(int action, int? code = null)
         {
+          //  Logger.Logger.WriteInfo(string.Format("get plans {0} {1}", code.Value, ((Constants.PlanAction)action).ToString()));
             var user = UserSession.Current.User;
             if (user != null)
             {
-                if (action == (int)Constants.PlanAction.Family && user.FamilyCode != code)
-                {
-                    throw new Exception();
-                }
-                var repo = new PlanRepository(false, action, code);
-                return repo.List;
+                PlanRepository repo = null;
+                if (action == (int)Constants.PlanAction.Owner)
+                    repo = new PlanRepository(false, action, code == null ? user.Code : code.Value);
+                else if (action == (int)Constants.PlanAction.Executor)
+                    repo = new PlanRepository(false, action, code == null ? user.Code : code.Value);
+                else if (action == (int)Constants.PlanAction.Family && user.FamilyCode != Constants.DEFAULT_CODE)
+                    repo = new PlanRepository(false, action, user.FamilyCode);
+                else if (action == (int)Constants.PlanAction.Code)
+                    repo = new PlanRepository(false, action, code.Value);
+                return repo != null ? repo.List : new List<Plan>();
             }
             throw new Exception();
         }
@@ -31,11 +36,11 @@ namespace PurseApi.Models.Managers
             if (user != null)
             {
                 plan.OwnerCode = user.Code;
-                plan.CreateDate = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
-                plan.LastUpdate = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                plan.CreateDate = Constants.TotalMilliseconds;
+                plan.LastUpdate = Constants.TotalMilliseconds;
                 if (!user.IsNoneFamily)
                     plan.FamilyCode = user.FamilyCode;
-                plan.Status = 1;
+                plan.Status = (int)Constants.WorkflowStatus.InPlanned;
                 var repo = new PlanRepository(all: !user.IsNoneFamily);
                 var code = repo.InsertData(plan);
                 Logger.Logger.WriteInfo("Create plan");
@@ -60,14 +65,14 @@ namespace PurseApi.Models.Managers
             var userData = UserSession.Current.User;
             if (userData != null && (userData.Code == plan.ExecutorCode || (userData.Code == plan.OwnerCode)))
             {
-                var result = PlanManager.GetPlans(plan.Code, (int)Constants.PlanAction.Code).FirstOrDefault();
+                var result = PlanManager.GetPlans((int)Constants.PlanAction.Code, plan.Code).FirstOrDefault();
                 if (result!=null)
                 {
                     var fields = CheckFieldsForUpdate(plan, result);
                     if (fields.Count == 1)
                         return null;
                     var repo = new PlanRepository();
-                    plan.LastUpdate = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+                    plan.LastUpdate = Constants.TotalMilliseconds;
                     return repo.UpdatePlan(plan, fields);
                 }               
             }

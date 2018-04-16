@@ -4,16 +4,30 @@
     android:layout_height="match_parent"
     tools:context="com.purse.purseclient.FamilyFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/family_massage"
+    <ScrollView
+        android:id="@+id/family_data_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Family" />
+        android:clipToPadding="true"
+        android:fillViewport="true">
 
-    <Button
-        android:id="@+id/open_view_create_family"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/family_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/add_user_btn"
+                android:text="@string/add_user_family"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ListView
+                android:id="@+id/user_list_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>

@@ -20,8 +20,9 @@ namespace PurseApi.Models.Entities
         
         public int UserCode { get; set; }
         public long DateAction { get; set; }
-        public double Cash { get; set; }
+        public decimal Cash { get; set; }
         public int CategoryCode { get; set; }
+        public string Name { get; set; }
         public int PlanCode { get; set; }
         public int FamilyCode { get; set; }
 

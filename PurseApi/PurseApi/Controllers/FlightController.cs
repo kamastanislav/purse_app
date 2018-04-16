@@ -1,4 +1,5 @@
 ﻿using PurseApi.Models.Entities;
+using PurseApi.Models.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,25 @@ namespace PurseApi.Controllers
     public class FlightController : ApiController
     {
         [Route("plan/{code}")]
-        public IHttpActionResult GetFlightsPlan(int code)
+        public IHttpActionResult PostFlightsPlan(int code)
         {
             try
             {
-                var result = 1;
+                var result = FlightManager.GetFlightsPlan(code);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
+        [Route("data/{code}")]
+        public IHttpActionResult PostFlightPlan(int code)
+        {
+            try
+            {
+                var result = FlightManager.GetFlightPlan(code);
                 return Ok(result);
             }
             catch (Exception)
@@ -26,11 +41,11 @@ namespace PurseApi.Controllers
         }
 
         [Route("create")]
-        public IHttpActionResult GetCreateFlight(Flight flight)
+        public IHttpActionResult PostCreateFlight(Flight flight)
         {
             try
             {
-                var result = 1;
+                var result = FlightManager.CreateFlight(flight);
                 return Ok(result);
             }
             catch (Exception)

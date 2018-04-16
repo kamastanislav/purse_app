@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.purse.entity.Plan;
 import com.purse.purseclient.R;
@@ -24,16 +25,16 @@ public class PlanAdapter extends ArrayAdapter<Plan> {
 
         if (v == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //    v = inflater.inflate(R.layout. , parent, false);
+            v = inflater.inflate(R.layout.view_plan_entity , parent, false);
         }
 
         Plan plan = getItem(position);
 
         if (plan != null) {
-       /*     TextView tvStudentId = (TextView) v.findViewById(R.id.student_Id);
-            TextView tvStudentName = (TextView) v.findViewById(R.id.student_name);
-            tvStudentId.setText( Integer.toString(student.Id));
-            tvStudentName.setText(student.Name);*/
+            TextView planEntityCode = (TextView) v.findViewById(R.id.plan_entity_code);
+            TextView planEntityName= (TextView) v.findViewById(R.id.plan_entity_name);
+            planEntityCode.setText(String.valueOf(plan.Code));
+            planEntityName.setText(plan.Name);
         }
 
         return v;

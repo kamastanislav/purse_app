@@ -7,7 +7,9 @@
     <ScrollView
         android:id="@+id/plan_data_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clipToPadding="true"
+        android:fillViewport="true">
 
         <LinearLayout
             android:id="@+id/plan_data"
@@ -15,20 +17,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-           <Button
-               android:id="@+id/create_plan"
-               android:text="@string/action_create_plan"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"/>
+            <Button
+                android:id="@+id/create_plan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_create_plan" />
 
             <ListView
+                android:id="@+id/plan_list_view"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/listView"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_height="match_parent" />
         </LinearLayout>
     </ScrollView>
 

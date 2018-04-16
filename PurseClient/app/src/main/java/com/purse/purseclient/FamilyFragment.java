@@ -8,24 +8,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.purse.array_adapter.PlanAdapter;
+import com.purse.array_adapter.UserAdapter;
+import com.purse.entity.Plan;
 import com.purse.entity.UserData;
 import com.purse.services.RestService;
 
 import java.util.Date;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Part;
 
 public class FamilyFragment extends Fragment {
 
     private View view;
     private ProgressDialog progress;
-    private TextView field;
-    private Button button;
+    private ListView userListView;
 
     public FamilyFragment() {
 
@@ -36,47 +41,47 @@ public class FamilyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_family, container, false);
-        field = (TextView)view.findViewById(R.id.family_massage);
-        progress = new ProgressDialog(view.getContext());
-        button = (Button)view.findViewById(R.id.open_view_create_family);
 
+        userListView = (ListView) view.findViewById(R.id.user_list_view);
+
+        progress = new ProgressDialog(view.getContext());
+
+        loadDataUser();
+
+        return view;
+    }
+
+    private void loadDataUser() {
         progress.setTitle("Loading");
         progress.setMessage("Wait while loading...");
         progress.setCancelable(false);
         progress.show();
 
+        Call<List<UserData>> call = RestService.getService().usersList();
 
-        Call<Boolean> call = RestService.getService().havingFamily();
-
-        call.enqueue(new Callback<Boolean>() {
+        call.enqueue(new Callback<List<UserData>>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(Call<List<UserData>> call, Response<List<UserData>> response) {
                 progress.dismiss();
-                if (response.isSuccessful()) {
-                    Boolean havingFamily = response.body();
+                if(response.isSuccessful()) {
+                    List<UserData> users = response.body();
 
-                    if (havingFamily != null) {
-                        field.setText(String.valueOf(havingFamily));
-                        if (havingFamily)
-                            showFamilyInformation();
-                        else
-                            button.setVisibility(View.VISIBLE);
+                    UserAdapter userAdapter = new UserAdapter(view.getContext(), R.layout.view_plan_entity, users);
 
-                    } else {
-                        Toast.makeText(view.getContext(), "NO", Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    Toast.makeText(view.getContext(), "NO", Toast.LENGTH_LONG).show();
+                    userListView.setAdapter(userAdapter);
+
                 }
+                else
+                    Toast.makeText(view.getContext(), "NO", Toast.LENGTH_LONG).show();
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<List<UserData>> call, Throwable t) {
 
             }
         });
-        return view;
     }
+
 
     private void showFamilyInformation() {
     }

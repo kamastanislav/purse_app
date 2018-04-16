@@ -43,4 +43,12 @@
     <string name="date_start_plan">Дата начала</string>
     <string name="date_end_plan">Дата конца</string>
     <string name="planned_budget">Планируемый бюджет</string>
+    <string name="editor_plan_btn">Редактирование плана</string>
+    <string name="delete_plan_btn">Удалить план</string>
+    <string name="add_flight_plan_btn">Добавит примечание</string>
+    <string name="planned_budget_flight">Планируемые затраты</string>
+    <string name="comment">Примичание</string>
+    <string name="add_user_family">Добавить пользователя</string>
+    <string name="add_cash">Пополнить бюджет</string>
+    <string name="save_cash">Добавить бюджета</string>
 </resources>

@@ -1,0 +1,76 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.purse.purseclient.FlightInformationFragment">
+
+    <ScrollView
+        android:id="@+id/flight_data_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="true"
+        android:fillViewport="true"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:id="@+id/flight_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/owner_flight_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/name_plan_flight_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/create_flight_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+
+
+            <TextView
+                android:id="@+id/planned_budget_flight_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/comment_flight_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+
+
+
+            <Button
+                android:id="@+id/editor_plan_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/editor_plan_btn" />
+
+            <Button
+                android:id="@+id/delete_plan_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/delete_plan_btn" />
+
+            <Button
+                android:id="@+id/add_flight_plan_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_flight_plan_btn" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</FrameLayout>

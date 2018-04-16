@@ -16,12 +16,12 @@ namespace PurseApi.Controllers
     [RoutePrefix("purse/plan")]
     public class PlanController : ApiController
     {
-        [Route("family/{code}")]
-        public IHttpActionResult GetAllPlanFamily(int code)
+        [Route("family")]
+        public IHttpActionResult PostAllPlanFamily()
         {
             try
             {
-                var result = PlanManager.GetPlans(code, (int)Constants.PlanAction.Family);
+                var result = PlanManager.GetPlans((int)Constants.PlanAction.Family);
                 return Ok(result);
             }
             catch (Exception)
@@ -31,7 +31,7 @@ namespace PurseApi.Controllers
         }
 
         [Route("deleted_plan/{code}")]
-        public IHttpActionResult GetDeletedPlan(int code)
+        public IHttpActionResult PostDeletedPlan(int code)
         {
             try
             {
@@ -45,11 +45,11 @@ namespace PurseApi.Controllers
         }
 
         [Route("owner/{code}")]
-        public IHttpActionResult GetAllPlanOwner(int code)
+        public IHttpActionResult PostAllPlanOwner(int code)
         {
             try
             {
-                var result = PlanManager.GetPlans(code, (int)Constants.PlanAction.Owner);
+                var result = PlanManager.GetPlans((int)Constants.PlanAction.Owner, code);
                 return Ok(result);
             }
             catch (Exception)
@@ -59,11 +59,11 @@ namespace PurseApi.Controllers
         }
 
         [Route("executor/{code}")]
-        public IHttpActionResult GetAllPlanExecutor(int code)
+        public IHttpActionResult PostAllPlanExecutor(int code)
         {
             try
             {
-                var result = PlanManager.GetPlans(code, (int)Constants.PlanAction.Executor);
+                var result = PlanManager.GetPlans((int)Constants.PlanAction.Executor, code);
                 return Ok(result);
             }
             catch (Exception)
@@ -73,11 +73,12 @@ namespace PurseApi.Controllers
         }
 
         [Route("data/{code}")]
-        public IHttpActionResult GetPlan(int code)
+        public IHttpActionResult PostPlan(int code)
         {
             try
             {
-                var result = PlanManager.GetPlans(code, (int)Constants.PlanAction.Code);
+                Logger.WriteInfo("data/{code}");
+                var result = PlanManager.GetPlans((int)Constants.PlanAction.Code, code);
                 if (result.Any())
                     return Ok(result.FirstOrDefault());
                 throw new Exception();
@@ -89,7 +90,7 @@ namespace PurseApi.Controllers
         }
 
         [Route("approve/{code}")]
-        public IHttpActionResult GetApprovePlan(int code)
+        public IHttpActionResult PostApprovePlan(int code)
         {
             try
             {

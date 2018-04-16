@@ -29,6 +29,11 @@ namespace PurseApi.Models.Entities
         [JsonIgnore]
         public UserData Owner { get; }
 
+        public Flight()
+        {
+
+        }
+
         public Flight(int code)
         {
             _code = code;
