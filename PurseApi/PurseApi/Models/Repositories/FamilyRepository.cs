@@ -36,14 +36,14 @@ namespace PurseApi.Models.Repositories
         private readonly Dictionary<string, string> fieldSelect = new Dictionary<string, string>()
         {
             {"", "CODE"},
-            {"CalendarDayStart", "CALENDAR_DAY_START" },
+         //   {"CalendarDayStart", "CALENDAR_DAY_START" },
             {"OwnerCode", "OWNER_CODE" },
        //     {"CurrencyCode", "CURRCODE" }
         };
 
         private readonly Dictionary<string, string> fieldInsert = new Dictionary<string, string>()
         {
-            {"CalendarDayStart", "CALENDAR_DAY_START" },
+       //     {"CalendarDayStart", "CALENDAR_DAY_START" },
             {"OwnerCode", "OWNER_CODE" },
          //   {"CurrencyCode", "CURRCODE" }
         };

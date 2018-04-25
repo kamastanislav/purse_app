@@ -129,6 +129,7 @@ namespace PurseApi.Models.Helper
 
         public static readonly string BudgetReplenishment = "Пополнение бюджета {0}";
         public static readonly string Transfer = "Перевод от {0} к {1}";
+        public static readonly string ApproveFlight = "Вы, {0}, выполнили примечание плана {1}";
         public static readonly string Plan = "План {0}";
         public static readonly string CreatePlanOwner = "Вы создатель плана {0}";
         public static readonly string CreatePlanExecutor = "Вы исполнитель план {0}";

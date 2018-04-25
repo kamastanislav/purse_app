@@ -96,7 +96,7 @@ namespace PurseApi.Models.Managers
             return fields;
         }
 
-        public static Plan ApprovePlan(int code)
+        public static bool ApprovePlan(int code)
         {
             var user = UserSession.Current.User;
             if (user != null)
@@ -106,7 +106,7 @@ namespace PurseApi.Models.Managers
                 {
                     var plan = repo.List.FirstOrDefault();
                     if (plan.ExecutorCode == user.Code)
-                        return UpdateStatus(plan, repo, (int)Constants.WorkflowStatus.Approved);
+                        return UpdateStatus(plan, repo, (int)Constants.WorkflowStatus.Approved) != null;
                 }
             }
             throw new Exception();
@@ -128,6 +128,12 @@ namespace PurseApi.Models.Managers
             throw new Exception();
         }
 
+        public static Plan UndeletePlan(Plan plan)
+        {
+            
+            throw new Exception();
+        }
+
         public static Plan UndeletePlan(int code)
         {
             var user = UserSession.Current.User;
@@ -146,7 +152,7 @@ namespace PurseApi.Models.Managers
 
         private static Plan UpdateStatus(Plan plan, PlanRepository repo, int status)
         {
-            plan.LastUpdate = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
+            plan.LastUpdate = Constants.TotalMilliseconds;
             plan.Status = status;
             plan = repo.UpdatePlan(plan, new List<int>() { (int)Constants.PlanField.LastUpdate, (int)Constants.PlanField.Status });
             return plan;

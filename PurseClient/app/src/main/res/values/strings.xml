@@ -51,4 +51,16 @@
     <string name="add_user_family">Добавить пользователя</string>
     <string name="add_cash">Пополнить бюджет</string>
     <string name="save_cash">Добавить бюджета</string>
+    <string name="tab_name">Настройка имён</string>
+    <string name="tab_communication">Настройка связи</string>
+    <string name="tab_password">Настройка пароля</string>
+    <string name="tab_date_birth">Настройка дня рождения</string>
+    <string name="old_password">Старый пароль</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="editor_flight_btn">Редактирование примечания</string>
+    <string name="delete_flight_btn">Удаление примечания</string>
+    <string name="actualize_flight_btn">Утверждение примечания</string>
+    <string name="actualize_plan_btn">Утвердить план</string>
+    <string name="actual_budget">Актуальный бюджет</string>
+    <string name="save">Сохранить</string>
 </resources>

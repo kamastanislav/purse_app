@@ -57,9 +57,8 @@ public class MenuActivity extends AppCompatActivity
     }
 
     private void loadUserName() {
-        Call<String> call = RestService.getService().getNameUser();
-
-        call.enqueue(new Callback<String>() {
+        Call<String> call_name = RestService.getService().getNameUser();
+        call_name.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful())
@@ -71,6 +70,23 @@ public class MenuActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+
+        Call<Integer> call_code = RestService.getService().getCodeUser();
+        call_code.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if (response.isSuccessful())
+                {
+                    Integer code = response.body();
+                    Constants.userCode = code != null? code : Constants.DEFAULT_CODE;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
 
             }
         });
@@ -97,16 +113,6 @@ public class MenuActivity extends AppCompatActivity
         }
     }
 
-    /*@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        return super.onOptionsItemSelected(item);
-    }
-*/
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

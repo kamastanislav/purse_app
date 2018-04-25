@@ -13,62 +13,102 @@
         tools:ignore="UselessParent">
 
         <LinearLayout
-            android:id="@+id/flight_data"
+            android:id="@+id/flight_group_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/owner_flight_info"
+            <LinearLayout
+                android:id="@+id/flight_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:ignore="HardcodedText" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/name_plan_flight_info"
+                <TextView
+                    android:id="@+id/owner_flight_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/name_plan_flight_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/create_flight_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText" />
+
+
+                <TextView
+                    android:id="@+id/planned_budget_flight_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/actual_budget_flight_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/comment_flight_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText" />
+
+                <Button
+                    android:id="@+id/editor_flight_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/editor_flight_btn" />
+
+                <Button
+                    android:id="@+id/delete_flight_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/delete_flight_btn" />
+
+                <Button
+                    android:id="@+id/actualize_flight_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/actualize_flight_btn" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/approve_flight_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:ignore="HardcodedText" />
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <TextView
-                android:id="@+id/create_flight_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:ignore="HardcodedText" />
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <AutoCompleteTextView
+                        android:id="@+id/actual_budget_flight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/actual_budget"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"/>
 
-            <TextView
-                android:id="@+id/planned_budget_flight_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:ignore="HardcodedText" />
+                </android.support.design.widget.TextInputLayout>
 
-            <TextView
-                android:id="@+id/comment_flight_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:ignore="HardcodedText" />
+                <Button
+                    android:id="@+id/save_actual_budget_flight"
+                    android:text="@string/save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
-
-
-            <Button
-                android:id="@+id/editor_plan_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/editor_plan_btn" />
-
-            <Button
-                android:id="@+id/delete_plan_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/delete_plan_btn" />
-
-            <Button
-                android:id="@+id/add_flight_plan_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add_flight_plan_btn" />
-
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

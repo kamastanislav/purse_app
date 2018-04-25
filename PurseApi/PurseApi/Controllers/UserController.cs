@@ -1,6 +1,7 @@
 ﻿using PurseApi.Models;
 using PurseApi.Models.Entities;
 using PurseApi.Models.Helpers;
+using PurseApi.Models.Logger;
 using PurseApi.Models.Managers;
 using System;
 using System.Collections.Generic;
@@ -71,6 +72,7 @@ namespace PurseApi.Controllers
         {
             try
             {
+                Logger.WriteInfo("PutUser");
                 var updateUser = UserManager.UpdateUserData(user);
                 return Ok(updateUser);
             }
@@ -121,6 +123,21 @@ namespace PurseApi.Controllers
                 return NotFound();
             }
             
+        }
+
+        [Route("code")]
+        public IHttpActionResult PostCodeUser()
+        {
+            try
+            {
+
+                return Ok(UserManager.GetSessionUserCode());
+            }
+            catch
+            {
+                return NotFound();
+            }
+
         }
     }
 }

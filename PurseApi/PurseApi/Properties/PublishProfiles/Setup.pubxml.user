@@ -43,7 +43,7 @@
       <publishTime>03/08/2014 20:33:56</publishTime>
     </File>
     <File Include="bin/PurseApi.dll">
-      <publishTime>04/16/2018 21:58:45</publishTime>
+      <publishTime>04/26/2018 00:39:46</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>06/18/2015 20:19:46</publishTime>
@@ -101,6 +101,9 @@
     </File>
     <File Include="ClassDiagram1.cd">
       <publishTime>02/25/2018 00:01:34</publishTime>
+    </File>
+    <File Include="ClassDiagram2.cd">
+      <publishTime>04/18/2018 18:38:47</publishTime>
     </File>
     <File Include="Global.asax">
       <publishTime>02/02/2018 00:24:07</publishTime>

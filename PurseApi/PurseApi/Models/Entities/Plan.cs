@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PurseApi.Models.Entity;
+using PurseApi.Models.Helper;
+using PurseApi.Models.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,7 @@ namespace PurseApi.Models.Entities
     public class Plan : IEntity
     {
         private readonly int _code;
+        private List<Flight> _flights;
 
         public int Code
         {
@@ -24,27 +27,29 @@ namespace PurseApi.Models.Entities
         public long LastUpdate { get; set; }
         public int OwnerCode { get; set; } 
         public int ExecutorCode { get; set; }
-
-        [JsonIgnore]
-        public UserData Owner { get; }
-        [JsonIgnore]
-        public UserData Executor { get; }
-
         public long StartDate { get; set; }
         public long EndDate { get; set; }
         public decimal PlannedBudget { get; set; }
         public decimal ActualBudget { get; set; }
         public int FamilyCode { get; set; }
         public int Status { get; set; }
-   /*     public int CurrencyCode { get; set; }*/
         public bool IsPrivate { get; set; }
         public int CountFlight { get; set; }
         public int CategoryCode { get; set; }
         public int ServiceCode { get; set; }
 
-        public Currency CurrencyPlan
+        [JsonIgnore]
+        public List<Flight> Flights
         {
-            get;
+            get
+            {
+                if (_flights == null)
+                {
+                    var repo = new FlightRepository(false, (int)Constants.FlightAction.Plan, _code);
+                    _flights = repo.List;
+                }
+                return _flights;
+            }
         }
 
         public Plan()

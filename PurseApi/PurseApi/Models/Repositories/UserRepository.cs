@@ -20,6 +20,7 @@ namespace PurseApi.Models.Repositories
         private int _code;
         private string _login;
         private string _password;
+        private string _name;
 
         private List<int> _fields = new List<int>();
         
@@ -65,6 +66,17 @@ namespace PurseApi.Models.Repositories
                 _password = password;
                 SelectData();
                 return data.FirstOrDefault();
+            }
+            return null;
+        }
+
+        public List<UserData> GetUser(string nick)
+        {
+            if (_actionCode == (int)Constants.UserAction.Nick)
+            {
+                _name = nick;
+                SelectData();
+                return data;
             }
             return null;
         }
@@ -116,16 +128,19 @@ namespace PurseApi.Models.Repositories
                     case Constants.UserAction.Login:
                         parametr = string.Format("[NAME] LIKE '{0}' AND [PASSWORD] LIKE '{1}'", _login, _password);
                         return string.Format(SQL_WHERE, parametr);
+                    case Constants.UserAction.Nick:
+                        parametr = string.Format("[NAME] LIKE '%{0}%'", _name);
+                        return string.Format(SQL_WHERE, parametr);
                 }
                 return string.Empty;
             }
         }
 
-        public UserData UpdateUserData(UserData user, List<int> fields)
+        public UserData UpdateUserData(int code, UserData user, List<int> fields)
         {
             if (_actionCode == (int)Constants.UserAction.Code)
             {
-                _code = user.Code;
+                _code = code;
                 _fields = fields;
                 if (UpdateData(user))
                     return user;

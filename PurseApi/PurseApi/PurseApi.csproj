@@ -126,9 +126,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CalendarPeriod.cs" />
     <Compile Include="Models\Entities\CategoryService.cs" />
-    <Compile Include="Models\Entities\Currency.cs" />
     <Compile Include="Models\Entities\Family.cs" />
     <Compile Include="Models\Entities\Flight.cs" />
     <Compile Include="Models\Entities\HistoryCash.cs" />
@@ -151,7 +149,6 @@
     <Compile Include="Models\Managers\PlanManager.cs" />
     <Compile Include="Models\Managers\UserManager.cs" />
     <Compile Include="Models\Repositories\CategoryServiceRepository.cs" />
-    <Compile Include="Models\Repositories\CurrencyRepository.cs" />
     <Compile Include="Models\Repositories\FamilyRepository.cs" />
     <Compile Include="Models\Repositories\FlightRepository.cs" />
     <Compile Include="Models\Repositories\GenericRepository.cs" />
@@ -175,6 +172,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ClassDiagram1.cd" />
+    <Content Include="ClassDiagram2.cd" />
     <None Include="Properties\PublishProfiles\Setup.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

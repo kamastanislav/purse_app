@@ -132,7 +132,7 @@ namespace PurseApi.Controllers
             }
         }
 
-        [Route("update/{code}")]
+        [Route("update")]
         public IHttpActionResult PutUpdatePlan(Plan plan)
         {
             try

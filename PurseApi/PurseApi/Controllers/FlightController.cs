@@ -1,4 +1,5 @@
 ﻿using PurseApi.Models.Entities;
+using PurseApi.Models.Logger;
 using PurseApi.Models.Managers;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace PurseApi.Controllers
 {
@@ -40,12 +42,14 @@ namespace PurseApi.Controllers
             }
         }
 
-        [Route("create")]
-        public IHttpActionResult PostCreateFlight(Flight flight)
+        [Route("create_flight")]
+        [ResponseType(typeof(bool))]
+        public IHttpActionResult PostCreateFlight(int planCode, decimal plannedBudget, string comment)
         {
+            Logger.WriteInfo("create");
             try
             {
-                var result = FlightManager.CreateFlight(flight);
+                var result = FlightManager.CreateFlight(planCode, plannedBudget, comment);
                 return Ok(result);
             }
             catch (Exception)
@@ -59,7 +63,7 @@ namespace PurseApi.Controllers
         {
             try
             {
-                var result = 1;
+                var result = FlightManager.DeleteFlight(code);
                 return Ok(result);
             }
             catch (Exception)
@@ -68,12 +72,13 @@ namespace PurseApi.Controllers
             }
         }
 
-        [Route("update/{code}")]
-        public IHttpActionResult PutFlight(int code)
+        [Route("update_flight/{code}")]
+        [ResponseType(typeof(bool))]
+        public IHttpActionResult PutFlight(int code, decimal plannedBudget, string comment)
         {
             try
             {
-                var result = 1;
+                var result = FlightManager.UpdateFlight(code, plannedBudget, comment);
                 return Ok(result);
             }
             catch (Exception)
@@ -83,11 +88,11 @@ namespace PurseApi.Controllers
         }
 
         [Route("approve/{code}")]
-        public IHttpActionResult PutApproveFlight(int code)
+        public IHttpActionResult PutApproveFlight(int code, decimal actualBudget)
         {
             try
             {
-                var result = 1;
+                var result = FlightManager.ApproveFlight(code, actualBudget);
                 return Ok(result);
             }
             catch (Exception)

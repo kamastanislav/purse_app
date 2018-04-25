@@ -10,31 +10,89 @@ namespace PurseApi.Models.Managers
 {
     public class FlightManager
     {
-        public static bool CreateFlight(Flight flight)
+        public static bool CreateFlight(int planCode, decimal plannedBudget, string comment)
         {
             var user = UserSession.Current.User;
-            var planRepo = new PlanRepository(false, (int)Constants.PlanAction.Code, flight.PlanCode);
-            var plan = planRepo.List.FirstOrDefault();
-            if (user != null && plan != null)
+            if (user != null)
             {
-                flight.OwnerCode = user.Code;
-                flight.DateCreate = Constants.TotalMilliseconds;
-                flight.Status = (int)Constants.WorkflowStatus.InPlanned;
+
+                Flight flight = new Flight()
+                {
+                    PlanCode = planCode,
+                    PlannedBudget = plannedBudget,
+                    Comment = comment,
+                    OwnerCode = user.Code,
+                    DateCreate = Constants.TotalMilliseconds,
+                    Status = (int)Constants.WorkflowStatus.InPlanned,
+                    ActualBudget = default(decimal)
+                };
                 var repo = new FlightRepository();
                 var code = repo.InsertData(flight);
-
                 if (code > Constants.DEFAULT_CODE)
                 {
-                    plan.PlannedBudget += flight.PlannedBudget;
-                    plan.CountFlight++;
-                    plan.LastUpdate = Constants.TotalMilliseconds;
-                    plan = planRepo.UpdatePlan(plan, new List<int> { (int)Constants.PlanField.LastUpdate, (int)Constants.PlanField.PlannedBudget, (int)Constants.PlanField.CountFlight });
+                    UpdatePlan(flight.Plan, true);
                 }
 
 
-                return code > Constants.DEFAULT_CODE && plan != null;
+                return code > Constants.DEFAULT_CODE;
             }
             throw new Exception();
+        }
+
+        public static bool UpdateFlight(int code, decimal plannedBudget, string comment)
+        {
+            var user = UserSession.Current.User;
+            if (user != null)
+            {
+                var repo = new FlightRepository(false, (int)Constants.FlightAction.Code, code);
+                var flight = repo.List.FirstOrDefault();
+                return UpdateFlight(flight, plannedBudget, comment, repo);
+            }
+            throw new Exception();
+        }
+
+        private static bool UpdateFlight(Flight flight, decimal plannedBudget, string comment, FlightRepository repo)
+        {
+            var fields = new List<int>();
+            if(flight.PlannedBudget != plannedBudget)
+            {
+                fields.Add((int)Constants.FlightField.PlannedBudge);
+                flight.PlannedBudget = plannedBudget;
+            }
+            if(flight.Comment != comment)
+            {
+                fields.Add((int)Constants.FlightField.Comment);
+                flight.Comment = comment;
+            }
+            if (fields.Any())
+            {
+                flight = repo.UpdateFlight(flight, fields);
+                if (flight == null)
+                    return false;
+                if(fields.Contains((int)Constants.FlightField.PlannedBudge))
+                    UpdatePlan(flight.Plan, true);
+            }
+            return true;
+        }
+
+        private static void UpdatePlan(Plan plan, bool isPlanned = false)
+        {
+            try
+            {
+                var flights = plan.Flights;
+                if (isPlanned)
+                    plan.PlannedBudget = flights.Sum(x => x.PlannedBudget);
+                else
+                    plan.ActualBudget = flights.Sum(x => x.ActualBudget);
+
+                plan.LastUpdate = Constants.TotalMilliseconds;
+                var planRepo = new PlanRepository(actionCode: (int)Constants.PlanAction.Code, code: plan.Code);
+                planRepo.UpdatePlan(plan, new List<int>() { (int)Constants.PlanField.LastUpdate, isPlanned ? (int)Constants.PlanField.PlannedBudget : (int)Constants.PlanField.ActualBudget });
+            }
+            catch(Exception ex)
+            {
+                Logger.Logger.WriteError(ex);
+            }
         }
 
         public static List<Flight> GetFlightsPlan(int code)
@@ -58,13 +116,45 @@ namespace PurseApi.Models.Managers
             var user = UserSession.Current.User;
             if (user != null)
             {
-                var repo = new FlightRepository(actionCode:  (int)Constants.FlightAction.Code, code: code);
+                var repo = new FlightRepository(false, actionCode: (int)Constants.FlightAction.Code, code: code);
+                var flight = repo.List.FirstOrDefault() ?? new Flight();
                 var result = repo.DeleteFlight();
                 if (result)
                 {
-
+                    UpdatePlan(flight.Plan, true);
                 }
                 return result;
+            }
+            throw new Exception();
+        }
+
+        public static bool ApproveFlight(int code, decimal actualBudget)
+        {
+            var user = UserSession.Current.User;
+            if (user != null)
+            {
+                var repo = new FlightRepository(empty: false, actionCode: (int)Constants.FlightAction.Code, code: code);
+                var flight = repo.List.FirstOrDefault();
+                if (flight != null)
+                {
+                    flight.Status = (int)Constants.WorkflowStatus.Approved;
+                    flight.ActualBudget = actualBudget;
+                    flight.DateCreate = Constants.TotalMilliseconds;
+                    flight = repo.UpdateFlight(flight, new List<int>() { (int)Constants.FlightField.ActualBudget, (int)Constants.FlightField.Status, (int)Constants.FlightField.DateCreate });
+                    if (flight == null)
+                        return false;
+
+                    var userRepo = new UserRepository((int)Constants.UserAction.Code);
+                    user = userRepo.GetUser(user.Code);
+                    var plan = flight.Plan;
+                    var name = string.Format("{0} {1}({2})", user.FirstName, user.LastName, user.NickName);
+                    HistoryManager.WriteInformation(user, -actualBudget, string.Format(Constants.ApproveFlight, name, plan.Name), new HistoryCashRepository());
+                   
+                    UpdatePlan(plan);
+
+                    return true;
+                }
+                return false;
             }
             throw new Exception();
         }

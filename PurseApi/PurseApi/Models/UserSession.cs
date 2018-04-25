@@ -54,8 +54,8 @@ namespace PurseApi.Models
                     
                     userRepo.SetActionCode((int)Constants.UserAction.Code);
 
-                    user.LastLogin = (long)(DateTime.Now - new DateTime(1970, 1, 1)).TotalMilliseconds;
-                    var userLogin = userRepo.UpdateUserData(user, new List<int>() { (int)Constants.UserField.LastLogin });
+                    user.LastLogin = Constants.TotalMilliseconds;
+                    var userLogin = userRepo.UpdateUserData(user.Code, user, new List<int>() { (int)Constants.UserField.LastLogin });
 
                     ret = new UserSession() {
                         User = userLogin != null ? userLogin : user,
@@ -68,13 +68,14 @@ namespace PurseApi.Models
             return ret;
         }
 
-        public static UserSession UpdateSession(UserData user)
+        public static UserSession UpdateSession()
         {
             UserSession ret = null;
             if (Current != null)
             {
                 ret = Current;
-                ret.User = user;
+                var userRepo = new UserRepository((int)Constants.UserAction.Code);
+                ret.User = userRepo.GetUser(ret.User.Code);
                 HttpContext.Current.Session[SESSION_NAME] = ret;
             }
 

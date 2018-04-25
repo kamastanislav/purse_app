@@ -13,6 +13,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -46,6 +47,18 @@ public interface PurseService {
     @POST("user/name")
     public Call<String> getNameUser();
 
+    @POST("user/code")
+    public Call<Integer> getCodeUser();
+
+    @POST("user/check_password")
+    public Call<Boolean> checkPassword(@Query("password") String password);
+
+    @PUT("user/update")
+    public Call<UserData> updateUser(@Body UserData user);
+
+    @PUT("user/update_password")
+    public Call<Boolean> updatePasswordUser(@Query("password") String  password);
+
     /*family controller*/
     @POST("family/having_family")
     public Call<Boolean> havingFamily();
@@ -66,15 +79,31 @@ public interface PurseService {
     @POST("plan/data/{code}")
     public Call<Plan> plan(@Path("code") Integer code);
 
+    @POST("plan/approve/{code}")
+    public Call<Boolean> approvePlan(@Path("code") Integer code);
+
     /*flight controller*/
-    @POST("flight/create")
-    public Call<Boolean> createFlight(@Body Flight flight);
+    @POST("flight/create_flight")
+    public Call<Boolean> createFlight(@Query("planCode") Integer planCode,
+                                      @Query("plannedBudget") BigDecimal plannedBudget,
+                                      @Query("comment") String comment);
 
     @POST("flight/plan/{code}")
     public Call<List<Flight>> flightsPlan(@Path("code") Integer code);
 
     @POST("flight/data/{code}")
     public Call<Flight> flightPlan(@Path("code") Integer code);
+
+    @PUT("flight/approve/{code}")
+    public Call<Boolean> approveFlightPlan(@Path("code") Integer code, @Query("actualBudget") BigDecimal actualBudget);
+
+    @DELETE("flight/delete/{code}")
+    public Call<Boolean> deleteFlightPlan(@Path("code") Integer code);
+
+    @PUT("flight/update_flight/{code}")
+    public Call<Boolean> updateFlightPlan(@Path("code") Integer code,
+                                          @Query("plannedBudget") BigDecimal plannedBudget,
+                                          @Query("comment") String comment);
 
     /*history controller*/
     @POST("history/budget_replenishment")

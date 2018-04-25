@@ -61,7 +61,7 @@ namespace PurseApi.Models.Managers
         {
             UserRepository userRepo = new UserRepository((int)Constants.UserAction.Code);
 
-            user = userRepo.UpdateUserData(user, fields);
+            user = userRepo.UpdateUserData(user.Code, user, fields);
             return user;
         }
 
@@ -86,21 +86,29 @@ namespace PurseApi.Models.Managers
         public static UserData UpdateUserData(UserData user)
         {
             var userData = UserSession.Current.User;
-            if (userData != null && user.Code == userData.Code)
+            
+            if (userData != null)
             {
                 var userRepo = new UserRepository((int)Constants.UserAction.Code);
                 var fields = CheckFieldsForUpdate(user, userData);
-                Logger.Logger.WriteInfo(string.Join(", ", fields));
-                Logger.Logger.WriteInfo(""+userData.Cash + " "+user.Cash);
+               
                 if (fields.Any())
                 {
                     user.LastLogin = Constants.TotalMilliseconds;
-                    user = userRepo.UpdateUserData(user, fields);
-                    Logger.Logger.WriteInfo("Update");
-                    var userSession = UserSession.UpdateSession(user);
+                    userRepo.UpdateUserData(userData.Code, user, fields);
+                    var userSession = UserSession.UpdateSession();
                     return userSession != null ? userSession.User : null;
                 }
             }
+            throw new Exception();
+        }
+
+        public static int GetSessionUserCode()
+        {
+            var userData = UserSession.Current.User;
+            if (userData != null)
+                return userData.Code;
+
             throw new Exception();
         }
 
@@ -142,7 +150,7 @@ namespace PurseApi.Models.Managers
                 var userRepo = new UserRepository((int)Constants.UserAction.Code);
                 user.Password = password;
                 user.LastLogin = Constants.TotalMilliseconds;
-                userRepo.UpdateUserData(user, new List<int>() { (int)Constants.UserField.Password, (int)Constants.UserField.LastLogin });
+                userRepo.UpdateUserData(user.Code, user, new List<int>() { (int)Constants.UserField.Password, (int)Constants.UserField.LastLogin });
                 return true;
             }
             throw new Exception();

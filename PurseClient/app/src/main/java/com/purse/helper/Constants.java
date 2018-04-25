@@ -18,4 +18,5 @@ public class Constants {
     }
 
     public static String userName;
+    public static int userCode;
 }
