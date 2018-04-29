@@ -63,4 +63,8 @@
     <string name="actualize_plan_btn">Утвердить план</string>
     <string name="actual_budget">Актуальный бюджет</string>
     <string name="save">Сохранить</string>
+    <string name="create_family">Создать семью</string>
+    <string name="search_user">Имя пользователя</string>
+    <string name="filter">Параметры фильтра</string>
+    <string name="send_filter">Поиск</string>
 </resources>

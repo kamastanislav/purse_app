@@ -9,5 +9,5 @@ public class FilterPlan {
     public List<CategoryService> CategoryServices;
     public List<UserData> Executors;
     public String OwnerUser;
-    public boolean HavingFamily;
+    public int FamilyCode;
 }

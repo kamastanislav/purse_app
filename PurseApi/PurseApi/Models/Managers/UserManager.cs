@@ -26,14 +26,6 @@ namespace PurseApi.Models.Managers
             }
         }
 
-        public static string GetSessionUserName()
-        {
-            var userData = UserSession.Current.User;
-            if (userData != null)
-                return string.Format("{0} {1} ({2})", userData.FirstName, userData.LastName, userData.NickName);
-            return null;
-        }
-
         public static UserData GetUser(int userCode)
         {
             UserRepository userRepo = new UserRepository((int)Constants.UserAction.Code);
@@ -100,15 +92,6 @@ namespace PurseApi.Models.Managers
                     return userSession != null ? userSession.User : null;
                 }
             }
-            throw new Exception();
-        }
-
-        public static int GetSessionUserCode()
-        {
-            var userData = UserSession.Current.User;
-            if (userData != null)
-                return userData.Code;
-
             throw new Exception();
         }
 

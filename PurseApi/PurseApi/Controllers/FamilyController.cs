@@ -26,15 +26,29 @@ namespace PurseApi.Controllers
                 return NotFound();
         }
 
-        [Route("create_famly")]
+        [Route("is_admin_family")]
         [ResponseType(typeof(bool))]
-        public IHttpActionResult PostCreateFamily()
+        public IHttpActionResult PostIsAdminFamily()
         {
             var user = UserSession.Current.User;
             if (user != null)
-                return Ok(user.FamilyCode != Constants.DEFAULT_CODE);
+                return Ok(user.IsAdmin);
             else
                 return NotFound();
+        }
+
+        [Route("create_family")]
+        [ResponseType(typeof(bool))]
+        public IHttpActionResult PostCreateFamily()
+        {
+            try
+            {
+                return Ok(FamilyManager.CreateFamily());
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
         }
 
         [Route("users")]

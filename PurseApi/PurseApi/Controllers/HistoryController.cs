@@ -21,7 +21,7 @@ namespace PurseApi.Controllers
             int? data = code;
             try
             {
-                var result = HistoryManager.GetHistoryCash(code == 0 ? null : data, (int)Constants.HistoryCashAction.UserCode);
+                var result = HistoryManager.GetHistoryCash(code == 0 ? null : data);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -31,7 +31,7 @@ namespace PurseApi.Controllers
             }
         }
 
-        [Route("family_cash")]
+    /*    [Route("family_cash")]
         public IHttpActionResult PostHistoryFamily()
         {
             try
@@ -43,7 +43,7 @@ namespace PurseApi.Controllers
             {
                 return NotFound();
             }
-        }
+        }*/
 
         [Route("budget_replenishment")]
         public IHttpActionResult PostBudgetReplenishment(decimal budget)

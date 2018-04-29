@@ -44,9 +44,7 @@ namespace PurseApi.Models.Helper
         public enum PlanAction
         {
             Code = 1,
-            Executor = 2,
-            Owner = 3,
-            Family = 4
+            List = 2
         }
 
         public enum PlanField
@@ -60,10 +58,9 @@ namespace PurseApi.Models.Helper
             ActualBudget = 7,
             Status = 8,
             CurrencyCode = 9,
-            IsPrivate = 10,
-            CountFlight = 11,
-            CategoryCode = 12,
-            ServiceCode = 13
+            CountFlight = 10,
+            CategoryCode = 11,
+            ServiceCode = 12
         }
 
         public enum UserField
@@ -91,18 +88,10 @@ namespace PurseApi.Models.Helper
             Nick = 5
         }
 
-        public enum HistoryCashAction
-        {
-            Family = 1,
-            UserCode = 2
-        }
-
         public enum HistoryCashInsertAction
         {
-            All = 1,
-            Empty = 2,
-            Plan = 3,
-            Family = 4
+            Empty = 1,
+            Plan = 2
         }
 
         public enum InformationAction

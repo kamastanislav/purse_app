@@ -16,7 +16,12 @@ namespace PurseApi.Models.Entities
             }
         }
 
-        public int OwnerCode { get; }
+        public int OwnerCode { get; set; }
+
+        public Family()
+        {
+
+        }
 
         public Family(int code)
         {

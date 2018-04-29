@@ -24,7 +24,6 @@ namespace PurseApi.Models.Entities
         public int CategoryCode { get; set; }
         public string Name { get; set; }
         public int PlanCode { get; set; }
-        public int FamilyCode { get; set; }
 
         public HistoryCash()
         {
@@ -44,7 +43,6 @@ namespace PurseApi.Models.Entities
             this.Cash = historyCash.Cash;
             this.CategoryCode = historyCash.CategoryCode;
             this.PlanCode = historyCash.PlanCode;
-            this.FamilyCode = historyCash.FamilyCode;
         }
     }
 }

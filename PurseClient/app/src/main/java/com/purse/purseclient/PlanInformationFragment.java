@@ -23,6 +23,7 @@ import com.purse.services.RestService;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
     private Button actualizePlan;
     private Button deletePlan;
     private Button editPlan;
-
+    private Button addFlight;
 
     private boolean isDeletedFlight;
     private boolean isTimeActualize;
@@ -71,7 +72,7 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
         fieldActualBudget = (TextView) view.findViewById(R.id.actual_budget_plan_info);
         progress = new ProgressDialog(view.getContext());
 
-        Button addFlight = (Button) view.findViewById(R.id.add_flight_plan_btn);
+        addFlight = (Button) view.findViewById(R.id.add_flight_plan_btn);
         addFlight.setOnClickListener(this);
 
         deletePlan = (Button) view.findViewById(R.id.delete_plan_btn);
@@ -109,7 +110,6 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
                     if (plan != null) {
                         fieldCode.setText(String.valueOf(plan.Code));
                         fieldName.setText(plan.Name);
-                        fieldPlannedBudget.setText(String.valueOf(plan.PlannedBudget));
 
                         Date startDate = new Date(plan.StartDate);
                         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -118,16 +118,26 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
                         Date endDate = new Date(plan.EndDate);
                         fieldEndDate.setText(dateFormat.format(endDate));
 
-                        editPlan.setVisibility(Constants.userCode == plan.OwnerCode ? View.VISIBLE : View.GONE);
-                        deletePlan.setVisibility(Constants.userCode == plan.OwnerCode ? View.VISIBLE : View.GONE);
-                        actualizePlan.setVisibility(Constants.userCode == plan.ExecutorCode ? View.VISIBLE : View.GONE);
+                        boolean isOwner = Constants.userCode == plan.OwnerCode;
+                        boolean isExecutor = Constants.userCode == plan.ExecutorCode;
+                        boolean isApprove = plan.Status == WorkflowStatus.Approved;
+                        editPlan.setVisibility(!isApprove && isOwner ? View.VISIBLE : View.GONE);
+                        deletePlan.setVisibility(!isApprove && isOwner ? View.VISIBLE : View.GONE);
+                        Date now = getStartOfDay();
+                        isTimeActualize = startDate.before(now) && plan.ExecutorCode == Constants.userCode;
+                        if (!isApprove)
+                            actualizePlan.setVisibility(isTimeActualize ? View.VISIBLE : View.GONE);
 
+                        addFlight.setVisibility(!isApprove ? View.VISIBLE : View.GONE);
                         isDeletedFlight = Constants.userCode == plan.OwnerCode || Constants.userCode == plan.ExecutorCode;
 
-                        Date now = new Date();
-                        isTimeActualize = startDate.before(now) && plan.ExecutorCode == Constants.userCode;
+
                         fieldActualBudget.setText(String.valueOf(plan.ActualBudget));
                         fieldActualBudget.setVisibility(startDate.before(now) ? View.VISIBLE : View.GONE);
+                        if (!isApprove)
+                            fieldPlannedBudget.setText(String.valueOf(plan.PlannedBudget));
+                        else
+                            fieldPlannedBudget.setVisibility(View.GONE);
 
                     } else {
                         Toast.makeText(view.getContext(), "NO", Toast.LENGTH_LONG).show();
@@ -143,6 +153,11 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
             }
         });
 
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Call<List<Flight>> call_flights = RestService.getService().flightsPlan(planCode);
 
         call_flights.enqueue(new Callback<List<Flight>>() {
@@ -154,7 +169,7 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
                         Toast.makeText(view.getContext(), "NO", Toast.LENGTH_LONG).show();
                         return;
                     }
-                    actualizePlan.setVisibility(View.VISIBLE);
+
                     for (Flight flight : flights) {
                         if (flight.Status == WorkflowStatus.InPlanned) {
                             actualizePlan.setVisibility(View.GONE);
@@ -206,9 +221,44 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
-        } else if(v == view.findViewById(R.id.actualize_plan_btn)){
+        } else if (v == view.findViewById(R.id.actualize_plan_btn)) {
             approvePlan();
+        } else if (v == view.findViewById(R.id.editor_plan_btn)) {
+            editorPlan();
+        } else if (v == view.findViewById(R.id.delete_plan_btn)){
+            deletePlan();
         }
+    }
+
+    private void deletePlan() {
+        Call<Boolean> call = RestService.getService().deletePlan(planCode);
+
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.isSuccessful()) {
+                    PlanFragment fragment = new PlanFragment();
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.content_frame, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void editorPlan() {
+        PlanEditorFragment fragment = new PlanEditorFragment();
+        fragment.setPlanCode(planCode);
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.content_frame, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     private void approvePlan() {
@@ -217,7 +267,9 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-
+                if (response.isSuccessful()) {
+                    initializationPlanData();
+                }
             }
 
             @Override
@@ -225,5 +277,14 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
 
             }
         });
+    }
+
+    private Date getStartOfDay() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DATE);
+        calendar.set(year, month, day, 0, 0, 0);
+        return calendar.getTime();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using PurseApi.Models.Entities;
 using PurseApi.Models.Helper;
+using PurseApi.Models.Helpers;
 using PurseApi.Models.Logger;
 using PurseApi.Models.Managers;
 using PurseApi.Models.Repositories;
@@ -16,12 +17,12 @@ namespace PurseApi.Controllers
     [RoutePrefix("purse/plan")]
     public class PlanController : ApiController
     {
-        [Route("family")]
-        public IHttpActionResult PostAllPlanFamily()
+        [Route("list")]
+        public IHttpActionResult PostListPlan(FilterData filter)
         {
             try
             {
-                var result = PlanManager.GetPlans((int)Constants.PlanAction.Family);
+                var result = PlanManager.GetPlans(filter);
                 return Ok(result);
             }
             catch (Exception)
@@ -30,13 +31,15 @@ namespace PurseApi.Controllers
             }
         }
 
-        [Route("deleted_plan/{code}")]
-        public IHttpActionResult PostDeletedPlan(int code)
+        [Route("categories")]
+        public IHttpActionResult PostCatigories()
         {
             try
             {
-                var result = PlanManager.GetDeletedPlans(code, (int)Constants.PlanAction.Owner);
+                var result = PlanManager.GetCategories();
+
                 return Ok(result);
+
             }
             catch (Exception)
             {
@@ -44,44 +47,16 @@ namespace PurseApi.Controllers
             }
         }
 
-        [Route("owner/{code}")]
-        public IHttpActionResult PostAllPlanOwner(int code)
-        {
-            try
-            {
-                var result = PlanManager.GetPlans((int)Constants.PlanAction.Owner, code);
-                return Ok(result);
-            }
-            catch (Exception)
-            {
-                return NotFound();
-            }
-        }
-
-        [Route("executor/{code}")]
-        public IHttpActionResult PostAllPlanExecutor(int code)
-        {
-            try
-            {
-                var result = PlanManager.GetPlans((int)Constants.PlanAction.Executor, code);
-                return Ok(result);
-            }
-            catch (Exception)
-            {
-                return NotFound();
-            }
-        }
 
         [Route("data/{code}")]
         public IHttpActionResult PostPlan(int code)
         {
             try
             {
-                Logger.WriteInfo("data/{code}");
-                var result = PlanManager.GetPlans((int)Constants.PlanAction.Code, code);
-                if (result.Any())
-                    return Ok(result.FirstOrDefault());
-                throw new Exception();
+                var result = PlanManager.GetPlan(code);
+
+                return Ok(result);
+
             }
             catch (Exception)
             {
@@ -119,10 +94,11 @@ namespace PurseApi.Controllers
         }
 
         [Route("delete/{code}")]
-        public IHttpActionResult PutDeletePlan(int code)
+        public IHttpActionResult PostDeletePlan(int code)
         {
             try
             {
+                Logger.WriteInfo("delete/{code}");
                 var result = PlanManager.DeletePlan(code);
                 return Ok(result);
             }
@@ -132,12 +108,12 @@ namespace PurseApi.Controllers
             }
         }
 
-        [Route("update")]
-        public IHttpActionResult PutUpdatePlan(Plan plan)
+        [Route("update/{code}")]
+        public IHttpActionResult PostUpdatePlan(int code, Plan plan)
         {
             try
             {
-                var result = PlanManager.UpdatePlan(plan);
+                var result = PlanManager.UpdatePlan(new Plan(code, plan));
                 return Ok(result);
             }
             catch (Exception)

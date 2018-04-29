@@ -1,10 +1,12 @@
 package com.purse.services;
 
+import com.purse.entity.CategoryService;
 import com.purse.entity.Flight;
 import com.purse.entity.HistoryCash;
 import com.purse.entity.Information;
 import com.purse.entity.Plan;
 import com.purse.entity.UserData;
+import com.purse.helper.FilterData;
 import com.purse.helper.FilterPlan;
 import com.purse.helper.UserLogin;
 
@@ -44,12 +46,6 @@ public interface PurseService {
     @POST("user/unique_field")
     public Call<Boolean> uniqueField(@Query("field") Integer field, @Query("value") String value);
 
-    @POST("user/name")
-    public Call<String> getNameUser();
-
-    @POST("user/code")
-    public Call<Integer> getCodeUser();
-
     @POST("user/check_password")
     public Call<Boolean> checkPassword(@Query("password") String password);
 
@@ -66,15 +62,30 @@ public interface PurseService {
     @POST("family/users")
     public Call<List<UserData>> usersList();
 
+    @POST("family/create_family")
+    public Call<Boolean> createFamily();
+
+    @POST("family/is_admin_family")
+    public Call<Boolean> isAdminFamily();
+
     /*plan controller*/
     @POST("plan/filter_data")
     public Call<FilterPlan> setFilterPlan();
 
+    @POST("plan/categories")
+    public Call<List<CategoryService>> getCategories();
+
     @POST("plan/create")
     public Call<Boolean> savePlan(@Body Plan plan);
 
-    @POST("plan/owner/{code}")
-    public Call<List<Plan>> allPlanOwner(@Path("code") Integer code);
+    @POST("plan/update/{code}")
+    public Call<Boolean> updatePlan(@Path("code") Integer code, @Body Plan plan);
+
+    @POST("plan/list")
+    public Call<List<Plan>> listPlan(@Body FilterData filter);
+
+    @POST("plan/delete/{code}")
+    public Call<Boolean> deletePlan(@Path("code") Integer code);
 
     @POST("plan/data/{code}")
     public Call<Plan> plan(@Path("code") Integer code);

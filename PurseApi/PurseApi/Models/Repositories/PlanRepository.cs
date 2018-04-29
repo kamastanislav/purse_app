@@ -1,5 +1,6 @@
 ﻿using PurseApi.Models.Entities;
 using PurseApi.Models.Helper;
+using PurseApi.Models.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,24 +10,59 @@ namespace PurseApi.Models.Repositories
 {
     public class PlanRepository : GenericRepository<Plan>
     {
-        private const string SQL_WHERE = " WHERE {0} AND STATUS {1} 100";
+        private const string SQL_WHERE = " WHERE {0}";
 
         private int _actionCode;
         private int _code;
-        private bool _isPlanned;
-        private bool _all;
+        private FilterData _filter;
         private List<int> _fields = new List<int>();
 
-        public PlanRepository(bool empty = true, int actionCode = 0, int code = 0, bool isPlanned = true, bool all = true)
+        public PlanRepository(bool empty = true, int actionCode = 0, int code = 0,  FilterData filter = null)
         {
             _actionCode = actionCode;
             _code = code;
-            _isPlanned = isPlanned;
-            _all = all;
+            _filter = filter;
             if (!empty)
                 SelectData();
         }
         
+        public string GetFilter()
+        {
+            var sqlWhere = "WHERE"; 
+            if(_filter != null)
+            {
+                if (_filter.DateInterval != null) {
+                    var start = _filter.DateInterval[0];
+                    var end = _filter.DateInterval[1];
+                    sqlWhere = string.Format("{0} {1} <= [END_DATE_PLAN] AND {2} >= [START_DATE_PLAN]", sqlWhere, start, end);
+                }
+                if (_filter.Executor != null)
+                {
+                    if (sqlWhere != "WHERE")
+                        sqlWhere += " AND ";
+                    sqlWhere = string.Format("{0} [EXECUTOR_CODE] IN({1})", sqlWhere, string.Join(", ", _filter.Executor));
+                }
+                if (_filter.Owner != null)
+                {
+                    if (sqlWhere != "WHERE")
+                        sqlWhere += " AND ";
+                    sqlWhere = string.Format("{0} [OWNER_CODE] IN({1})", sqlWhere, string.Join(", ", _filter.Owner));
+                }
+                if (_filter.Category != null)
+                {
+                    if (sqlWhere != "WHERE")
+                        sqlWhere += " AND ";
+                    sqlWhere = string.Format("{0} [CATEGORY_CODE] IN({1})", sqlWhere, string.Join(", ", _filter.Category));
+                }
+                if (_filter.Status != null)
+                {
+                    if (sqlWhere != "WHERE")
+                        sqlWhere += " AND ";
+                    sqlWhere = string.Format("{0} [STATUS] IN({1})", sqlWhere, string.Join(", ", _filter.Status));
+                }
+            }
+            return sqlWhere == "WHERE" ? string.Empty : sqlWhere;
+        }
 
         public Plan UpdatePlan(Plan plan, List<int> fields)
         {
@@ -57,20 +93,14 @@ namespace PurseApi.Models.Repositories
                 string parametr = string.Empty;
                 switch ((Constants.PlanAction)_actionCode)
                 {
-                    case Constants.PlanAction.Family:
-                        parametr = string.Format("[FAMILY_CODE] = {0}", _code);
-                        break;
                     case Constants.PlanAction.Code:
-                        parametr = string.Format("[CODE] = {0}", _code);
+                        parametr = string.Format("WHERE [CODE] = {0}", _code);
                         break;
-                    case Constants.PlanAction.Owner:
-                        parametr = string.Format("[OWNER_CODE] = {0}", _code);
-                        break;
-                    case Constants.PlanAction.Executor:
-                        parametr = string.Format("[EXECUTOR_CODE] = {0}", _code);
+                    case Constants.PlanAction.List:
+                        parametr = GetFilter();
                         break;
                 }
-                return parametr != string.Empty ? string.Format(SQL_WHERE, parametr, _isPlanned ? "!=" : "=") : string.Empty;
+                return parametr;
             }
         }
   
@@ -89,7 +119,6 @@ namespace PurseApi.Models.Repositories
             {"FamilyCode", "FAMILY_CODE" },
             {"Status", "STATUS" },
          //   {"CurrencyCode", "CURRCODE" },
-            {"IsPrivate", "IS_PRIVATE" },
             {"CountFlight", "COUNT_FLIGHT"},
             {"CategoryCode", "CATEGORY_CODE"},
             {"ServiceCode", "SERVICE_CODE"}
@@ -108,27 +137,6 @@ namespace PurseApi.Models.Repositories
             {"ActualBudget", "ACTUAL_BUDGET_PLAN" },
             {"Status", "STATUS" },
          //   {"CurrencyCode", "CURRCODE" },
-            {"IsPrivate", "IS_PRIVATE" },
-            {"CountFlight", "COUNT_FLIGHT"},
-            {"CategoryCode", "CATEGORY_CODE"},
-            {"ServiceCode", "SERVICE_CODE"}
-        };
-
-        private readonly Dictionary<string, string> fieldInsertAll = new Dictionary<string, string>()
-        {
-            {"Name", "NAME" },
-            {"CreateDate", "DATE_CREATE" },
-            {"LastUpdate", "LAST_UPDATE_PLAN" },
-            {"OwnerCode", "OWNER_CODE" },
-            {"ExecutorCode", "EXECUTOR_CODE" },
-            {"StartDate", "START_DATE_PLAN" },
-            {"EndDate", "END_DATE_PLAN" },
-            {"PlannedBudget", "PLANNED_BUDGET_PLAN" },
-            {"ActualBudget", "ACTUAL_BUDGET_PLAN" },
-            {"FamilyCode", "FAMILY_CODE" },
-            {"Status", "STATUS" },
-         //   {"CurrencyCode", "CURRCODE" },
-            {"IsPrivate", "IS_PRIVATE" },
             {"CountFlight", "COUNT_FLIGHT"},
             {"CategoryCode", "CATEGORY_CODE"},
             {"ServiceCode", "SERVICE_CODE"}
@@ -148,7 +156,6 @@ namespace PurseApi.Models.Repositories
             {"FamilyCode", "FAMILY_CODE" },
             {"Status", "STATUS" },
          //   {"CurrencyCode", "CURRCODE" },
-            {"IsPrivate", "IS_PRIVATE" },
             {"CountFlight", "COUNT_FLIGHT"},
             {"CategoryCode", "CATEGORY_CODE"},
             {"ServiceCode", "SERVICE_CODE"}
@@ -169,7 +176,7 @@ namespace PurseApi.Models.Repositories
                 case (int)Action.Select:
                     return fieldSelect;
                 case (int)Action.Insert:
-                    return _all ? fieldInsertAll : fieldInsert;
+                    return fieldInsert;
                 case (int)Action.Update:
                     return fieldUpdate.Where(x => _fields.Any(y => ((Constants.PlanField)y).ToString() == x.Key)).ToDictionary(x => x.Key, x => x.Value);
                 default:

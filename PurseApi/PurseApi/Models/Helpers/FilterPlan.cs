@@ -11,6 +11,6 @@ namespace PurseApi.Models.Helpers
         public List<CategoryService> CategoryServices { get; set; }
         public List<UserData> Executors { get; set; }
         public string OwnerUser { get; set; }
-        public bool HavingFamily { get; set; }
+        public int FamilyCode { get; set; }
     }
 }

@@ -26,7 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.http.Part;
 
-public class FamilyFragment extends Fragment {
+public class FamilyFragment extends Fragment implements android.view.View.OnClickListener {
 
     private View view;
     private ProgressDialog progress;
@@ -42,8 +42,9 @@ public class FamilyFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_family, container, false);
 
-        userListView = (ListView) view.findViewById(R.id.user_list_view);
-
+        // userListView = (ListView) view.findViewById(R.id.user_list_view);
+        Button create = (Button) view.findViewById(R.id.create_family);
+        create.setOnClickListener(this);
         progress = new ProgressDialog(view.getContext());
 
         loadDataUser();
@@ -52,12 +53,46 @@ public class FamilyFragment extends Fragment {
     }
 
     private void loadDataUser() {
-        progress.setTitle("Loading");
+       /* progress.setTitle("Loading");
         progress.setMessage("Wait while loading...");
         progress.setCancelable(false);
-        progress.show();
+        progress.show();*/
 
-        Call<List<UserData>> call = RestService.getService().usersList();
+        Call<Boolean> callHaveFamily = RestService.getService().havingFamily();
+        callHaveFamily.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(view.getContext(), "callHaveFamily " + response.body(), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(view.getContext(), "No", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
+
+        Call<Boolean> callIsAdminFamily = RestService.getService().isAdminFamily();
+        callIsAdminFamily.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(view.getContext(), "callIsAdminFamily " + response.body(), Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(view.getContext(), "No", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
+
+       /* Call<List<UserData>> call = RestService.getService().usersList();
 
         call.enqueue(new Callback<List<UserData>>() {
             @Override
@@ -79,11 +114,32 @@ public class FamilyFragment extends Fragment {
             public void onFailure(Call<List<UserData>> call, Throwable t) {
 
             }
-        });
+        });*/
     }
 
 
     private void showFamilyInformation() {
     }
 
+    @Override
+    public void onClick(View v) {
+        if (v == view.findViewById(R.id.create_family)) {
+            Call<Boolean> call = RestService.getService().createFamily();
+            call.enqueue(new Callback<Boolean>() {
+                @Override
+                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(view.getContext(), "createFamily " + response.body(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(view.getContext(), "No", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Boolean> call, Throwable t) {
+
+                }
+            });
+        }
+    }
 }

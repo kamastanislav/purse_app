@@ -31,9 +31,7 @@ namespace PurseApi.Models.Entities
         public long EndDate { get; set; }
         public decimal PlannedBudget { get; set; }
         public decimal ActualBudget { get; set; }
-        public int FamilyCode { get; set; }
         public int Status { get; set; }
-        public bool IsPrivate { get; set; }
         public int CountFlight { get; set; }
         public int CategoryCode { get; set; }
         public int ServiceCode { get; set; }
@@ -65,6 +63,7 @@ namespace PurseApi.Models.Entities
         public Plan(int code, Plan plan)
         {
             _code = code;
+            this.Name = plan.Name;
             this.CreateDate = plan.CreateDate;
             this.LastUpdate = plan.LastUpdate;
             this.OwnerCode = plan.OwnerCode;
@@ -73,10 +72,10 @@ namespace PurseApi.Models.Entities
             this.EndDate = plan.EndDate;
             this.PlannedBudget = plan.PlannedBudget;
             this.ActualBudget = plan.ActualBudget;
-            this.FamilyCode = plan.FamilyCode;
             this.Status = plan.Status;
+            this.CategoryCode = plan.CategoryCode;
+            this.ServiceCode = plan.ServiceCode;
        /*     this.CurrencyCode = plan.CurrencyCode;*/
-            this.IsPrivate = plan.IsPrivate;
             this.CountFlight = plan.CountFlight;
         }
     }

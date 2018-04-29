@@ -144,12 +144,13 @@ namespace PurseApi.Models.Managers
                     if (flight == null)
                         return false;
 
-                    var userRepo = new UserRepository((int)Constants.UserAction.Code);
-                    user = userRepo.GetUser(user.Code);
+                    /*    var userRepo = new UserRepository((int)Constants.UserAction.Code);
+                        user = userRepo.GetUser(user.Code);
+
+                        var name = string.Format("{0} {1}({2})", user.FirstName, user.LastName, user.NickName);
+                        HistoryManager.WriteInformation(user, -actualBudget, string.Format(Constants.ApproveFlight, name, plan.Name), new HistoryCashRepository());
+                       */
                     var plan = flight.Plan;
-                    var name = string.Format("{0} {1}({2})", user.FirstName, user.LastName, user.NickName);
-                    HistoryManager.WriteInformation(user, -actualBudget, string.Format(Constants.ApproveFlight, name, plan.Name), new HistoryCashRepository());
-                   
                     UpdatePlan(plan);
 
                     return true;

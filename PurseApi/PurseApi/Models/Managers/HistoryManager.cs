@@ -10,16 +10,16 @@ namespace PurseApi.Models.Managers
 {
     public class HistoryManager
     {
-        public static List<HistoryCash> GetHistoryCash(int? code, int action)
+        public static List<HistoryCash> GetHistoryCash(int? code)
         {
             var user = UserSession.Current.User;
             if (user != null)
             {
-                HistoryCashRepository repo = null;
-                if (action == (int)Constants.HistoryCashAction.Family && user.FamilyCode > Constants.DEFAULT_CODE)
-                    repo = new HistoryCashRepository(user.FamilyCode, action);
-                else if (action == (int)Constants.HistoryCashAction.UserCode)
-                    repo = new HistoryCashRepository(code == null ? user.Code : code.Value, action);
+               // HistoryCashRepository repo = null;
+                /*  if (action == (int)Constants.HistoryCashAction.Family && user.FamilyCode > Constants.DEFAULT_CODE)
+                      repo = new HistoryCashRepository(user.FamilyCode, action);
+                  else if (action == (int)Constants.HistoryCashAction.UserCode)*/
+                HistoryCashRepository repo = new HistoryCashRepository(code == null ? user.Code : code.Value);
                 if(repo != null)
                     return repo.List;
             }
@@ -36,23 +36,25 @@ namespace PurseApi.Models.Managers
                 var userRepo = new UserRepository((int)Constants.UserAction.Code);
                 if (code == null)
                 {
-                    var name = string.Format("{0} {1}({2})", user.FirstName, user.LastName, user.NickName);
-                    try
-                    {
-                        var information = new Information()
-                        {
-                            UserData = user.Code,
-                            DateAction = Constants.TotalMilliseconds,
-                            Info = string.Format(Constants.BudgetReplenishment, name)
-                        };
-                        infoRepo.InsertData(information);
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Logger.WriteError(ex);
-                    }
-                    user = userRepo.GetUser(user.Code);
-                    return WriteInformation(user, budget, string.Format(Constants.BudgetReplenishment, name), repo);
+                    /* var name = string.Format("{0} {1}({2})", user.FirstName, user.LastName, user.NickName);
+                     try
+                     {
+                         var information = new Information()
+                         {
+                             UserData = user.Code,
+                             DateAction = Constants.TotalMilliseconds,
+                             Info = string.Format(Constants.BudgetReplenishment, name)
+                         };
+                         infoRepo.InsertData(information);
+                     }
+                     catch (Exception ex)
+                     {
+                         Logger.Logger.WriteError(ex);
+                     }
+                     user = userRepo.GetUser(user.Code);*/
+                    user.Cash += budget;
+                return    UserManager.UpdateUserData(user) != null;
+               //     return WriteInformation(user, budget, string.Format(Constants.BudgetReplenishment, name), repo);
                    
 
                    
@@ -75,21 +77,21 @@ namespace PurseApi.Models.Managers
                         historyCash.Name = string.Format(Constants.Transfer, nameFirst, nameLast);
                         historyCash.DateAction = Constants.TotalMilliseconds;
                         historyCash.UserCode = userData.Code;
-                        if (!userData.IsNoneFamily)
+                      /*  if (!userData.IsNoneFamily)
                         {
                             repo.SetActionInsert((int)Constants.HistoryCashInsertAction.Family);
                             historyCash.FamilyCode = userData.FamilyCode;
-                        }
+                        }*/
                         repo.InsertData(historyCash);
 
                         historyCash.Cash = -budget;
                         historyCash.UserCode = user.Code;
                         repo.SetActionInsert((int)Constants.HistoryCashInsertAction.Empty);
-                        if (!userData.IsNoneFamily)
+                      /*  if (!userData.IsNoneFamily)
                         {
                             repo.SetActionInsert((int)Constants.HistoryCashInsertAction.Family);
                             historyCash.FamilyCode = userData.FamilyCode;
-                        }
+                        }*/
                         repo.InsertData(historyCash);
 
                         try
@@ -129,11 +131,11 @@ namespace PurseApi.Models.Managers
             historyCash.Name = name;
             historyCash.DateAction = Constants.TotalMilliseconds;
             historyCash.UserCode = user.Code;
-            if (!user.IsNoneFamily)
+          /*  if (!user.IsNoneFamily)
             {
                 historyCash.FamilyCode = user.FamilyCode;
                 repo.SetActionInsert((int)Constants.HistoryCashInsertAction.Family);
-            }
+            }*/
             var codeHistory = repo.InsertData(historyCash);
 
 
@@ -143,7 +145,6 @@ namespace PurseApi.Models.Managers
         public static List<Information> GetHistoryInformation()
         {
             var user = UserSession.Current.User;
-            Logger.Logger.WriteInfo("GetHistoryInformation");
             if (user != null)
             {
                 var infoRepo = new InformationRepository(user.Code, (int)Constants.InformationAction.Select);

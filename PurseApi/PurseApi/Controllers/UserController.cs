@@ -109,35 +109,5 @@ namespace PurseApi.Controllers
                 return NotFound();
             }
         }
-
-        [Route("name")]
-        public IHttpActionResult PostNameUser()
-        {
-            try
-            {
-                
-                return Ok(UserManager.GetSessionUserName());
-            }
-            catch
-            {
-                return NotFound();
-            }
-            
-        }
-
-        [Route("code")]
-        public IHttpActionResult PostCodeUser()
-        {
-            try
-            {
-
-                return Ok(UserManager.GetSessionUserCode());
-            }
-            catch
-            {
-                return NotFound();
-            }
-
-        }
     }
 }

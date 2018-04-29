@@ -5,29 +5,45 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using PurseApi.Models.Helpers;
 
 namespace PurseApi.Models.Managers
 {
     public class PlanManager
     {
-        public static List<Plan> GetPlans(int action, int? code = null)
+        public static Plan GetPlan(int code)
         {
-          //  Logger.Logger.WriteInfo(string.Format("get plans {0} {1}", code.Value, ((Constants.PlanAction)action).ToString()));
             var user = UserSession.Current.User;
             if (user != null)
             {
-                PlanRepository repo = null;
-                if (action == (int)Constants.PlanAction.Owner)
-                    repo = new PlanRepository(false, action, code == null ? user.Code : code.Value);
-                else if (action == (int)Constants.PlanAction.Executor)
-                    repo = new PlanRepository(false, action, code == null ? user.Code : code.Value);
-                else if (action == (int)Constants.PlanAction.Family && user.FamilyCode != Constants.DEFAULT_CODE)
-                    repo = new PlanRepository(false, action, user.FamilyCode);
-                else if (action == (int)Constants.PlanAction.Code)
-                    repo = new PlanRepository(false, action, code.Value);
-                return repo != null ? repo.List : new List<Plan>();
+                PlanRepository repo = new PlanRepository(false, (int)Constants.PlanAction.Code, code);
+                if (repo.List.Any())
+                    return repo.List.FirstOrDefault();
             }
             throw new Exception();
+        }
+
+        public static List<Plan> GetPlans(FilterData filter)
+        {
+            var user = UserSession.Current.User;
+            if (user != null)
+            {
+                if (filter.Executor == null && filter.Owner == null)
+                {
+                    filter.Executor = new List<int>() { user.Code };
+                    filter.Owner = new List<int>() { user.Code };
+                }
+                PlanRepository repo = new PlanRepository(false, (int)Constants.PlanAction.List, filter: filter);
+                return repo.List;
+            }
+            throw new NotImplementedException();
+        }
+
+        public static List<CategoryService> GetCategories()
+        {
+            var repo = new CategoryServiceRepository(false);
+            return repo.List;
+           
         }
 
         public static bool CreatePlan(Plan plan)
@@ -38,10 +54,8 @@ namespace PurseApi.Models.Managers
                 plan.OwnerCode = user.Code;
                 plan.CreateDate = Constants.TotalMilliseconds;
                 plan.LastUpdate = Constants.TotalMilliseconds;
-                if (!user.IsNoneFamily)
-                    plan.FamilyCode = user.FamilyCode;
                 plan.Status = (int)Constants.WorkflowStatus.InPlanned;
-                var repo = new PlanRepository(all: !user.IsNoneFamily);
+                var repo = new PlanRepository();
                 var code = repo.InsertData(plan);
                 Logger.Logger.WriteInfo("Create plan");
                 return code > 0;
@@ -49,32 +63,21 @@ namespace PurseApi.Models.Managers
             throw new Exception();
         }
 
-        public static object GetDeletedPlans(int code, int action)
-        {
-            var user = UserSession.Current.User;
-            if (user != null && user.Code == code)
-            {
-                var repo = new PlanRepository(false, action, code, false);
-                return repo.List;
-            }
-            throw new NotImplementedException();
-        }
-
-        public static Plan UpdatePlan(Plan plan)
+        public static bool UpdatePlan(Plan plan)
         {
             var userData = UserSession.Current.User;
-            if (userData != null && (userData.Code == plan.ExecutorCode || (userData.Code == plan.OwnerCode)))
+            if (userData != null && userData.Code == plan.OwnerCode)
             {
-                var result = PlanManager.GetPlans((int)Constants.PlanAction.Code, plan.Code).FirstOrDefault();
-                if (result!=null)
-                {
-                    var fields = CheckFieldsForUpdate(plan, result);
-                    if (fields.Count == 1)
-                        return null;
-                    var repo = new PlanRepository();
-                    plan.LastUpdate = Constants.TotalMilliseconds;
-                    return repo.UpdatePlan(plan, fields);
-                }               
+                var result = GetPlan(plan.Code);
+
+                var fields = CheckFieldsForUpdate(plan, result);
+                if (fields.Count == 1)
+                    return false;
+                Logger.Logger.WriteInfo("Category " + plan.CategoryCode);
+                var repo = new PlanRepository(false, (int)Constants.PlanAction.Code);
+                plan.LastUpdate = Constants.TotalMilliseconds;
+                return repo.UpdatePlan(plan, fields) != null;
+
             }
             throw new Exception();
         }
@@ -82,6 +85,8 @@ namespace PurseApi.Models.Managers
         private static List<int> CheckFieldsForUpdate(Plan plan, Plan result)
         {
             var fields = new List<int>() {(int)Constants.PlanField.LastUpdate };
+            if (plan.Name != result.Name)
+                fields.Add((int)Constants.PlanField.Name);
             if (plan.ExecutorCode != result.ExecutorCode)
                 fields.Add((int)Constants.PlanField.ExecutorCode);
             if (plan.StartDate != result.StartDate)
@@ -90,8 +95,12 @@ namespace PurseApi.Models.Managers
                 fields.Add((int)Constants.PlanField.EndDate);
             if (plan.PlannedBudget != result.PlannedBudget)
                 fields.Add((int)Constants.PlanField.PlannedBudget);
-            if (plan.IsPrivate != result.IsPrivate)
-                fields.Add((int)Constants.PlanField.IsPrivate);
+            if (plan.ActualBudget != result.ActualBudget)
+                fields.Add((int)Constants.PlanField.ActualBudget);
+            if (plan.CategoryCode != result.CategoryCode)
+                fields.Add((int)Constants.PlanField.CategoryCode);
+            if (plan.ServiceCode != result.ServiceCode)
+                fields.Add((int)Constants.PlanField.ServiceCode);
 
             return fields;
         }
@@ -112,7 +121,7 @@ namespace PurseApi.Models.Managers
             throw new Exception();
         }
 
-        public static Plan DeletePlan(int code)
+        public static bool DeletePlan(int code)
         {
             var user = UserSession.Current.User;
             if (user != null)
@@ -122,19 +131,13 @@ namespace PurseApi.Models.Managers
                 {
                     var plan = repo.List.FirstOrDefault();
                     if (plan.OwnerCode == user.Code)
-                       return UpdateStatus(plan, repo, (int)Constants.WorkflowStatus.Deleted);
+                       return UpdateStatus(plan, repo, (int)Constants.WorkflowStatus.Deleted) != null;
                 }
             }
             throw new Exception();
         }
 
-        public static Plan UndeletePlan(Plan plan)
-        {
-            
-            throw new Exception();
-        }
-
-        public static Plan UndeletePlan(int code)
+        public static bool UndeletePlan(int code)
         {
             var user = UserSession.Current.User;
             if (user != null)
@@ -144,7 +147,7 @@ namespace PurseApi.Models.Managers
                 {
                     var plan = repo.List.FirstOrDefault();
                     if (plan.OwnerCode == user.Code)
-                        return UpdateStatus(plan, repo, (int)Constants.WorkflowStatus.InPlanned);
+                        return UpdateStatus(plan, repo, (int)Constants.WorkflowStatus.InPlanned) != null;
                 }
             }
             throw new Exception();

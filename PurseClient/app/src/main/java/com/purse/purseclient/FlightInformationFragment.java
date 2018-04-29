@@ -46,6 +46,9 @@ public class FlightInformationFragment extends Fragment implements android.view.
     private LinearLayout approveFlightData;
     private LinearLayout flightData;
 
+    private  Button actualizeBtn;
+    private Button deletedBnt;
+    private Button editorBnt;
     public FlightInformationFragment() {
 
     }
@@ -72,13 +75,13 @@ public class FlightInformationFragment extends Fragment implements android.view.
         fieldDate = (TextView) view.findViewById(R.id.create_flight_info);
         fieldActualBudget = (TextView) view.findViewById(R.id.actual_budget_flight_info);
 
-        Button actualizeBtn = (Button) view.findViewById(R.id.actualize_flight_btn);
+        actualizeBtn = (Button) view.findViewById(R.id.actualize_flight_btn);
         actualizeBtn.setOnClickListener(this);
 
-        Button deletedBnt = (Button) view.findViewById(R.id.delete_flight_btn);
+        deletedBnt = (Button) view.findViewById(R.id.delete_flight_btn);
         deletedBnt.setOnClickListener(this);
 
-        Button editorBnt = (Button) view.findViewById(R.id.editor_flight_btn);
+        editorBnt = (Button) view.findViewById(R.id.editor_flight_btn);
         editorBnt.setOnClickListener(this);
 
         Button saveActualBudget = (Button) view.findViewById(R.id.save_actual_budget_flight);
@@ -114,17 +117,19 @@ public class FlightInformationFragment extends Fragment implements android.view.
                         if (flight.Status == WorkflowStatus.Approved) {
                             fieldPlannedBudget.setText(String.valueOf(flight.PlannedBudget.doubleValue()));
                             fieldActualBudget.setVisibility(View.GONE);
+                            actualizeBtn.setVisibility(View.GONE);
+                            deletedBnt.setVisibility(View.GONE);
+                            editorBnt.setVisibility(View.GONE);
                         }else {
                             fieldActualBudget.setText(String.valueOf(flight.ActualBudget.doubleValue()));
                             fieldPlannedBudget.setVisibility(View.GONE);
+                            deletedBnt.setVisibility(isDeletedFlight || Constants.userCode == flight.OwnerCode ? View.VISIBLE : View.GONE);
+                            actualizeBtn.setVisibility(isTimeActualize ? View.VISIBLE : View.GONE);
                         }
 
                         planCode = flight.PlanCode;
                         Button actualizeBtn = (Button) view.findViewById(R.id.actualize_flight_btn);
                         Button deletedBnt = (Button) view.findViewById(R.id.delete_flight_btn);
-
-                        deletedBnt.setVisibility(isDeletedFlight || Constants.userCode == flight.OwnerCode ? View.VISIBLE : View.GONE);
-                        actualizeBtn.setVisibility(isTimeActualize ? View.VISIBLE : View.GONE);
                     }
 
                 } else {

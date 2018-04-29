@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.purse.entity.UserData;
 import com.purse.helper.Constants;
 import com.purse.services.RestService;
 
@@ -57,36 +58,21 @@ public class MenuActivity extends AppCompatActivity
     }
 
     private void loadUserName() {
-        Call<String> call_name = RestService.getService().getNameUser();
-        call_name.enqueue(new Callback<String>() {
+        Call<UserData> call = RestService.getService().getSessionUser();
+        call.enqueue(new Callback<UserData>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<UserData> call, Response<UserData> response) {
                 if (response.isSuccessful())
                 {
-                    String name = response.body();
-                    Constants.userName = name != null? name : "";
+                    UserData userData = response.body();
+                    Constants.userName = userData != null? String.format("%1$s %2$s (%3$s)", userData.FirstName,userData.LastName, userData.NickName) : "";
+                    Constants.userCode = userData != null? userData.Code : Constants.DEFAULT_CODE;
+                    Constants.familyCode = userData != null? userData.FamilyCode : Constants.DEFAULT_CODE;
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-
-        Call<Integer> call_code = RestService.getService().getCodeUser();
-        call_code.enqueue(new Callback<Integer>() {
-            @Override
-            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                if (response.isSuccessful())
-                {
-                    Integer code = response.body();
-                    Constants.userCode = code != null? code : Constants.DEFAULT_CODE;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Integer> call, Throwable t) {
+            public void onFailure(Call<UserData> call, Throwable t) {
 
             }
         });

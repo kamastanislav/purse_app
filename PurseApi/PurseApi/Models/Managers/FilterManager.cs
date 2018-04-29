@@ -18,15 +18,15 @@ namespace PurseApi.Models.Managers
                 var filterPlan = new FilterPlan();
                 var categoryServiceRepo = new CategoryServiceRepository(false);
                 filterPlan.CategoryServices = categoryServiceRepo.List;
-                filterPlan.OwnerUser = string.Format("{0} {1}({2})", user.FirstName, user.LastName, user.NickName);
-                filterPlan.HavingFamily = !user.IsNoneFamily;
-                if (filterPlan.HavingFamily)
+                filterPlan.OwnerUser = string.Format("{0} {1} ({2})", user.FirstName, user.LastName, user.NickName);
+                filterPlan.FamilyCode = user.FamilyCode;
+                if (!user.IsNoneFamily)
                 {
                     var userRepo = new UserRepository((int)Constants.UserAction.Family);
                     filterPlan.Executors = userRepo.GetList(user.FamilyCode);
                 }
                 else
-                    filterPlan.Executors = new List<Entities.UserData>() { user };
+                    filterPlan.Executors = new List<Entities.UserData>();
                 return filterPlan;
             }
             return null;
