@@ -17,12 +17,104 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/logger_filter_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <ListView
-                android:id="@+id/logger_list_view"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/filter_logger_action"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5sp"
+                        android:hint="@string/filter"
+                        android:textSize="18sp" />
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:id="@+id/logger_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/interval_start_date_logger"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5sp"
+                            android:layout_marginTop="12sp"
+                            android:hint="@string/date_start_plan"
+                            android:textSize="18sp" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/interval_end_date_logger"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5sp"
+                            android:hint="@string/date_end_plan"
+                            android:textSize="18sp" />
+
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <Spinner
+                        android:id="@+id/filter_view_logger"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+
+                    <com.purse.helper.MultiSpinner
+                        android:id="@+id/filter_user_logger"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+
+                    <com.purse.helper.MultiSpinner
+                        android:id="@+id/filter_category_logger"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <Button
+                        android:id="@+id/send_filter_logger"
+                        style="?android:textAppearanceSmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/send_filter"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/logger_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <ListView
+                    android:id="@+id/logger_list_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
 </FrameLayout>

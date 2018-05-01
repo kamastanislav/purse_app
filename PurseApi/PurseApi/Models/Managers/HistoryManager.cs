@@ -1,5 +1,6 @@
 ﻿using PurseApi.Models.Entities;
 using PurseApi.Models.Helper;
+using PurseApi.Models.Helpers;
 using PurseApi.Models.Repositories;
 using System;
 using System.Collections.Generic;
@@ -10,16 +11,12 @@ namespace PurseApi.Models.Managers
 {
     public class HistoryManager
     {
-        public static List<HistoryCash> GetHistoryCash(int? code)
+        public static List<HistoryCash> GetHistoryCash(FilterData filter)
         {
             var user = UserSession.Current.User;
             if (user != null)
             {
-               // HistoryCashRepository repo = null;
-                /*  if (action == (int)Constants.HistoryCashAction.Family && user.FamilyCode > Constants.DEFAULT_CODE)
-                      repo = new HistoryCashRepository(user.FamilyCode, action);
-                  else if (action == (int)Constants.HistoryCashAction.UserCode)*/
-                HistoryCashRepository repo = new HistoryCashRepository(code == null ? user.Code : code.Value);
+                HistoryCashRepository repo = new HistoryCashRepository(filter);
                 if(repo != null)
                     return repo.List;
             }

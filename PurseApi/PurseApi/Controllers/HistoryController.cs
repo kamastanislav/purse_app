@@ -1,4 +1,5 @@
 ﻿using PurseApi.Models.Helper;
+using PurseApi.Models.Helpers;
 using PurseApi.Models.Logger;
 using PurseApi.Models.Managers;
 using PurseApi.Models.Repositories;
@@ -14,14 +15,12 @@ namespace PurseApi.Controllers
     [RoutePrefix("purse/history")]
     public class HistoryController : ApiController
     {
-        [Route("user_cash/{code}")]
-        public IHttpActionResult PostHistoryUser(int code)
+        [Route("user_cash")]
+        public IHttpActionResult PostHistoryUser(FilterData filter)
         {
-            Logger.WriteInfo("PostHistoryUser");
-            int? data = code;
             try
             {
-                var result = HistoryManager.GetHistoryCash(code == 0 ? null : data);
+                var result = HistoryManager.GetHistoryCash(filter);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -30,20 +29,6 @@ namespace PurseApi.Controllers
                 return NotFound();
             }
         }
-
-    /*    [Route("family_cash")]
-        public IHttpActionResult PostHistoryFamily()
-        {
-            try
-            {
-                var result = HistoryManager.GetHistoryCash(null, (int)Constants.HistoryCashAction.Family);
-                return Ok(result);
-            }
-            catch(Exception)
-            {
-                return NotFound();
-            }
-        }*/
 
         [Route("budget_replenishment")]
         public IHttpActionResult PostBudgetReplenishment(decimal budget)

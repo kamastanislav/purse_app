@@ -129,8 +129,8 @@ public interface PurseService {
     @POST("history/budget_replenishment_other_user/{code}")
     public Call<Boolean> budgetReplenishmentOtherUser(@Path("code") Integer code, @Query("budget") BigDecimal budget);
 
-    @POST("history/user_cash/{code}")
-    public Call<List<HistoryCash>> getHistoryUser(@Path("code") Integer code);
+    @POST("history/user_cash")
+    public Call<List<HistoryCash>> getHistoryUser(@Body FilterData filter);
 
     @POST("history/info")
     public Call<List<Information>> getInfoHistory();
