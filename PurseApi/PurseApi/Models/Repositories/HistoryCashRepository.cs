@@ -11,10 +11,11 @@ namespace PurseApi.Models.Repositories
     public class HistoryCashRepository : GenericRepository<HistoryCash>
     {
         private FilterData _filter;
-        private int _actionInset = (int)Constants.HistoryCashInsertAction.Empty;
+        private bool _withPlan;
 
-        public HistoryCashRepository()
+        public HistoryCashRepository(bool withPlan = false)
         {
+            _withPlan = withPlan;
         }
 
         public HistoryCashRepository(FilterData filter)
@@ -101,11 +102,6 @@ namespace PurseApi.Models.Repositories
             }
         }
 
-        public void SetActionInsert(int actinInsert)
-        {
-            _actionInset = actinInsert;
-        }
-
         protected override Dictionary<string, string> GetFieldsConformity(int action)
         {
             switch (action)
@@ -113,14 +109,7 @@ namespace PurseApi.Models.Repositories
                 case (int)Action.Select:
                     return fieldSelect;
                 case (int)Action.Insert:
-                    switch (_actionInset)
-                    {
-                        case (int)Constants.HistoryCashInsertAction.Plan:
-                            return fieldInsertPlan;
-                        case (int)Constants.HistoryCashInsertAction.Empty:
-                            return fieldInserEmpty;
-                    }
-                    break;
+                    return _withPlan ? fieldInsertPlan : fieldInserEmpty;
             }
             return new Dictionary<string, string>();
         }

@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,13 +44,18 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
     private TextView fieldStartDate;
     private TextView fieldEndDate;
     private TextView fieldActualBudget;
+
     private ListView flightsPlanListView;
+
+    private CheckBox useHowTemplate;
+    private CheckBox useLastDataPlan;
 
     private Button actualizePlan;
     private Button deletePlan;
     private Button editPlan;
     private Button addFlight;
     private Button undeletePlan;
+    private Button useTemplateHowPlan;
 
     private boolean isDeletedFlight;
     private boolean isTimeActualize;
@@ -73,6 +80,11 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
         fieldActualBudget = (TextView) view.findViewById(R.id.actual_budget_plan_info);
         progress = new ProgressDialog(view.getContext());
 
+        useHowTemplate = (CheckBox) view.findViewById(R.id.use_how_template);
+        useHowTemplate.setOnClickListener(this);
+        useLastDataPlan = (CheckBox) view.findViewById(R.id.use_planned_budget_last_plan);
+        useLastDataPlan.setOnClickListener(this);
+
         addFlight = (Button) view.findViewById(R.id.add_flight_plan_btn);
         addFlight.setOnClickListener(this);
 
@@ -88,6 +100,9 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
         undeletePlan = (Button) view.findViewById(R.id.undelete_plan_btn);
         undeletePlan.setOnClickListener(this);
 
+        useTemplateHowPlan = (Button) view.findViewById(R.id.use_template_how_plan);
+        useTemplateHowPlan.setOnClickListener(this);
+
         flightsPlanListView = (ListView) view.findViewById(R.id.flights_plan_list_view);
 
         initializationPlanData();
@@ -101,6 +116,11 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
         progress.setMessage("Wait while loading...");
         progress.setCancelable(false);
         progress.show();
+
+        actualizePlan.setVisibility(View.GONE);
+        editPlan.setVisibility(View.GONE);
+        deletePlan.setVisibility(View.GONE);
+        addFlight.setVisibility(View.GONE);
 
         Call<Plan> call_plan = RestService.getService().plan(planCode);
 
@@ -150,6 +170,9 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
                         else
                             fieldPlannedBudget.setVisibility(View.GONE);
 
+                        if (isApprove)
+                            initTemplateData();
+
                     } else {
                         Toast.makeText(view.getContext(), "NO", Toast.LENGTH_LONG).show();
                     }
@@ -196,7 +219,7 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
 
                     flightsPlanListView.setAdapter(planFlightAdapter);
 
-                    if (isDelete) {
+                    if (!isDelete) {
                         flightsPlanListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -224,6 +247,32 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
 
     }
 
+    private void initTemplateData() {
+        Call<List<Boolean>> call = RestService.getService().getInfoTemplate(planCode);
+        call.enqueue(new Callback<List<Boolean>>() {
+            @Override
+            public void onResponse(Call<List<Boolean>> call, Response<List<Boolean>> response) {
+                if (response.isSuccessful()) {
+                    List<Boolean> info = response.body();
+                    if (info == null)
+                        return;
+                    useHowTemplate.setVisibility(View.VISIBLE);
+                    useHowTemplate.setChecked(info.get(0));
+                    if (info.get(0)) {
+                        useTemplateHowPlan.setVisibility(View.VISIBLE);
+                        useLastDataPlan.setVisibility(View.VISIBLE);
+                        useLastDataPlan.setChecked(info.get(1));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Boolean>> call, Throwable t) {
+
+            }
+        });
+    }
+
     @Override
     public void onClick(View v) {
         if (v == view.findViewById(R.id.add_flight_plan_btn)) {
@@ -240,14 +289,63 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
         } else if (v == view.findViewById(R.id.actualize_plan_btn)) {
             approvePlan();
         } else if (v == view.findViewById(R.id.editor_plan_btn)) {
-            editorPlan();
+            editorPlan(planCode);
         } else if (v == view.findViewById(R.id.delete_plan_btn)) {
             deletePlan();
         } else if (v == view.findViewById(R.id.undelete_plan_btn)) {
             undeletePlan();
+        } else if (v == view.findViewById(R.id.use_how_template) || v == view.findViewById(R.id.use_planned_budget_last_plan)) {
+            updateTemplate();
+        } else if (v == view.findViewById(R.id.use_template_how_plan)) {
+            createPlan();
         }
     }
 
+    private void createPlan() {
+        Call<Integer> call = RestService.getService().createPlanUseTemplate(planCode);
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Toast.makeText(view.getContext(), response.message(), Toast.LENGTH_LONG).show();
+                if (response.isSuccessful()) {
+                    Integer code = response.body();
+                    if (code == null)
+                        return;
+                    editorPlan(code);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void updateTemplate() {
+        Call<Boolean> call = RestService.getService().getUpdateTemplate(planCode, useHowTemplate.isChecked(), useLastDataPlan.isChecked());
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.isSuccessful()) {
+                    Boolean isOk = response.body();
+                    if (isOk != null && isOk) {
+                        Toast.makeText(view.getContext(), "OK", Toast.LENGTH_LONG).show();
+                        useLastDataPlan.setVisibility(useHowTemplate.isChecked() ? View.VISIBLE : View.GONE);
+                        useTemplateHowPlan.setVisibility(useHowTemplate.isChecked() ? View.VISIBLE : View.GONE);
+                        useLastDataPlan.setChecked(useHowTemplate.isChecked() && useLastDataPlan.isChecked());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
+    }
+
+    //useHowTemplate.isChecked()
     private void undeletePlan() {
         Call<Boolean> call = RestService.getService().undeletePlan(planCode);
 
@@ -288,9 +386,9 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
         });
     }
 
-    private void editorPlan() {
+    private void editorPlan(int code) {
         PlanEditorFragment fragment = new PlanEditorFragment();
-        fragment.setPlanCode(planCode);
+        fragment.setPlanCode(code);
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, fragment);
         fragmentTransaction.addToBackStack(null);

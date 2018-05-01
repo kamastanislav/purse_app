@@ -60,6 +60,27 @@
                 android:layout_height="wrap_content"
                 tools:ignore="HardcodedText" />
 
+            <CheckBox
+                android:id="@+id/use_how_template"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_how_template"
+                android:visibility="gone"/>
+
+            <CheckBox
+                android:id="@+id/use_planned_budget_last_plan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_data_of_last_plan"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/use_template_how_plan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_template_how_plan"
+                android:visibility="gone"/>
+
             <Button
                 android:id="@+id/editor_plan_btn"
                 android:layout_width="wrap_content"

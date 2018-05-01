@@ -44,7 +44,8 @@ namespace PurseApi.Models.Helper
         public enum PlanAction
         {
             Code = 1,
-            List = 2
+            List = 2,
+            Codes = 3
         }
 
         public enum PlanField
@@ -100,6 +101,12 @@ namespace PurseApi.Models.Helper
             Delete = 2
         }
 
+        public enum TemplateAction
+        {
+            Plan = 1,
+            List = 2
+        }
+
         public static long TotalMilliseconds
         {
             get
@@ -115,14 +122,16 @@ namespace PurseApi.Models.Helper
                 return (long)(DateTime.Now.AddDays(-14) - new DateTime(1970, 1, 1)).TotalMilliseconds;
             }
         }
-
-        public static readonly string BudgetReplenishment = "Пополнение бюджета {0}";
-        public static readonly string Transfer = "Перевод от {0} к {1}";
-        public static readonly string ApproveFlight = "Вы, {0}, выполнили примечание плана {1}";
-        public static readonly string Plan = "План {0}";
-        public static readonly string CreatePlanOwner = "Вы создатель плана {0}";
-        public static readonly string CreatePlanExecutor = "Вы исполнитель план {0}";
-        public static readonly string DeletedPlanExecutor = "План {0} удален";
-        public static readonly string ExecutedPlan = "План {0} выполнен";
+        
+        public static readonly string BudgetReplenishment = "Пополнение бюджета на {0}";
+        public static readonly string Transfer = "Перевод {0} от {1} к {2}";
+        public static readonly string CreateFlight = "Создали примечание плана {0} #{1}";
+        public static readonly string ApproveFlight = "Выполнили примечание плана {0} #{1}";
+        public static readonly string DeleteFlight = "Удалили примечание плана {0} #{1}";
+        public static readonly string CreatePlan = "Создан план {0}";
+        public static readonly string DeletePlan = "Удален план {0}";
+        public static readonly string UnDeletePlan = "Восстановлен план {0}";
+        public static readonly string ApprovePlan = "Выполнили план {0}";
+        public static readonly string AddNewUser = "Добавлен к семье новый пользователь {0}";
     }
 }

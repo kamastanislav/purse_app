@@ -14,14 +14,16 @@ namespace PurseApi.Models.Repositories
 
         private int _actionCode;
         private int _code;
+        private List<int> _codes;
         private FilterData _filter;
         private List<int> _fields = new List<int>();
 
-        public PlanRepository(bool empty = true, int actionCode = 0, int code = 0,  FilterData filter = null)
+        public PlanRepository(bool empty = true, int actionCode = 0, int code = 0, List<int> codes = null,  FilterData filter = null)
         {
             _actionCode = actionCode;
             _code = code;
             _filter = filter;
+            _codes = codes;
             if (!empty)
                 SelectData();
         }
@@ -95,6 +97,9 @@ namespace PurseApi.Models.Repositories
                 {
                     case Constants.PlanAction.Code:
                         parametr = string.Format("WHERE [CODE] = {0}", _code);
+                        break;
+                    case Constants.PlanAction.Codes:
+                        parametr = string.Format("WHERE [CODE] IN ({0})", string.Join(",", _codes));
                         break;
                     case Constants.PlanAction.List:
                         parametr = GetFilter();

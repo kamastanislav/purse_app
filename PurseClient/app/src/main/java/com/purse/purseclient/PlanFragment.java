@@ -3,6 +3,7 @@ package com.purse.purseclient;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.location.GpsSatellite;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -37,9 +38,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PlanFragment extends Fragment {
+public class PlanFragment extends Fragment implements AdapterView.OnItemClickListener {
     private FragmentManager fragmentManager;
     private ListView planListView;
+    private ListView templateListView;
     private ProgressDialog progress;
     private Calendar dateStartInterval;
     private Calendar dateEndInterval;
@@ -97,7 +99,6 @@ public class PlanFragment extends Fragment {
             }
         });
         setInitialDateTime();
-        initialPlanListView();
 
         Button createButton = (Button) view.findViewById(R.id.create_plan);
         createButton.setOnClickListener(new View.OnClickListener() {
@@ -120,20 +121,10 @@ public class PlanFragment extends Fragment {
         });
 
         planListView = (ListView) view.findViewById(R.id.plan_list_view);
+        planListView.setOnItemClickListener(this);
 
-        planListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int planCode = Integer.valueOf(((TextView) view.findViewById(R.id.plan_entity_code)).getText().toString());
-
-                PlanInformationFragment fragment = new PlanInformationFragment();
-                fragment.setPlanCode(planCode);
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
+        templateListView = (ListView) view.findViewById(R.id.template_list_view);
+        templateListView.setOnItemClickListener(this);
 
         setDataSpinner();
 
@@ -147,8 +138,70 @@ public class PlanFragment extends Fragment {
             }
         });
 
+        TextView planView = (TextView) view.findViewById(R.id.view_plans);
+        planView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinearLayout plan = (LinearLayout) view.findViewById(R.id.plan);
+                plan.setVisibility(plan.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+                LinearLayout template = (LinearLayout) view.findViewById(R.id.template);
+                template.setVisibility(View.GONE);
+                loadPlans(plan.getVisibility() == View.VISIBLE, false);
+            }
+        });
+        TextView templateView = (TextView) view.findViewById(R.id.view_template);
+        templateView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinearLayout template = (LinearLayout) view.findViewById(R.id.template);
+                template.setVisibility(template.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+                LinearLayout plan = (LinearLayout) view.findViewById(R.id.plan);
+                plan.setVisibility(View.GONE);
+                loadPlans(false, template.getVisibility() == View.VISIBLE);
+            }
+        });
         return view;
     }
+
+    private void loadPlans(boolean isPlan, boolean isTemplate) {
+        if (isPlan)
+            initialPlanListView();
+        else if (isTemplate)
+            initialTemplateListView();
+    }
+
+    private void initialTemplateListView() {
+        progress.setTitle("Loading");
+        progress.setMessage("Wait while loading...");
+        progress.setCancelable(false);
+        progress.show();
+
+        Call<List<Plan>> call = RestService.getService().getTemplatesPlan();
+        call.enqueue(new Callback<List<Plan>>() {
+            @Override
+            public void onResponse(Call<List<Plan>> call, Response<List<Plan>> response) {
+                progress.dismiss();
+                if (response.isSuccessful()) {
+
+                    List<Plan> plans = response.body();
+
+                    PlanAdapter planAdapter = new PlanAdapter(view.getContext(), R.layout.view_plan_entity, plans);
+
+                    templateListView.setAdapter(planAdapter);
+
+                } else {
+                    Toast.makeText(view.getContext(), "NO", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Plan>> call, Throwable t) {
+                progress.dismiss();
+            }
+        });
+
+    }
+
 
     private void setDataSpinner() {
 
@@ -330,5 +383,17 @@ public class PlanFragment extends Fragment {
         }
 
         return filter;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        int planCode = Integer.valueOf(((TextView) view.findViewById(R.id.plan_entity_code)).getText().toString());
+
+        PlanInformationFragment fragment = new PlanInformationFragment();
+        fragment.setPlanCode(planCode);
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.content_frame, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

@@ -122,6 +122,7 @@
     <Compile Include="Controllers\FlightController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\PlanController.cs" />
+    <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -136,7 +137,7 @@
     <Compile Include="Models\Entities\Service.cs" />
     <Compile Include="Models\Entities\TemplatePlan.cs" />
     <Compile Include="Models\Entities\TotalLog.cs" />
-    <Compile Include="Models\Entities\UserData.cs" />
+    <Compile Include="Models\Helpers\UserData.cs" />
     <Compile Include="Models\Helpers\Constants.cs" />
     <Compile Include="Models\Helpers\FastInvoke.cs" />
     <Compile Include="Models\Helpers\FilterData.cs" />
@@ -148,7 +149,9 @@
     <Compile Include="Models\Managers\FilterManager.cs" />
     <Compile Include="Models\Managers\FlightManager.cs" />
     <Compile Include="Models\Managers\HistoryManager.cs" />
+    <Compile Include="Models\Managers\InformationManager.cs" />
     <Compile Include="Models\Managers\PlanManager.cs" />
+    <Compile Include="Models\Managers\TemplateManager.cs" />
     <Compile Include="Models\Managers\UserManager.cs" />
     <Compile Include="Models\Repositories\CategoryServiceRepository.cs" />
     <Compile Include="Models\Repositories\FamilyRepository.cs" />
@@ -157,8 +160,8 @@
     <Compile Include="Models\Repositories\HistoryCashRepository.cs" />
     <Compile Include="Models\Repositories\InformationRepository.cs" />
     <Compile Include="Models\Repositories\PlanRepository.cs" />
-    <Compile Include="Models\Repositories\Repository.cs" />
     <Compile Include="Models\Repositories\ServiceRepository.cs" />
+    <Compile Include="Models\Repositories\TemplateRepository.cs" />
     <Compile Include="Models\Repositories\TotalLogRepository.cs" />
     <Compile Include="Models\Repositories\UserRepository.cs" />
     <Compile Include="Models\UserSession.cs" />

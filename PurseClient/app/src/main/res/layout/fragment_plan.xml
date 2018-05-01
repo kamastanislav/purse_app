@@ -12,135 +12,197 @@
         android:fillViewport="true">
 
         <LinearLayout
-            android:id="@+id/plan_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/fiter_plan_data"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/filter_action"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5sp"
-                        android:hint="@string/filter"
-                        android:textSize="18sp" />
-
-
-                </android.support.design.widget.TextInputLayout>
-
-                <LinearLayout
-                    android:id="@+id/all_data_filter"
+                <TextView
+                    android:id="@+id/view_plans"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/interval_start_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5sp"
-                            android:layout_marginTop="12sp"
-                            android:hint="@string/date_start_plan"
-                            android:textSize="18sp" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/interval_end_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5sp"
-                            android:hint="@string/date_end_plan"
-                            android:textSize="18sp" />
+                    android:layout_marginLeft="5sp"
+                    android:hint="@string/view_plans"
+                    android:textSize="18sp" />
 
 
-                    </android.support.design.widget.TextInputLayout>
+            </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/plan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                        <com.purse.helper.MultiSpinner
-                            android:id="@+id/filter_owner"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
 
-                    </android.support.design.widget.TextInputLayout>
+                <LinearLayout
+                    android:id="@+id/plan_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <com.purse.helper.MultiSpinner
-                            android:id="@+id/filter_executor"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <com.purse.helper.MultiSpinner
-                            android:id="@+id/filter_category"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <com.purse.helper.MultiSpinner
-                            android:id="@+id/filter_status"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <Button
-                        android:id="@+id/send_filter"
-                        style="?android:textAppearanceSmall"
+                    <LinearLayout
+                        android:id="@+id/fiter_plan_data"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/send_filter"
-                        android:textStyle="bold" />
+                        android:orientation="vertical">
 
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/filter_action"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5sp"
+                                android:hint="@string/filter"
+                                android:textSize="18sp" />
+
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <LinearLayout
+                            android:id="@+id/all_data_filter"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/interval_start_date"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5sp"
+                                    android:layout_marginTop="12sp"
+                                    android:hint="@string/date_start_plan"
+                                    android:textSize="18sp" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:id="@+id/interval_end_date"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5sp"
+                                    android:hint="@string/date_end_plan"
+                                    android:textSize="18sp" />
+
+
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <com.purse.helper.MultiSpinner
+                                    android:id="@+id/filter_owner"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <com.purse.helper.MultiSpinner
+                                    android:id="@+id/filter_executor"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <com.purse.helper.MultiSpinner
+                                    android:id="@+id/filter_category"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <com.purse.helper.MultiSpinner
+                                    android:id="@+id/filter_status"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+                            <Button
+                                android:id="@+id/send_filter"
+                                style="?android:textAppearanceSmall"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:text="@string/send_filter"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/create_plan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/action_create_plan" />
+
+                    <ListView
+                        android:id="@+id/plan_list_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" />
                 </LinearLayout>
             </LinearLayout>
 
-            <Button
-                android:id="@+id/create_plan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/action_create_plan" />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <ListView
-                android:id="@+id/plan_list_view"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+                <TextView
+                    android:id="@+id/view_template"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:hint="@string/view_template"
+                    android:textSize="18sp" />
+
+
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/template"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ListView
+                    android:id="@+id/template_list_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:footerDividersEnabled="true"
+                    android:headerDividersEnabled="true"
+                    tools:ignore="NestedScrolling" />
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

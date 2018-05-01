@@ -4,6 +4,7 @@ using PurseApi.Models.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace PurseApi.Models.Managers
@@ -30,6 +31,8 @@ namespace PurseApi.Models.Managers
                 var code = repo.InsertData(flight);
                 if (code > Constants.DEFAULT_CODE)
                 {
+                    var task = new Task(() => InformationManager.CreateFlight(flight.Plan, flight));
+                    task.Start();
                     UpdatePlan(flight.Plan, true);
                 }
 
@@ -121,6 +124,8 @@ namespace PurseApi.Models.Managers
                 var result = repo.DeleteFlight();
                 if (result)
                 {
+                    var task = new Task(() => InformationManager.DeleteFlight(flight.Plan, flight));
+                    task.Start();
                     UpdatePlan(flight.Plan, true);
                 }
                 return result;
@@ -164,12 +169,8 @@ namespace PurseApi.Models.Managers
                     if (flight == null)
                         return false;
 
-                    /*    var userRepo = new UserRepository((int)Constants.UserAction.Code);
-                        user = userRepo.GetUser(user.Code);
-
-                        var name = string.Format("{0} {1}({2})", user.FirstName, user.LastName, user.NickName);
-                        HistoryManager.WriteInformation(user, -actualBudget, string.Format(Constants.ApproveFlight, name, plan.Name), new HistoryCashRepository());
-                       */
+                    var task = new Task(() => InformationManager.FlightApprove(flight.Plan, flight));
+                    task.Start();
                     var plan = flight.Plan;
                     UpdatePlan(plan);
 

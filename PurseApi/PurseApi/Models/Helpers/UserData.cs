@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PurseApi.Models.Entity;
 using PurseApi.Models.Helper;
+using PurseApi.Models.Repositories;
 using System;
 using System.Collections.Generic;
 
@@ -9,7 +10,6 @@ namespace PurseApi.Models.Entities
     public class UserData : IEntity
     {
         private readonly int _code;
-        private Family _userFamily;
 
         public int Code
         {
@@ -49,19 +49,7 @@ namespace PurseApi.Models.Entities
         {
             get { return StatusCode == (int)Constants.StatusUser.NoneFamily; }
         }
-        [JsonIgnore]
-        public Family UserFamily
-        {
-            get
-            {
-                if (_userFamily == null)
-                {
-
-                }
-                return _userFamily;
-            }
-        }
-
+       
         public UserData()
         {
         }

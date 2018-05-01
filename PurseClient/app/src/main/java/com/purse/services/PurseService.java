@@ -134,4 +134,17 @@ public interface PurseService {
 
     @POST("history/info")
     public Call<List<Information>> getInfoHistory();
+
+    /*template controller*/
+    @POST("template/info/{code}")
+    public Call<List<Boolean>> getInfoTemplate(@Path("code") Integer code);
+
+    @POST("template/update/{code}")
+    public Call<Boolean> getUpdateTemplate(@Path("code") Integer code, @Query("use") Boolean use, @Query("data") Boolean data);
+
+    @POST("template/list")
+    public Call<List<Plan>> getTemplatesPlan();
+
+    @POST("template/create_plan/{code}")
+    public Call<Integer> createPlanUseTemplate(@Path("code") Integer code);
 }

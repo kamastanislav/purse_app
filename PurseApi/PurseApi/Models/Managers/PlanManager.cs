@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using PurseApi.Models.Helpers;
+using System.Threading.Tasks;
 
 namespace PurseApi.Models.Managers
 {
@@ -57,8 +58,14 @@ namespace PurseApi.Models.Managers
                 plan.Status = (int)Constants.WorkflowStatus.InPlanned;
                 var repo = new PlanRepository();
                 var code = repo.InsertData(plan);
-                Logger.Logger.WriteInfo("Create plan");
-                return code > 0;
+                
+                if(code > 0)
+                {
+                    var task = new Task(() => InformationManager.CreatePlan(new Plan(code, plan), user.FamilyCode));
+                    task.Start();
+                    return true;
+                }
+
             }
             throw new Exception();
         }
@@ -115,7 +122,12 @@ namespace PurseApi.Models.Managers
                 {
                     var plan = repo.List.FirstOrDefault();
                     if (plan.ExecutorCode == user.Code)
-                        return UpdateStatus(plan, repo, (int)Constants.WorkflowStatus.Approved) != null;
+                        if(UpdateStatus(plan, repo, (int)Constants.WorkflowStatus.Approved) != null)
+                        {
+                            var task = new Task(() => InformationManager.PlanApprove(plan, user.FamilyCode));
+                            task.Start();
+                            return true;
+                        }
                 }
             }
             throw new Exception();
@@ -131,7 +143,12 @@ namespace PurseApi.Models.Managers
                 {
                     var plan = repo.List.FirstOrDefault();
                     if (plan.OwnerCode == user.Code)
-                       return UpdateStatus(plan, repo, (int)Constants.WorkflowStatus.Deleted) != null;
+                        if (UpdateStatus(plan, repo, (int)Constants.WorkflowStatus.Deleted) != null)
+                        {
+                            var task = new Task(() => InformationManager.DeletePlan(plan, user.FamilyCode));
+                            task.Start();
+                            return true;
+                        }
                 }
             }
             throw new Exception();
@@ -147,7 +164,12 @@ namespace PurseApi.Models.Managers
                 {
                     var plan = repo.List.FirstOrDefault();
                     if (plan.OwnerCode == user.Code)
-                        return UpdateStatus(plan, repo, (int)Constants.WorkflowStatus.InPlanned) != null;
+                        if( UpdateStatus(plan, repo, (int)Constants.WorkflowStatus.InPlanned) != null)
+                        {
+                            var task = new Task(() => InformationManager.UnDeletePlan(plan, user.FamilyCode));
+                            task.Start();
+                            return true;
+                        }
                 }
             }
             throw new Exception();

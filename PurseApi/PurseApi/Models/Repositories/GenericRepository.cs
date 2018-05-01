@@ -20,12 +20,16 @@ namespace PurseApi.Models
         Update = 3
     }
 
-    public abstract class GenericRepository<T>: Repository<T> where T : class, IEntity
+    public abstract class GenericRepository<T> where T : class, IEntity
     {
-      
-        public GenericRepository(bool empty = true) : base(empty)
-        {
+        public static string SQL_SCOPE_IDENTITY = "SELECT SCOPE_IDENTITY()";
 
+        protected List<T> data = new List<T>();
+
+        public GenericRepository(bool empty = true)
+        {
+            if (!empty)
+                SelectData();
         }
 
         private string GenerateSelectQuery()
@@ -163,7 +167,7 @@ namespace PurseApi.Models
 
         }
 
-        protected override void SelectData()
+        protected virtual void SelectData()
         {
             data.Clear();
             try
@@ -284,6 +288,19 @@ namespace PurseApi.Models
             {
                 Logger.Logger.WriteError(ex);
                 return false;
+            }
+        }
+
+        protected virtual void AddData(T item)
+        {
+            data.Add(item);
+        }
+
+        public List<T> List
+        {
+            get
+            {
+                return data;
             }
         }
 

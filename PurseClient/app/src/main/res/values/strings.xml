@@ -69,4 +69,9 @@
     <string name="filter">Параметры фильтра</string>
     <string name="send_filter">Поиск</string>
     <string name="undelete_plan">Восстановить план</string>
+    <string name="use_how_template">Использовать как шаблон</string>
+    <string name="use_data_of_last_plan">Использовать данные из последнего плана</string>
+    <string name="view_plans">Планы</string>
+    <string name="view_template">Шаблоны планов</string>
+    <string name="use_template_how_plan">Создать план</string>
 </resources>
