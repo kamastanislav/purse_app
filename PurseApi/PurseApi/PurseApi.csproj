@@ -134,6 +134,7 @@
     <Compile Include="Models\Entities\Information.cs" />
     <Compile Include="Models\Entities\Plan.cs" />
     <Compile Include="Models\Entities\Service.cs" />
+    <Compile Include="Models\Entities\TemplatePlan.cs" />
     <Compile Include="Models\Entities\TotalLog.cs" />
     <Compile Include="Models\Entities\UserData.cs" />
     <Compile Include="Models\Helpers\Constants.cs" />

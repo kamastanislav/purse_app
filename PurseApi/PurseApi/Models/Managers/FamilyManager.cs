@@ -21,7 +21,7 @@ namespace PurseApi.Models.Managers
             throw new NotImplementedException();
         }
 
-        public static bool CreateFamily()
+        public static int CreateFamily()
         {
             var user = UserSession.Current.User;
             if (user != null)
@@ -39,10 +39,38 @@ namespace PurseApi.Models.Managers
                     user.StatusCode = (int)Constants.StatusUser.Admin;
                     var userRepo = new UserRepository((int)Constants.UserAction.Code);
                     userRepo.UpdateUserData(user.Code, user, new List<int>() { (int)Constants.UserField.FamilyCode, (int)Constants.UserField.StatusCode });
-                    return true;
+                    return code;
                 }
-                return false;
                 
+            }
+            throw new NotImplementedException();
+        }
+
+        public static bool AddUser(int code)
+        {
+            var user = UserSession.Current.User;
+            if (user != null && user.FamilyCode > Constants.DEFAULT_CODE)
+            {
+                var userRepo = new UserRepository((int)Constants.UserAction.Code);
+                var userData = userRepo.GetUser(code);
+                if (userData!= null && userData.FamilyCode == Constants.DEFAULT_CODE)
+                {
+                    userData.FamilyCode = user.FamilyCode;
+                    userData = userRepo.UpdateUserData(code, userData, new List<int>() { (int)Constants.UserField.FamilyCode });
+
+                    return userData != null;
+                }
+            }
+            throw new NotImplementedException();
+        }
+
+        public static List<UserData> GetSearchUsers(string name)
+        {
+            var user = UserSession.Current.User;
+            if (user != null && user.FamilyCode > Constants.DEFAULT_CODE)
+            {
+                var userRepo = new UserRepository((int)Constants.UserAction.Nick);
+                return userRepo.GetList(name);
             }
             throw new NotImplementedException();
         }

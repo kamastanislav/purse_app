@@ -27,16 +27,15 @@ public class HistoryFragment extends Fragment {
     private ListView historyListView;
 
     public HistoryFragment() {
-        // Required empty public constructor
+
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_history, container, false);
-        historyListView = (ListView)view.findViewById(R.id.history_list_view);
+        historyListView = (ListView) view.findViewById(R.id.history_list_view);
         progress = new ProgressDialog(view.getContext());
         loadData();
 
@@ -54,15 +53,14 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onResponse(Call<List<Information>> call, Response<List<Information>> response) {
                 progress.dismiss();
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     List<Information> information = response.body();
 
                     HistoryAdapter historyAdapter = new HistoryAdapter(view.getContext(), R.layout.view_history_entity, information);
 
                     historyListView.setAdapter(historyAdapter);
 
-                }
-                else
+                } else
                     Toast.makeText(view.getContext(), "NO", Toast.LENGTH_LONG).show();
             }
 

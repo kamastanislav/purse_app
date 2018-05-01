@@ -49,6 +49,7 @@
     <string name="planned_budget_flight">Планируемые затраты</string>
     <string name="comment">Примичание</string>
     <string name="add_user_family">Добавить пользователя</string>
+    <string name="add_user_in_family">Добавить к семье</string>
     <string name="add_cash">Пополнить бюджет</string>
     <string name="save_cash">Добавить бюджета</string>
     <string name="tab_name">Настройка имён</string>
@@ -67,4 +68,5 @@
     <string name="search_user">Имя пользователя</string>
     <string name="filter">Параметры фильтра</string>
     <string name="send_filter">Поиск</string>
+    <string name="undelete_plan">Восстановить план</string>
 </resources>

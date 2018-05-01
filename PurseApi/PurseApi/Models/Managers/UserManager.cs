@@ -37,11 +37,8 @@ namespace PurseApi.Models.Managers
         {
             try
             {
-                user.CreateDate = Constants.TotalMilliseconds;
-                user.LastLogin = Constants.TotalMilliseconds;
-                UserRepository userRepo = new UserRepository();
-                var code = userRepo.InsertData(user);
-                return code;
+                var userSession = UserSession.Create(userRegistration: user);
+                return userSession != null ? userSession.User.Code : Constants.DEFAULT_CODE;
             }
             catch (Exception)
             {

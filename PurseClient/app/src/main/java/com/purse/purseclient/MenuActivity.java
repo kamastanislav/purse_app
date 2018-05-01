@@ -62,12 +62,11 @@ public class MenuActivity extends AppCompatActivity
         call.enqueue(new Callback<UserData>() {
             @Override
             public void onResponse(Call<UserData> call, Response<UserData> response) {
-                if (response.isSuccessful())
-                {
+                if (response.isSuccessful()) {
                     UserData userData = response.body();
-                    Constants.userName = userData != null? String.format("%1$s %2$s (%3$s)", userData.FirstName,userData.LastName, userData.NickName) : "";
-                    Constants.userCode = userData != null? userData.Code : Constants.DEFAULT_CODE;
-                    Constants.familyCode = userData != null? userData.FamilyCode : Constants.DEFAULT_CODE;
+                    Constants.userName = userData != null ? String.format("%1$s %2$s (%3$s)", userData.FirstName, userData.LastName, userData.NickName) : "";
+                    Constants.userCode = userData != null ? userData.Code : Constants.DEFAULT_CODE;
+                    Constants.familyCode = userData != null ? userData.FamilyCode : Constants.DEFAULT_CODE;
                 }
             }
 
@@ -119,7 +118,7 @@ public class MenuActivity extends AppCompatActivity
         } else if (id == R.id.nav_plan) {
             fragment = new PlanFragment();
             title = "Планы";
-        } else if(id==R.id.nav_history) {
+        } else if (id == R.id.nav_history) {
             fragment = new HistoryFragment();
             title = "История";
         } else if (id == R.id.nav_setting) {

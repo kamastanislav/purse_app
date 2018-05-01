@@ -13,9 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -260,7 +258,7 @@ public class PlanEditorFragment extends Fragment {
         CategoryService sc = filterPlan.CategoryServices.get(indexCategoryService);
         plan.CategoryCode = sc.Code;
         plan.ServiceCode = sc.Services.get(indexService).Code;
-        if(executor.getVisibility() != View.GONE)
+        if (executor.getVisibility() != View.GONE)
             plan.ExecutorCode = filterPlan.Executors.get(indexExecutor).Code;
         else
             plan.ExecutorCode = Constants.userCode;

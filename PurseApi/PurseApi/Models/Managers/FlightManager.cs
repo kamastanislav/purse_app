@@ -128,6 +128,26 @@ namespace PurseApi.Models.Managers
             throw new Exception();
         }
 
+        public static void UpdateStatus(List<Flight> flights, int status)
+        {
+            try
+            {
+                var repo = new FlightRepository(actionCode: (int)Constants.FlightAction.Code);
+
+                foreach (var flight in flights)
+                {
+                    flight.Status = status;
+                    flight.DateCreate = Constants.TotalMilliseconds;
+                    repo.UpdateFlight(flight, new List<int>() { (int)Constants.FlightField.Status, (int)Constants.FlightField.DateCreate });
+                }
+
+            }
+            catch (Exception e)
+            {
+                Logger.Logger.WriteError(e);
+            }
+        }
+
         public static bool ApproveFlight(int code, decimal actualBudget)
         {
             var user = UserSession.Current.User;

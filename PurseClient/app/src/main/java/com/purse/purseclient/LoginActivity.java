@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.purse.helper.Constants;
 import com.purse.helper.UserLogin;
-import com.purse.services.PurseService;
 import com.purse.services.RestService;
 
 import retrofit2.Call;
@@ -22,8 +21,6 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
     private EditText fieldNick;
     private EditText fieldPassword;
- //   private PurseService apiService = Constants.getRestService();
-   // private RestService restAdapter;
     private ProgressDialog progress;
     private Intent intent;
 
@@ -38,12 +35,11 @@ public class LoginActivity extends AppCompatActivity {
 
         fieldNick = (EditText) findViewById(R.id.nickName);
         fieldPassword = (EditText) findViewById(R.id.password);
-      //  restAdapter = new RestService();
         progress = new ProgressDialog(this);
         intent = new Intent(this, MenuActivity.class);
     }
 
-    public  void  login(View view) {
+    public void login(View view) {
         String login = fieldNick.getText().toString();
         String password = fieldPassword.getText().toString();
 
@@ -63,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
 
         progress.setTitle("Loading");
         progress.setMessage("Wait while loading...");
-        progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
+        progress.setCancelable(false);
         progress.show();
 
         UserLogin userLogin = new UserLogin();

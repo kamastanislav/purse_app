@@ -15,30 +15,33 @@ namespace PurseApi.Controllers
     [RoutePrefix("purse/family")]
     public class FamilyController : ApiController
     {
-        [Route("having_family")]
-        [ResponseType(typeof(bool))]
-        public IHttpActionResult PostHavingFamily()
+        [Route("info")]
+        public IHttpActionResult PostInfoFamily()
         {
             var user = UserSession.Current.User;
             if (user != null)
-                return Ok(user.FamilyCode != Constants.DEFAULT_CODE);
+            {
+                List<bool> info = new List<bool>() { user.FamilyCode != Constants.DEFAULT_CODE, user.IsAdmin };
+                return Ok(info);
+            }
             else
                 return NotFound();
         }
 
-        [Route("is_admin_family")]
-        [ResponseType(typeof(bool))]
-        public IHttpActionResult PostIsAdminFamily()
+        [Route("add_user")]
+        public IHttpActionResult PostAddUserInFamily(int code)
         {
-            var user = UserSession.Current.User;
-            if (user != null)
-                return Ok(user.IsAdmin);
-            else
+            try
+            {
+                return Ok(FamilyManager.AddUser(code));
+            }
+            catch (Exception)
+            {
                 return NotFound();
+            }
         }
 
         [Route("create_family")]
-        [ResponseType(typeof(bool))]
         public IHttpActionResult PostCreateFamily()
         {
             try
@@ -52,12 +55,25 @@ namespace PurseApi.Controllers
         }
 
         [Route("users")]
-        [ResponseType(typeof(List<UserData>))]
         public IHttpActionResult PostUser()
         {
             try
             {
                 var users = FamilyManager.GetUsersFamily();
+                return Ok(users);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
+        [Route("search_users")]
+        public IHttpActionResult PostSearchUser(string name)
+        {
+            try
+            {
+                var users = FamilyManager.GetSearchUsers(name);
                 return Ok(users);
             }
             catch (Exception)

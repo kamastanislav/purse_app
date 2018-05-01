@@ -137,11 +137,11 @@ public class PlanFragment extends Fragment {
 
         setDataSpinner();
 
-        TextView actionFilter = (TextView)view.findViewById(R.id.filter_action);
+        TextView actionFilter = (TextView) view.findViewById(R.id.filter_action);
         actionFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LinearLayout layout = (LinearLayout)view.findViewById(R.id.all_data_filter);
+                LinearLayout layout = (LinearLayout) view.findViewById(R.id.all_data_filter);
                 int value = layout.getVisibility();
                 layout.setVisibility(value == View.VISIBLE ? View.GONE : View.VISIBLE);
             }
@@ -189,12 +189,17 @@ public class PlanFragment extends Fragment {
                     if (response.isSuccessful() & response.body() != null) {
                         List<Integer> usersCodes = new LinkedList<>();
                         List<String> usersName = new LinkedList<>();
-                        for (UserData user : response.body()) {
+                        int index = 0;
+                        List<UserData> users = response.body();
+                        for (int i = 0; i < users.size(); i++) {
+                            UserData user = users.get(i);
+                            if (user.Code == Constants.familyCode)
+                                index = i;
                             usersCodes.add(user.Code);
                             usersName.add(String.format("%1$s %2$s (%3$s)", user.FirstName, user.LastName, user.NickName));
                         }
-                        spinnerOwner.setItems(usersName, usersCodes);
-                        spinnerExecutor.setItems(usersName, usersCodes);
+                        spinnerOwner.setItems(usersName, usersCodes, Constants.userName, index);
+                        spinnerExecutor.setItems(usersName, usersCodes, Constants.userName, index);
                     }
                 }
 
@@ -214,7 +219,7 @@ public class PlanFragment extends Fragment {
 
         List<String> statusName = new LinkedList<>();
         statusName.add("В процессе");
-        statusName.add("Выплненные");
+        statusName.add("Выплоненные");
         statusName.add("Удаленные");
         spinnerStatus.setItems(statusName, statusCodes, "В процессе", 0);
     }
@@ -300,6 +305,10 @@ public class PlanFragment extends Fragment {
     }
 
     public FilterData getFilter() {
+        filter.Category = null;
+        filter.Executor = null;
+        filter.Owner = null;
+        filter.Status = null;
         filter.DateInterval = new LinkedList<>();
         filter.DateInterval.add(dateStartInterval.getTimeInMillis());
         filter.DateInterval.add(dateEndInterval.getTimeInMillis());
@@ -315,9 +324,8 @@ public class PlanFragment extends Fragment {
         }
         if (spinnerStatus != null) {
             filter.Status = spinnerStatus.getSelectedItems();
-        }
-        else {
-            filter.Status= new LinkedList<>();
+        } else {
+            filter.Status = new LinkedList<>();
             filter.Status.add(WorkflowStatus.InPlanned);
         }
 

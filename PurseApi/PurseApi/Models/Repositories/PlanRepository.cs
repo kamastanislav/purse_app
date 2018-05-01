@@ -116,9 +116,7 @@ namespace PurseApi.Models.Repositories
             {"EndDate", "END_DATE_PLAN" },
             {"PlannedBudget", "PLANNED_BUDGET_PLAN" },
             {"ActualBudget", "ACTUAL_BUDGET_PLAN" },
-            {"FamilyCode", "FAMILY_CODE" },
             {"Status", "STATUS" },
-         //   {"CurrencyCode", "CURRCODE" },
             {"CountFlight", "COUNT_FLIGHT"},
             {"CategoryCode", "CATEGORY_CODE"},
             {"ServiceCode", "SERVICE_CODE"}
@@ -136,7 +134,6 @@ namespace PurseApi.Models.Repositories
             {"PlannedBudget", "PLANNED_BUDGET_PLAN" },
             {"ActualBudget", "ACTUAL_BUDGET_PLAN" },
             {"Status", "STATUS" },
-         //   {"CurrencyCode", "CURRCODE" },
             {"CountFlight", "COUNT_FLIGHT"},
             {"CategoryCode", "CATEGORY_CODE"},
             {"ServiceCode", "SERVICE_CODE"}
@@ -153,9 +150,7 @@ namespace PurseApi.Models.Repositories
             {"EndDate", "END_DATE_PLAN" },
             {"PlannedBudget", "PLANNED_BUDGET_PLAN" },
             {"ActualBudget", "ACTUAL_BUDGET_PLAN" },
-            {"FamilyCode", "FAMILY_CODE" },
             {"Status", "STATUS" },
-         //   {"CurrencyCode", "CURRCODE" },
             {"CountFlight", "COUNT_FLIGHT"},
             {"CategoryCode", "CATEGORY_CODE"},
             {"ServiceCode", "SERVICE_CODE"}

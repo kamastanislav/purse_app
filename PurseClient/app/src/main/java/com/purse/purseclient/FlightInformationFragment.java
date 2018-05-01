@@ -36,19 +36,18 @@ public class FlightInformationFragment extends Fragment implements android.view.
 
     private ProgressDialog progress;
     private View view;
-    private TextView fieldPlanName;
     private TextView fieldPlannedBudget;
     private TextView fieldComment;
-    private TextView fieldOwner;
     private TextView fieldActualBudget;
     private TextView fieldDate;
 
     private LinearLayout approveFlightData;
     private LinearLayout flightData;
 
-    private  Button actualizeBtn;
+    private Button actualizeBtn;
     private Button deletedBnt;
     private Button editorBnt;
+
     public FlightInformationFragment() {
 
     }
@@ -66,11 +65,11 @@ public class FlightInformationFragment extends Fragment implements android.view.
         view = inflater.inflate(R.layout.fragment_flight_information, container, false);
 
         progress = new ProgressDialog(view.getContext());
-        fieldPlanName = (TextView) view.findViewById(R.id.name_plan_flight_info);
+        TextView fieldPlanName = (TextView) view.findViewById(R.id.name_plan_flight_info);
         fieldPlanName.setText(namePlan);
         fieldPlannedBudget = (TextView) view.findViewById(R.id.planned_budget_flight_info);
         fieldComment = (TextView) view.findViewById(R.id.comment_flight_info);
-        fieldOwner = (TextView) view.findViewById(R.id.owner_flight_info);
+        TextView fieldOwner = (TextView) view.findViewById(R.id.owner_flight_info);
         fieldOwner.setText(Constants.userName);
         fieldDate = (TextView) view.findViewById(R.id.create_flight_info);
         fieldActualBudget = (TextView) view.findViewById(R.id.actual_budget_flight_info);
@@ -120,7 +119,7 @@ public class FlightInformationFragment extends Fragment implements android.view.
                             actualizeBtn.setVisibility(View.GONE);
                             deletedBnt.setVisibility(View.GONE);
                             editorBnt.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             fieldActualBudget.setText(String.valueOf(flight.ActualBudget.doubleValue()));
                             fieldPlannedBudget.setVisibility(View.GONE);
                             deletedBnt.setVisibility(isDeletedFlight || Constants.userCode == flight.OwnerCode ? View.VISIBLE : View.GONE);
@@ -128,8 +127,6 @@ public class FlightInformationFragment extends Fragment implements android.view.
                         }
 
                         planCode = flight.PlanCode;
-                        Button actualizeBtn = (Button) view.findViewById(R.id.actualize_flight_btn);
-                        Button deletedBnt = (Button) view.findViewById(R.id.delete_flight_btn);
                     }
 
                 } else {
@@ -160,7 +157,7 @@ public class FlightInformationFragment extends Fragment implements android.view.
             loadEditorFragment();
         } else if (v == view.findViewById(R.id.delete_flight_btn)) {
             deleteFlight();
-        } else if (v == view.findViewById(R.id.save_actual_budget_flight)){
+        } else if (v == view.findViewById(R.id.save_actual_budget_flight)) {
             approveFlight();
         }
     }
@@ -186,7 +183,7 @@ public class FlightInformationFragment extends Fragment implements android.view.
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 progress.dismiss();
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     Boolean result = response.body();
                     if (result != null && result) {
                         callPlanInformation();
@@ -226,7 +223,7 @@ public class FlightInformationFragment extends Fragment implements android.view.
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 progress.dismiss();
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     Boolean result = response.body();
                     if (result != null && result) {
                         callPlanInformation();

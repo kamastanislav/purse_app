@@ -53,15 +53,15 @@ public class RegistrationActivity extends AppCompatActivity {
             getSupportActionBar().setTitle("Регистрация");
         }
 
-        fieldNick = (EditText)findViewById(R.id.nickName);
-        fieldPassword = (EditText)findViewById(R.id.password);
-        fieldEmail = (EditText)findViewById(R.id.email);
-        fieldConfirmPassword = (EditText)findViewById(R.id.confirmPassword);
-        fieldFirstName = (EditText)findViewById(R.id.firstName);
-        fieldLastName = (EditText)findViewById(R.id.lastName);
-        fieldPhone = (EditText)findViewById(R.id.phone);
+        fieldNick = (EditText) findViewById(R.id.nickName);
+        fieldPassword = (EditText) findViewById(R.id.password);
+        fieldEmail = (EditText) findViewById(R.id.email);
+        fieldConfirmPassword = (EditText) findViewById(R.id.confirmPassword);
+        fieldFirstName = (EditText) findViewById(R.id.firstName);
+        fieldLastName = (EditText) findViewById(R.id.lastName);
+        fieldPhone = (EditText) findViewById(R.id.phone);
 
-        fieldDateBirthday = (TextView)findViewById(R.id.date_birthday);
+        fieldDateBirthday = (TextView) findViewById(R.id.date_birthday);
         setInitialDateTime();
         progress = new ProgressDialog(this);
 
@@ -164,7 +164,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
     }
 
-    private DatePickerDialog.OnDateSetListener d=new DatePickerDialog.OnDateSetListener() {
+    private DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             dateAndTime.set(Calendar.YEAR, year);
             dateAndTime.set(Calendar.MONTH, monthOfYear);
@@ -183,7 +183,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public void registrationUser(View view) {
 
-        if(!isUniqueNickName || !isUniquePhone || !isUniqueEmail)
+        if (!isUniqueNickName || !isUniquePhone || !isUniqueEmail)
             return;
 
         String nickName = fieldNick.getText().toString();
@@ -211,7 +211,7 @@ public class RegistrationActivity extends AppCompatActivity {
             hasEmptyField = true;
         }
 
-        if (TextUtils.isEmpty(confirmPassword)){
+        if (TextUtils.isEmpty(confirmPassword)) {
             fieldConfirmPassword.setError("Confirm Password is required!");
             hasEmptyField = true;
         }
@@ -234,8 +234,7 @@ public class RegistrationActivity extends AppCompatActivity {
         if (hasEmptyField)
             return;
 
-        if (!password.equals(confirmPassword))
-        {
+        if (!password.equals(confirmPassword)) {
             fieldPassword.setError("Error");
             fieldConfirmPassword.setError("Error");
             return;

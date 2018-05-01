@@ -70,7 +70,7 @@ namespace PurseApi.Models.Repositories
             return null;
         }
 
-        public List<UserData> GetUser(string nick)
+        public List<UserData> GetList(string nick)
         {
             if (_actionCode == (int)Constants.UserAction.Nick)
             {
@@ -129,7 +129,7 @@ namespace PurseApi.Models.Repositories
                         parametr = string.Format("[NAME] LIKE '{0}' AND [PASSWORD] LIKE '{1}'", _login, _password);
                         return string.Format(SQL_WHERE, parametr);
                     case Constants.UserAction.Nick:
-                        parametr = string.Format("[NAME] LIKE '%{0}%'", _name);
+                        parametr = string.Format("[NAME] LIKE '%{0}%' AND [FAMILY_CODE] IS NULL", _name);
                         return string.Format(SQL_WHERE, parametr);
                 }
                 return string.Empty;

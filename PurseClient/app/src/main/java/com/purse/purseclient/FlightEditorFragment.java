@@ -1,6 +1,5 @@
 package com.purse.purseclient;
 
-
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,16 +12,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.purse.array_adapter.PlanAdapter;
 import com.purse.entity.Flight;
-import com.purse.entity.Plan;
 import com.purse.helper.Constants;
-import com.purse.helper.WorkflowStatus;
 import com.purse.services.RestService;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,7 +37,7 @@ public class FlightEditorFragment extends Fragment implements android.view.View.
     private Flight flight;
 
     public FlightEditorFragment() {
-        // Required empty public constructor
+
     }
 
     public void setInfoPlan(int planCode, String name) {
@@ -61,7 +55,7 @@ public class FlightEditorFragment extends Fragment implements android.view.View.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        flight  = null;
+        flight = null;
         view = inflater.inflate(R.layout.fragment_flight_editor, container, false);
         Button saveBtn = (Button) view.findViewById(R.id.save_flight);
         progress = new ProgressDialog(view.getContext());

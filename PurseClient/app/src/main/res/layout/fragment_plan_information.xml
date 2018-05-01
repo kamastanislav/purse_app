@@ -64,25 +64,35 @@
                 android:id="@+id/editor_plan_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/editor_plan_btn" />
+                android:text="@string/editor_plan_btn"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/delete_plan_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/delete_plan_btn" />
+                android:text="@string/delete_plan_btn"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/add_flight_plan_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/add_flight_plan_btn" />
+                android:text="@string/add_flight_plan_btn"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/actualize_plan_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/actualize_plan_btn"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/undelete_plan_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/undelete_plan"
                 android:visibility="gone"/>
 
             <ListView

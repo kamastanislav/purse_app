@@ -53,20 +53,23 @@ public interface PurseService {
     public Call<UserData> updateUser(@Body UserData user);
 
     @PUT("user/update_password")
-    public Call<Boolean> updatePasswordUser(@Query("password") String  password);
+    public Call<Boolean> updatePasswordUser(@Query("password") String password);
 
     /*family controller*/
-    @POST("family/having_family")
-    public Call<Boolean> havingFamily();
+    @POST("family/info")
+    public Call<List<Boolean>> infoFamily();
 
     @POST("family/users")
     public Call<List<UserData>> usersList();
 
-    @POST("family/create_family")
-    public Call<Boolean> createFamily();
+    @POST("family/add_user")
+    public Call<Boolean> addUserInFamily(@Query("code") Integer code);
 
-    @POST("family/is_admin_family")
-    public Call<Boolean> isAdminFamily();
+    @POST("family/search_users")
+    public Call<List<UserData>> searchUsersList(@Query("name") String name);
+
+    @POST("family/create_family")
+    public Call<Integer> createFamily();
 
     /*plan controller*/
     @POST("plan/filter_data")
@@ -92,6 +95,9 @@ public interface PurseService {
 
     @POST("plan/approve/{code}")
     public Call<Boolean> approvePlan(@Path("code") Integer code);
+
+    @POST("plan/undelete/{code}")
+    public Call<Boolean> undeletePlan(@Path("code") Integer code);
 
     /*flight controller*/
     @POST("flight/create_flight")

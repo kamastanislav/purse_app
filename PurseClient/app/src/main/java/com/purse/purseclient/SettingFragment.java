@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -31,11 +30,6 @@ import retrofit2.Response;
 public class SettingFragment extends Fragment implements android.view.View.OnClickListener, android.view.View.OnFocusChangeListener {
     private View view;
 
-    private TextView tabName;
-    private TextView tabCommunication;
-    private TextView tabPassword;
-    private TextView tabBirth;
-
     private LinearLayout layoutName;
     private LinearLayout layoutCommunication;
     private LinearLayout layoutPassword;
@@ -51,8 +45,6 @@ public class SettingFragment extends Fragment implements android.view.View.OnCli
     private EditText fieldConfirmPassword;
     private TextView fieldBirth;
 
-    private Button saveSetting;
-
     private ProgressDialog progress;
 
     private UserData user;
@@ -67,7 +59,7 @@ public class SettingFragment extends Fragment implements android.view.View.OnCli
     private int indexField;
 
     public SettingFragment() {
-        // Required empty public constructor
+
     }
 
 
@@ -80,10 +72,10 @@ public class SettingFragment extends Fragment implements android.view.View.OnCli
 
         loadUserData();
 
-        tabName = (TextView) view.findViewById(R.id.setting_name_form_tab);
-        tabBirth = (TextView) view.findViewById(R.id.setting_date_birth_form_tab);
-        tabPassword = (TextView) view.findViewById(R.id.setting_password_form_tab);
-        tabCommunication = (TextView) view.findViewById(R.id.setting_communication_form_tab);
+        TextView tabName = (TextView) view.findViewById(R.id.setting_name_form_tab);
+        TextView tabBirth = (TextView) view.findViewById(R.id.setting_date_birth_form_tab);
+        TextView tabPassword = (TextView) view.findViewById(R.id.setting_password_form_tab);
+        TextView tabCommunication = (TextView) view.findViewById(R.id.setting_communication_form_tab);
 
         tabName.setOnClickListener(this);
         tabBirth.setOnClickListener(this);
@@ -111,7 +103,7 @@ public class SettingFragment extends Fragment implements android.view.View.OnCli
         fieldOldPassword.setOnFocusChangeListener(this);
         fieldConfirmPassword.setOnFocusChangeListener(this);
 
-        saveSetting = (Button) view.findViewById(R.id.setting_btn);
+        Button saveSetting = (Button) view.findViewById(R.id.setting_btn);
         saveSetting.setOnClickListener(this);
 
         return view;

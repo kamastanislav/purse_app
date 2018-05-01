@@ -19,6 +19,7 @@
                 android:id="@+id/code_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -31,6 +32,7 @@
                 android:id="@+id/email_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -55,25 +57,29 @@
                 android:id="@+id/phone_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 tools:ignore="HardcodedText" />
 
             <TextView
                 android:id="@+id/cash_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 tools:ignore="HardcodedText" />
 
             <Button
                 android:id="@+id/add_cash"
-                android:text="@string/add_cash"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="@string/add_cash"
+                android:visibility="gone" />
 
             <Button
-                android:id="@+id/id"
-                android:text=""
+                android:id="@+id/add_user_in_family"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="@string/add_user_in_family"
+                android:visibility="gone" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -86,16 +92,16 @@
                     android:hint="@string/add_cash"
                     android:inputType="numberDecimal"
                     android:maxLines="1"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/add_cash_user"
-                android:text="@string/save_cash"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"/>
+                android:text="@string/save_cash"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 

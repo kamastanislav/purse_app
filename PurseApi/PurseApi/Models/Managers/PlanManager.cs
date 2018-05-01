@@ -158,6 +158,8 @@ namespace PurseApi.Models.Managers
             plan.LastUpdate = Constants.TotalMilliseconds;
             plan.Status = status;
             plan = repo.UpdatePlan(plan, new List<int>() { (int)Constants.PlanField.LastUpdate, (int)Constants.PlanField.Status });
+            if (plan != null && (status == (int)Constants.WorkflowStatus.Deleted || status == (int)Constants.WorkflowStatus.InPlanned))
+                FlightManager.UpdateStatus(plan.Flights, status);
             return plan;
         }
 

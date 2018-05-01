@@ -48,6 +48,7 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
     private Button deletePlan;
     private Button editPlan;
     private Button addFlight;
+    private Button undeletePlan;
 
     private boolean isDeletedFlight;
     private boolean isTimeActualize;
@@ -83,6 +84,9 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
 
         editPlan = (Button) view.findViewById(R.id.editor_plan_btn);
         editPlan.setOnClickListener(this);
+
+        undeletePlan = (Button) view.findViewById(R.id.undelete_plan_btn);
+        undeletePlan.setOnClickListener(this);
 
         flightsPlanListView = (ListView) view.findViewById(R.id.flights_plan_list_view);
 
@@ -121,15 +125,22 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
                         boolean isOwner = Constants.userCode == plan.OwnerCode;
                         boolean isExecutor = Constants.userCode == plan.ExecutorCode;
                         boolean isApprove = plan.Status == WorkflowStatus.Approved;
-                        editPlan.setVisibility(!isApprove && isOwner ? View.VISIBLE : View.GONE);
-                        deletePlan.setVisibility(!isApprove && isOwner ? View.VISIBLE : View.GONE);
+                        boolean isDeleted = plan.Status == WorkflowStatus.Deleted;
+
                         Date now = getStartOfDay();
                         isTimeActualize = startDate.before(now) && plan.ExecutorCode == Constants.userCode;
-                        if (!isApprove)
+                        if (!isApprove && !isDeleted) {
                             actualizePlan.setVisibility(isTimeActualize ? View.VISIBLE : View.GONE);
+                            editPlan.setVisibility(isOwner ? View.VISIBLE : View.GONE);
+                            deletePlan.setVisibility(isOwner ? View.VISIBLE : View.GONE);
+                            addFlight.setVisibility(View.VISIBLE);
+                        }
 
-                        addFlight.setVisibility(!isApprove ? View.VISIBLE : View.GONE);
-                        isDeletedFlight = Constants.userCode == plan.OwnerCode || Constants.userCode == plan.ExecutorCode;
+                        if (isDeleted)
+                            undeletePlan.setVisibility(View.VISIBLE);
+
+
+                        isDeletedFlight = isExecutor || isOwner;
 
 
                         fieldActualBudget.setText(String.valueOf(plan.ActualBudget));
@@ -170,9 +181,13 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
                         return;
                     }
 
+                    boolean isDelete = false;
                     for (Flight flight : flights) {
                         if (flight.Status == WorkflowStatus.InPlanned) {
                             actualizePlan.setVisibility(View.GONE);
+                            break;
+                        } else if (flight.Status == WorkflowStatus.Deleted) {
+                            isDelete = true;
                             break;
                         }
                     }
@@ -181,20 +196,21 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
 
                     flightsPlanListView.setAdapter(planFlightAdapter);
 
-                    flightsPlanListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            int flightCode = Integer.valueOf(((TextView) view.findViewById(R.id.flight_entity_code)).getText().toString());
+                    if (isDelete) {
+                        flightsPlanListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                int flightCode = Integer.valueOf(((TextView) view.findViewById(R.id.flight_entity_code)).getText().toString());
 
-                            FlightInformationFragment fragment = new FlightInformationFragment();
-                            fragment.setInformation(flightCode, fieldName.getText().toString(), isTimeActualize, isDeletedFlight);
-                            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.content_frame, fragment);
-                            fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
-                        }
-                    });
-
+                                FlightInformationFragment fragment = new FlightInformationFragment();
+                                fragment.setInformation(flightCode, fieldName.getText().toString(), isTimeActualize, isDeletedFlight);
+                                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                fragmentTransaction.replace(R.id.content_frame, fragment);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
+                            }
+                        });
+                    }
                 } else {
                     Toast.makeText(view.getContext(), "NO", Toast.LENGTH_LONG).show();
                 }
@@ -225,9 +241,29 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
             approvePlan();
         } else if (v == view.findViewById(R.id.editor_plan_btn)) {
             editorPlan();
-        } else if (v == view.findViewById(R.id.delete_plan_btn)){
+        } else if (v == view.findViewById(R.id.delete_plan_btn)) {
             deletePlan();
+        } else if (v == view.findViewById(R.id.undelete_plan_btn)) {
+            undeletePlan();
         }
+    }
+
+    private void undeletePlan() {
+        Call<Boolean> call = RestService.getService().undeletePlan(planCode);
+
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.isSuccessful()) {
+                    initializationPlanData();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+
+            }
+        });
     }
 
     private void deletePlan() {

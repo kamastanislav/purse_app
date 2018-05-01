@@ -25,6 +25,7 @@ namespace PurseApi.Models.Repositories
         {
             if (_actionCode == (int)Constants.FlightAction.Code)
             {
+                _code = flight.Code;
                 _fields = fields;
                 if (UpdateData(flight))
                     return flight;

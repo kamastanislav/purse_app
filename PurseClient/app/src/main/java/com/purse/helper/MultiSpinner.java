@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class MultiSpinner extends AppCompatSpinner implements
         DialogInterface.OnMultiChoiceClickListener, DialogInterface.OnCancelListener {
@@ -40,7 +39,6 @@ public class MultiSpinner extends AppCompatSpinner implements
 
     @Override
     public void onCancel(DialogInterface dialog) {
-        // refresh text on spinner
         StringBuffer spinnerBuffer = new StringBuffer();
         boolean someUnselected = false;
         for (int i = 0; i < items.size(); i++) {
@@ -85,12 +83,10 @@ public class MultiSpinner extends AppCompatSpinner implements
         this.items = items;
         this.itemsCodes = itemsCodes;
 
-        // all selected by default
         selected = new boolean[items.size()];
         for (int i = 0; i < selected.length; i++)
             selected[i] = false;
 
-        // all text on the spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item, new String[]{});
         setAdapter(adapter);
@@ -100,7 +96,6 @@ public class MultiSpinner extends AppCompatSpinner implements
         this.items = items;
         this.itemsCodes = itemsCodes;
 
-        // all selected by default
         selected = new boolean[items.size()];
         for (int i = 0; i < selected.length; i++) {
             if (index != i)
@@ -109,7 +104,6 @@ public class MultiSpinner extends AppCompatSpinner implements
                 selected[i] = true;
         }
 
-        // all text on the spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item, new String[]{item});
         setAdapter(adapter);

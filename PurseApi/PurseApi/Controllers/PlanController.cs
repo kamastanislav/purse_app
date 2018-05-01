@@ -108,6 +108,21 @@ namespace PurseApi.Controllers
             }
         }
 
+        [Route("undelete/{code}")]
+        public IHttpActionResult PostUndeletePlan(int code)
+        {
+            try
+            {
+                Logger.WriteInfo("delete/{code}");
+                var result = PlanManager.UndeletePlan(code);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
         [Route("update/{code}")]
         public IHttpActionResult PostUpdatePlan(int code, Plan plan)
         {

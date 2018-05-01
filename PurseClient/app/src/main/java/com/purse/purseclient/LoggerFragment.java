@@ -11,9 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.purse.array_adapter.CashAdapter;
-import com.purse.array_adapter.HistoryAdapter;
 import com.purse.entity.HistoryCash;
-import com.purse.entity.Information;
 import com.purse.helper.Constants;
 import com.purse.services.RestService;
 
@@ -39,7 +37,7 @@ public class LoggerFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_logger, container, false);
 
-        loggerListView = (ListView)view.findViewById(R.id.logger_list_view);
+        loggerListView = (ListView) view.findViewById(R.id.logger_list_view);
         progress = new ProgressDialog(view.getContext());
         loadData();
 
@@ -57,15 +55,14 @@ public class LoggerFragment extends Fragment {
             @Override
             public void onResponse(Call<List<HistoryCash>> call, Response<List<HistoryCash>> response) {
                 progress.dismiss();
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     List<HistoryCash> historyCashes = response.body();
 
                     CashAdapter historyCashAdapter = new CashAdapter(view.getContext(), R.layout.view_cash_entity, historyCashes);
 
                     loggerListView.setAdapter(historyCashAdapter);
 
-                }
-                else
+                } else
                     Toast.makeText(view.getContext(), "NO", Toast.LENGTH_LONG).show();
             }
 

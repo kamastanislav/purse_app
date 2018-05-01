@@ -41,7 +41,7 @@ namespace PurseApi.Models
             }
         }
 
-        public static UserSession Create(string userName = "", string password = "")
+        public static UserSession Create(string userName = "", string password = "", UserData userRegistration = null)
         {
             UserSession ret = null;
            
@@ -60,6 +60,22 @@ namespace PurseApi.Models
                     ret = new UserSession() {
                         User = userLogin != null ? userLogin : user,
                         CreatedDate = DateTime.Now                       
+                    };
+                    HttpContext.Current.Session.Add(SESSION_NAME, ret);
+                }
+            }
+            if (userRegistration != null)
+            {
+                userRegistration.CreateDate = Constants.TotalMilliseconds;
+                userRegistration.LastLogin = Constants.TotalMilliseconds;
+                UserRepository userRepo = new UserRepository();
+                var code = userRepo.InsertData(userRegistration);
+                if (code > Constants.DEFAULT_CODE)
+                {
+                    ret = new UserSession()
+                    {
+                        User = userRegistration,
+                        CreatedDate = DateTime.Now
                     };
                     HttpContext.Current.Session.Add(SESSION_NAME, ret);
                 }
