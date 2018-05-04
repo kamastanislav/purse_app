@@ -86,6 +86,9 @@ namespace PurseApi.Models.Managers
                     if (code == Constants.DEFAULT_CODE)
                         throw new Exception();
 
+                    template.SetPlanCode(code);
+                    repo.UpdateTemplate(template);
+
                     var flightRepo = new FlightRepository();
                     foreach(var flight in flights)
                     {
@@ -119,6 +122,23 @@ namespace PurseApi.Models.Managers
                 return info;
             }
             throw new NotImplementedException();
+        }
+
+        public static void UpdatePlan(Plan plan)
+        {
+            var repo = new TemplateRepository((int)Constants.TemplateAction.LastCode, plan.Code, false);
+            var template = repo.List.FirstOrDefault();
+            if (template != null)
+            {
+                var planRepo = new PlanRepository(false, (int)Constants.PlanAction.Code, plan.Code);
+                var planTemp = planRepo.List.FirstOrDefault();
+
+                if (template.IsUpdate && planTemp != null && planTemp.CategoryCode == plan.CategoryCode && planTemp.ServiceCode == plan.ServiceCode)
+                {
+                    template.PlanCode = plan.Code;
+                    repo.UpdateTemplate(template);
+                }
+            }
         }
     }
 }

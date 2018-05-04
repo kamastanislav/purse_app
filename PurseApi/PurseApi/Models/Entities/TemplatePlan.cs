@@ -34,6 +34,13 @@ namespace PurseApi.Models.Entities
             }
         }
 
+        public void SetPlanCode(int code)
+        {
+            var codes = GetPlanCode;
+            codes.Add(code);
+            AllPlan = string.Format(",", codes);
+        }
+
         public TemplatePlan()
         {
 

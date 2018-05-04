@@ -126,6 +126,8 @@ namespace PurseApi.Models.Managers
                         {
                             var task = new Task(() => InformationManager.PlanApprove(plan, user.FamilyCode));
                             task.Start();
+                            var task2 = new Task(() => TemplateManager.UpdatePlan(plan));
+                            task2.Start();
                             return true;
                         }
                 }

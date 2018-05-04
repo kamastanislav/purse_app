@@ -30,6 +30,8 @@ namespace PurseApi.Models.Repositories
                         return string.Format("WHERE [PLAN_CODE] = {0}", _code);
                     case (int)Constants.TemplateAction.List:
                         return string.Format("WHERE [USER_CODE] = {0}", _code);
+                    case (int)Constants.TemplateAction.LastCode:
+                        return string.Format("WHERE [ALL_PLAN] LIKE '%{0}%'", _code);
                 }
                 return string.Empty;
             }
@@ -74,6 +76,7 @@ namespace PurseApi.Models.Repositories
 
         private readonly Dictionary<string, string> fieldUpdate = new Dictionary<string, string>()
         {
+           {"PlanCode", "PLAN_CODE"},
            {"IsUpdate", "IS_UPDATE"},
            {"AllPlan", "ALL_PLAN"}
         };

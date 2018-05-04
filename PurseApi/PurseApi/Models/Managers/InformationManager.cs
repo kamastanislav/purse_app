@@ -12,7 +12,7 @@ namespace PurseApi.Models.Managers
     {
         public static void MoneyTransfer(UserData userFrom, UserData userTo, decimal budget)
         {
-            var infoRepo = new InformationRepository();
+            var infoRepo = new InformationRepository(withPlan: false);
             var historyRepo = new HistoryCashRepository();
 
             var nameFirst = string.Format("{0} {1}({2})", userFrom.FirstName, userFrom.LastName, userFrom.NickName);
@@ -43,7 +43,7 @@ namespace PurseApi.Models.Managers
 
         public static void BudgetReplenishment(UserData user, decimal budget)
         {
-            var infoRepo = new InformationRepository();
+            var infoRepo = new InformationRepository(withPlan: false);
             var historyRepo = new HistoryCashRepository();
 
             var information = new Information()
@@ -100,7 +100,7 @@ namespace PurseApi.Models.Managers
 
         public static void AddUserToFamily(Family family, string userName)
         {
-            var infoRepo = new InformationRepository();
+            var infoRepo = new InformationRepository(withPlan: false);
 
             var users = family.Users;
             if (users == null)

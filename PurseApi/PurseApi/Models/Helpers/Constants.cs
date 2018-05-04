@@ -104,7 +104,8 @@ namespace PurseApi.Models.Helper
         public enum TemplateAction
         {
             Plan = 1,
-            List = 2
+            List = 2, 
+            LastCode = 3
         }
 
         public static long TotalMilliseconds

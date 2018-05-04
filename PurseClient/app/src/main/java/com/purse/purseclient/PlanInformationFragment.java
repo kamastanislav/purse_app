@@ -170,7 +170,7 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
                         else
                             fieldPlannedBudget.setVisibility(View.GONE);
 
-                        if (isApprove)
+                        if (isApprove && isOwner)
                             initTemplateData();
 
                     } else {
@@ -289,7 +289,7 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
         } else if (v == view.findViewById(R.id.actualize_plan_btn)) {
             approvePlan();
         } else if (v == view.findViewById(R.id.editor_plan_btn)) {
-            editorPlan(planCode);
+            editorPlan(planCode, false);
         } else if (v == view.findViewById(R.id.delete_plan_btn)) {
             deletePlan();
         } else if (v == view.findViewById(R.id.undelete_plan_btn)) {
@@ -311,7 +311,7 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
                     Integer code = response.body();
                     if (code == null)
                         return;
-                    editorPlan(code);
+                    editorPlan(code, true);
                 }
             }
 
@@ -386,9 +386,9 @@ public class PlanInformationFragment extends Fragment implements android.view.Vi
         });
     }
 
-    private void editorPlan(int code) {
+    private void editorPlan(int code, boolean isTemplate) {
         PlanEditorFragment fragment = new PlanEditorFragment();
-        fragment.setPlanCode(code);
+        fragment.setPlanCode(code, isTemplate);
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, fragment);
         fragmentTransaction.addToBackStack(null);

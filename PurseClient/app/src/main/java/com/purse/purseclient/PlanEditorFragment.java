@@ -59,13 +59,15 @@ public class PlanEditorFragment extends Fragment {
 
     private int planCode;
     private Plan plan;
+    private boolean isTemplate;
 
     public PlanEditorFragment() {
         planCode = Constants.DEFAULT_CODE;
     }
 
-    public void setPlanCode(int planCode) {
+    public void setPlanCode(int planCode, boolean isTemplate) {
         this.planCode = planCode;
+        this.isTemplate = isTemplate;
     }
 
     @Override
@@ -147,6 +149,11 @@ public class PlanEditorFragment extends Fragment {
             }
         });
 
+        if (isTemplate) {
+            service.setVisibility(View.GONE);
+            categoryService.setVisibility(View.GONE);
+        }
+
         savePlan = (Button) view.findViewById(R.id.save_plan);
 
         savePlan.setOnClickListener(new View.OnClickListener() {
@@ -164,10 +171,11 @@ public class PlanEditorFragment extends Fragment {
             e.printStackTrace();
 
         }
-        if (planCode == Constants.DEFAULT_CODE)
-            setInitialDateTime();
-        else
+        if (planCode != Constants.DEFAULT_CODE)
             loadPlanData();
+
+        if (isTemplate || planCode == Constants.DEFAULT_CODE)
+            setInitialDateTime();
 
         return view;
     }
@@ -188,10 +196,11 @@ public class PlanEditorFragment extends Fragment {
                     if (plan == null)
                         return;
 
-                    dateStartPlan.setTimeInMillis(plan.StartDate);
-                    dateEndPlan.setTimeInMillis(plan.EndDate);
-                    setInitialDateTime();
-
+                    if (!isTemplate) {
+                        dateStartPlan.setTimeInMillis(plan.StartDate);
+                        dateEndPlan.setTimeInMillis(plan.EndDate);
+                        setInitialDateTime();
+                    }
                     fieldOwnerPlan.setText(Constants.userName);
                     fieldNamePlan.setText(plan.Name);
 

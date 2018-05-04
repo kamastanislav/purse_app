@@ -46,9 +46,12 @@ namespace PurseApi.Models.Managers
                     {
                         userData.Cash += budget;
                         userRepo.UpdateUserData(userData.Code, userData, new List<int>() { (int)Constants.UserField.Cash });
+
+                        user = userRepo.GetUser(user.Code);
                         user.Cash -= budget;
                         user.LastLogin = Constants.TotalMilliseconds;
-                        userRepo.UpdateUserData(user.Code, user, new List<int>() { (int)Constants.UserField.Cash, (int)Constants.UserField.LastLogin });
+                        UserManager.UpdateUserData(user);
+                       
                         var task = new Task(() => InformationManager.MoneyTransfer(user, userData, budget));
                         task.Start();
                         return true;
@@ -61,12 +64,19 @@ namespace PurseApi.Models.Managers
             throw new NotImplementedException();
         }
 
+        public static void DeleteInformation()
+        {
+            var repo = new InformationRepository(0, (int)Constants.InformationAction.Delete, empty: true);
+            repo.DeleteInformationData();
+        }
+
         public static List<Information> GetHistoryInformation()
         {
             var user = UserSession.Current.User;
             if (user != null)
             {
-                var infoRepo = new InformationRepository(user.Code, (int)Constants.InformationAction.Select);
+                Logger.Logger.WriteInfo(Constants.TotalMillisecondsTwoWeeksOld.ToString());
+                var infoRepo = new InformationRepository(1, (int)Constants.InformationAction.Select);
                 return infoRepo.List;
             }
             throw new NotImplementedException();

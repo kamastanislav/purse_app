@@ -177,7 +177,11 @@ public class UserFragment extends Fragment implements android.view.View.OnClickL
 
         BigDecimal budget = BigDecimal.valueOf(Double.valueOf(fieldAddCash.getText().toString()));
 
-        Call<Boolean> call = RestService.getService().budgetReplenishment(budget);
+        Call<Boolean> call;
+        if (userCode == Constants.DEFAULT_CODE || userCode == Constants.userCode)
+            call = RestService.getService().budgetReplenishment(budget);
+        else
+            call = RestService.getService().budgetReplenishmentOtherUser(userCode, budget);
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
@@ -209,7 +213,7 @@ public class UserFragment extends Fragment implements android.view.View.OnClickL
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 progress.dismiss();
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     FamilyFragment fragment = new FamilyFragment();
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.content_frame, fragment);

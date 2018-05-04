@@ -3,8 +3,10 @@ package com.purse.purseclient;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import com.purse.array_adapter.CashAdapter;
 import com.purse.entity.CategoryService;
 import com.purse.entity.HistoryCash;
+import com.purse.entity.Information;
 import com.purse.entity.UserData;
 import com.purse.helper.Constants;
 import com.purse.helper.FilterData;
@@ -31,9 +34,14 @@ import com.purse.services.RestService;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
+import im.dacer.androidcharts.PieHelper;
+import im.dacer.androidcharts.PieView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -80,6 +88,7 @@ public class LoggerFragment extends Fragment implements android.view.View.OnClic
         actionFilter.setOnClickListener(this);
 
         loggerListView = (ListView) view.findViewById(R.id.logger_list_view);
+        loggerListView.setOnItemClickListener(this);
         progress = new ProgressDialog(view.getContext());
 
         Button btn = (Button) view.findViewById(R.id.send_filter_logger);
@@ -100,16 +109,18 @@ public class LoggerFragment extends Fragment implements android.view.View.OnClic
             @Override
             public void onResponse(Call<List<CategoryService>> call, Response<List<CategoryService>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    List<Integer> csCodes = new LinkedList<>();
-                    List<String> csName = new LinkedList<>();
-                    csCodes.add(0);
-                    csName.add("Переводы");
+
+                    List<Integer> codes = new LinkedList<Integer>();
+                    List<String> names = new LinkedList<String>();
+                    codes.add(0);
+                    names.add("Переводы");
                     for (CategoryService cs : response.body()) {
-                        csCodes.add(cs.Code);
-                        csName.add(cs.Name);
+                        codes.add(cs.Code);
+                        names.add(cs.Name);
+
                     }
 
-                    spinnerCategory.setItems(csName, csCodes);
+                    spinnerCategory.setItems(names, codes);
                 }
             }
 
@@ -164,17 +175,7 @@ public class LoggerFragment extends Fragment implements android.view.View.OnClic
         dataListView.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         viewLogger.setAdapter(dataListView);
 
-        viewLogger.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 
     private void loadData() {
@@ -192,7 +193,7 @@ public class LoggerFragment extends Fragment implements android.view.View.OnClic
                 progress.dismiss();
                 if (response.isSuccessful()) {
                     List<HistoryCash> historyCashes = response.body();
-
+                    Collections.reverse(historyCashes);
                     CashAdapter historyCashAdapter = new CashAdapter(view.getContext(), R.layout.view_cash_entity, historyCashes);
 
                     loggerListView.setAdapter(historyCashAdapter);
@@ -278,7 +279,16 @@ public class LoggerFragment extends Fragment implements android.view.View.OnClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        int planCode = Integer.valueOf(((TextView) view.findViewById(R.id.history_cash_plan_code)).getText().toString());
 
+        if (planCode > Constants.DEFAULT_CODE) {
+            PlanInformationFragment fragment = new PlanInformationFragment();
+            fragment.setPlanCode(planCode);
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.content_frame, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
     }
 
     public FilterData getFilter() {

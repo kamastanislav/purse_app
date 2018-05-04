@@ -18,10 +18,12 @@ namespace PurseApi.Models.Repositories
             _withPlan = withPlan;
         }
 
-        public InformationRepository(int code, int action, bool empty = false) : base(empty)
+        public InformationRepository(int code, int action, bool empty = false)
         {
             _code = code;
             _action = action;
+            if (!empty)
+                SelectData();
         }
 
         protected override string TableWhere
@@ -31,9 +33,9 @@ namespace PurseApi.Models.Repositories
                 switch (_action)
                 {
                     case (int)Constants.InformationAction.Select:
-                        return string.Format("[CODE] = {0} AND [DATE_ACTION] >= {1} ORDER BY [DATE_ACTION] DESC", _code, Constants.TotalMillisecondsTwoWeeksOld);
+                        return string.Format(" WHERE [USER_CODE] = {0} AND [DATE_ACTION] >= {1} ORDER BY [DATE_ACTION] DESC", _code, Constants.TotalMillisecondsTwoWeeksOld);
                     case (int)Constants.InformationAction.Delete:
-                        return string.Format("[DATE_ACTION] < {0}", Constants.TotalMillisecondsTwoWeeksOld);
+                        return string.Format(" WHERE [DATE_ACTION] < {0}", Constants.TotalMillisecondsTwoWeeksOld);
                 }
                 return string.Empty;
             }

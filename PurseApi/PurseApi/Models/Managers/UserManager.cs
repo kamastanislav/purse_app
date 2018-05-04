@@ -5,6 +5,7 @@ using PurseApi.Models.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace PurseApi.Models.Managers
@@ -58,6 +59,8 @@ namespace PurseApi.Models.Managers
         {
             try
             {
+                var task = new Task(() => HistoryManager.DeleteInformation());
+                task.Start();
                 return UserSession.DestroyIfExpired();
             }
             catch (Exception)

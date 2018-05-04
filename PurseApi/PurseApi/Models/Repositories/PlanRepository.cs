@@ -36,7 +36,7 @@ namespace PurseApi.Models.Repositories
                 if (_filter.DateInterval != null) {
                     var start = _filter.DateInterval[0];
                     var end = _filter.DateInterval[1];
-                    sqlWhere = string.Format("{0} {1} <= [END_DATE_PLAN] AND {2} >= [START_DATE_PLAN]", sqlWhere, start, end);
+                    sqlWhere = string.Format("{0} (({1} <= [START_DATE_PLAN] AND [START_DATE_PLAN] <= {2}) OR  ({1} <= [END_DATE_PLAN] AND [END_DATE_PLAN] <= {2}))", sqlWhere, start, end);
                 }
                 if (_filter.Executor != null)
                 {

@@ -13,6 +13,8 @@ import com.purse.entity.Information;
 import com.purse.purseclient.R;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -39,6 +41,7 @@ public class CashAdapter  extends ArrayAdapter<HistoryCash> {
             TextView cashNameField = (TextView)v.findViewById(R.id.history_cash_entity_name);
             TextView cashBudgetField = (TextView)v.findViewById(R.id.history_cash_entity_budget);
             TextView cashDateField = (TextView)v.findViewById(R.id.history_cash_entity_date);
+            TextView historyPlanField = (TextView) v.findViewById(R.id.history_cash_plan_code);
 
             cashCodeField.setText(String.valueOf(historyCash.Code));
             cashNameField.setText(historyCash.Name);
@@ -49,7 +52,10 @@ public class CashAdapter  extends ArrayAdapter<HistoryCash> {
                 cashBudgetField.setTextColor(Color.parseColor("#34c719"));
 
             Date date = new Date(historyCash.DateAction);
-            cashDateField.setText(date.toString());
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            cashDateField.setText(dateFormat.format(date));
+
+            historyPlanField.setText(String.valueOf(historyCash.PlanCode));
         }
         return v;
     }

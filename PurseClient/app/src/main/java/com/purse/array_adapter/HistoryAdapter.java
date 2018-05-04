@@ -33,6 +33,9 @@ public class HistoryAdapter extends ArrayAdapter<Information> {
         if (information != null) {
             TextView historyEntityName = (TextView) v.findViewById(R.id.history_entity_name);
             historyEntityName.setText(information.Info);
+
+            TextView historyPlan = (TextView) v.findViewById(R.id.history_plan_code);
+            historyPlan.setText(String.valueOf(information.PlanCode));
         }
         return v;
     }
