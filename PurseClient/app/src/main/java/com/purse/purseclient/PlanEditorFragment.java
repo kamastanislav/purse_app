@@ -23,7 +23,6 @@ import com.purse.entity.Plan;
 import com.purse.entity.Service;
 import com.purse.entity.UserData;
 import com.purse.helper.Constants;
-import com.purse.helper.FilterPlan;
 import com.purse.services.RestService;
 
 import java.text.DateFormat;
@@ -31,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -46,7 +46,6 @@ public class PlanEditorFragment extends Fragment {
     private TextView fieldOwnerPlan;
     private View view;
     private ProgressDialog progress;
-    private FilterPlan filterPlan;
     private Spinner categoryService;
     private Spinner service;
     private Spinner executor;
@@ -56,6 +55,8 @@ public class PlanEditorFragment extends Fragment {
     private int indexExecutor = 0;
     private int indexCategoryService = 0;
     private int indexService = 0;
+
+    private List<UserData> users;
 
     private int planCode;
     private Plan plan;
@@ -111,7 +112,7 @@ public class PlanEditorFragment extends Fragment {
                 indexCategoryService = position;
                 indexService = 0;
                 List<String> listService = new ArrayList<String>();
-                for (Service serv : filterPlan.CategoryServices.get(indexCategoryService).Services)
+                for (Service serv : Constants.categoryServices.get(indexCategoryService).Services)
                     listService.add(serv.Name);
                 ArrayAdapter<String> dataAdapterService = new ArrayAdapter<String>(view.getContext(),
                         android.R.layout.simple_spinner_item, listService);
@@ -204,9 +205,9 @@ public class PlanEditorFragment extends Fragment {
                     fieldOwnerPlan.setText(Constants.userName);
                     fieldNamePlan.setText(plan.Name);
 
-                    if (!filterPlan.Executors.isEmpty()) {
-                        for (int i = 0; i < filterPlan.Executors.size(); i++) {
-                            UserData user = filterPlan.Executors.get(i);
+                    if (users !=null) {
+                        for (int i = 0; i < users.size(); i++) {
+                            UserData user = users.get(i);
                             if (user.Code == plan.ExecutorCode) {
                                 indexExecutor = i;
                                 break;
@@ -215,8 +216,8 @@ public class PlanEditorFragment extends Fragment {
                         executor.setSelection(indexExecutor);
                     }
 
-                    for (int i = 0; i < filterPlan.CategoryServices.size(); i++) {
-                        CategoryService categoryService = filterPlan.CategoryServices.get(i);
+                    for (int i = 0; i < Constants.categoryServices.size(); i++) {
+                        CategoryService categoryService = Constants.categoryServices.get(i);
                         if (categoryService.Code == plan.CategoryCode) {
                             indexCategoryService = i;
                             break;
@@ -224,8 +225,8 @@ public class PlanEditorFragment extends Fragment {
                     }
                     categoryService.setSelection(indexCategoryService);
 
-                    for (int i = 0; i < filterPlan.CategoryServices.get(indexCategoryService).Services.size(); i++) {
-                        Service service = filterPlan.CategoryServices.get(indexCategoryService).Services.get(i);
+                    for (int i = 0; i < Constants.categoryServices.get(indexCategoryService).Services.size(); i++) {
+                        Service service = Constants.categoryServices.get(indexCategoryService).Services.get(i);
                         if (service.Code == plan.ServiceCode) {
                             indexService = i;
                             break;
@@ -248,8 +249,8 @@ public class PlanEditorFragment extends Fragment {
     private void updatePlanName() {
         String name = "";
         try {
-            name = filterPlan.CategoryServices.get(indexCategoryService).Name;
-            name = String.format("%1$s %2$s", name, filterPlan.CategoryServices.get(indexCategoryService).Services.get(indexService).Name);
+            name = Constants.categoryServices.get(indexCategoryService).Name;
+            name = String.format("%1$s %2$s", name, Constants.categoryServices.get(indexCategoryService).Services.get(indexService).Name);
 
             DateFormat dateFormat = new SimpleDateFormat("dd.MM");
 
@@ -264,11 +265,11 @@ public class PlanEditorFragment extends Fragment {
         plan = plan == null ? new Plan() : plan;
 
         plan.Name = fieldNamePlan.getText().toString();
-        CategoryService sc = filterPlan.CategoryServices.get(indexCategoryService);
+        CategoryService sc = Constants.categoryServices.get(indexCategoryService);
         plan.CategoryCode = sc.Code;
         plan.ServiceCode = sc.Services.get(indexService).Code;
         if (executor.getVisibility() != View.GONE)
-            plan.ExecutorCode = filterPlan.Executors.get(indexExecutor).Code;
+            plan.ExecutorCode = users.get(indexExecutor).Code;
         else
             plan.ExecutorCode = Constants.userCode;
         plan.StartDate = dateStartPlan.getTimeInMillis();
@@ -327,69 +328,61 @@ public class PlanEditorFragment extends Fragment {
     }
 
     private void loadFilterPlan() {
-        progress.setTitle("Loading");
-        progress.setMessage("Wait while loading...");
-        progress.setCancelable(false);
-        progress.show();
 
-        Call<FilterPlan> call = RestService.getService().setFilterPlan();
+        if (Constants.familyCode != Constants.DEFAULT_CODE) {
+            progress.setTitle("Loading");
+            progress.setMessage("Wait while loading...");
+            progress.setCancelable(false);
+            progress.show();
 
-        call.enqueue(new Callback<FilterPlan>() {
-            @Override
-            public void onResponse(Call<FilterPlan> call, Response<FilterPlan> response) {
-                progress.dismiss();
-                if (response.isSuccessful()) {
-                    FilterPlan filterPlanUser = response.body();
+            Call<List<UserData>> callUsers = RestService.getService().usersList();
 
-                    if (filterPlanUser != null) {
+            callUsers.enqueue(new Callback<List<UserData>>() {
+                @Override
+                public void onResponse(Call<List<UserData>> call, Response<List<UserData>> response) {
+                    progress.dismiss();
+                    if (response.isSuccessful() & response.body() != null) {
 
-                        filterPlan = filterPlanUser;
+                        users = response.body();
 
-                        List<String> listCS = new ArrayList<String>();
-                        for (CategoryService category : filterPlan.CategoryServices)
-                            listCS.add(category.Name);
-                        ArrayAdapter<String> dataAdapterCS = new ArrayAdapter<String>(view.getContext(),
-                                android.R.layout.simple_spinner_item, listCS);
-                        dataAdapterCS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        categoryService.setAdapter(dataAdapterCS);
-
-                        if (!filterPlan.Executors.isEmpty()) {
                             List<String> listExecutor = new ArrayList<String>();
-                            for (UserData user : filterPlan.Executors)
+                            for (UserData user : users)
                                 listExecutor.add(String.format("%1$s %2$s (%3$s)", user.FirstName, user.LastName, user.NickName));
                             ArrayAdapter<String> dataAdapterExecutor = new ArrayAdapter<String>(view.getContext(),
                                     android.R.layout.simple_spinner_item, listExecutor);
                             dataAdapterExecutor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             executor.setAdapter(dataAdapterExecutor);
-                        } else
-                            executor.setVisibility(View.GONE);
-
-                        List<String> listService = new ArrayList<String>();
-                        for (Service serv : filterPlan.CategoryServices.get(indexCategoryService).Services)
-                            listService.add(serv.Name);
-                        ArrayAdapter<String> dataAdapterService = new ArrayAdapter<String>(view.getContext(),
-                                android.R.layout.simple_spinner_item, listService);
-                        dataAdapterService.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        service.setAdapter(dataAdapterService);
-                        updatePlanName();
-
-                        Constants.userName = filterPlan.OwnerUser;
-                        Constants.familyCode = filterPlan.FamilyCode;
-
-                        fieldOwnerPlan.setText(filterPlan.OwnerUser);
                     } else {
                         Toast.makeText(view.getContext(), "NO", Toast.LENGTH_LONG).show();
                     }
-                } else {
-                    Toast.makeText(view.getContext(), "NO", Toast.LENGTH_LONG).show();
                 }
-            }
 
-            @Override
-            public void onFailure(Call<FilterPlan> call, Throwable t) {
+                @Override
+                public void onFailure(Call<List<UserData>> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        } else
+            executor.setVisibility(View.GONE);
+
+        fieldOwnerPlan.setText(Constants.userName);
+
+        List<String> listCS = new ArrayList<String>();
+        for (CategoryService category : Constants.categoryServices)
+            listCS.add(category.Name);
+        ArrayAdapter<String> dataAdapterCS = new ArrayAdapter<String>(view.getContext(),
+                android.R.layout.simple_spinner_item, listCS);
+        dataAdapterCS.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categoryService.setAdapter(dataAdapterCS);
+
+        List<String> listService = new ArrayList<String>();
+        for (Service serv : Constants.categoryServices.get(indexCategoryService).Services)
+            listService.add(serv.Name);
+        ArrayAdapter<String> dataAdapterService = new ArrayAdapter<String>(view.getContext(),
+                android.R.layout.simple_spinner_item, listService);
+        dataAdapterService.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        service.setAdapter(dataAdapterService);
+        updatePlanName();
 
     }
 

@@ -141,12 +141,10 @@
     <Compile Include="Models\Helpers\Constants.cs" />
     <Compile Include="Models\Helpers\FastInvoke.cs" />
     <Compile Include="Models\Helpers\FilterData.cs" />
-    <Compile Include="Models\Helpers\FilterPlan.cs" />
     <Compile Include="Models\Helpers\SessionControllerHandler.cs" />
     <Compile Include="Models\Helpers\UserLogin.cs" />
     <Compile Include="Models\Logger\Logger.cs" />
     <Compile Include="Models\Managers\FamilyManager.cs" />
-    <Compile Include="Models\Managers\FilterManager.cs" />
     <Compile Include="Models\Managers\FlightManager.cs" />
     <Compile Include="Models\Managers\HistoryManager.cs" />
     <Compile Include="Models\Managers\InformationManager.cs" />

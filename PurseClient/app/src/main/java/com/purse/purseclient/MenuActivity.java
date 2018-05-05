@@ -19,9 +19,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.purse.entity.CategoryService;
 import com.purse.entity.UserData;
 import com.purse.helper.Constants;
 import com.purse.services.RestService;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,12 +58,12 @@ public class MenuActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        loadUserName();
+        loadData();
     }
 
-    private void loadUserName() {
-        Call<UserData> call = RestService.getService().getSessionUser();
-        call.enqueue(new Callback<UserData>() {
+    private void loadData() {
+        Call<UserData> callUserData = RestService.getService().getSessionUser();
+        callUserData.enqueue(new Callback<UserData>() {
             @Override
             public void onResponse(Call<UserData> call, Response<UserData> response) {
                 if (response.isSuccessful()) {
@@ -75,6 +79,23 @@ public class MenuActivity extends AppCompatActivity
 
             }
         });
+
+        final Call<List<CategoryService>> callCategoryService = RestService.getService().getCategories();
+        callCategoryService.enqueue(new Callback<List<CategoryService>>() {
+            @Override
+            public void onResponse(Call<List<CategoryService>> call, Response<List<CategoryService>> response) {
+                if (response.isSuccessful()) {
+                    boolean isEmpty = response.body() == null;
+                    Constants.categoryServices = isEmpty ? new LinkedList<CategoryService>() : response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CategoryService>> call, Throwable t) {
+
+            }
+        });
+
     }
 
     private void loadStartFragment() {

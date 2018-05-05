@@ -205,35 +205,17 @@ public class PlanFragment extends Fragment implements AdapterView.OnItemClickLis
 
     private void setDataSpinner() {
 
-        spinnerCategory = (MultiSpinner) view.findViewById(R.id.filter_category);
-        Call<List<CategoryService>> callCategory = RestService.getService().getCategories();
-        callCategory.enqueue(new Callback<List<CategoryService>>() {
-            @Override
-            public void onResponse(Call<List<CategoryService>> call, Response<List<CategoryService>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<Integer> csCodes = new LinkedList<>();
-                    List<String> csName = new LinkedList<>();
-                    for (CategoryService cs : response.body()) {
-                        csCodes.add(cs.Code);
-                        csName.add(cs.Name);
-                    }
-
-                    spinnerCategory.setItems(csName, csCodes);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<CategoryService>> call, Throwable t) {
-
-            }
-        });
 
         spinnerExecutor = (MultiSpinner) view.findViewById(R.id.filter_executor);
         spinnerOwner = (MultiSpinner) view.findViewById(R.id.filter_owner);
-        if (Constants.familyCode == Constants.DEFAULT_CODE) {
+        if (Constants.familyCode == Constants.DEFAULT_CODE)
+
+        {
             spinnerExecutor.setVisibility(View.GONE);
             spinnerOwner.setVisibility(View.GONE);
-        } else {
+        } else
+
+        {
             Call<List<UserData>> callUsers = RestService.getService().usersList();
 
             callUsers.enqueue(new Callback<List<UserData>>() {
@@ -262,6 +244,17 @@ public class PlanFragment extends Fragment implements AdapterView.OnItemClickLis
                 }
             });
         }
+
+        spinnerCategory = (MultiSpinner) view.findViewById(R.id.filter_category);
+
+        List<Integer> csCodes = new LinkedList<>();
+        List<String> csName = new LinkedList<>();
+        for (CategoryService cs : Constants.categoryServices) {
+            csCodes.add(cs.Code);
+            csName.add(cs.Name);
+        }
+
+        spinnerCategory.setItems(csName, csCodes);
 
         spinnerStatus = (MultiSpinner) view.findViewById(R.id.filter_status);
 

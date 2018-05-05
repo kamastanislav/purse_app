@@ -35,13 +35,9 @@ import com.purse.services.RestService;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-import im.dacer.androidcharts.PieHelper;
-import im.dacer.androidcharts.PieView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -104,31 +100,18 @@ public class LoggerFragment extends Fragment implements android.view.View.OnClic
     private void setFilterData() {
 
         spinnerCategory = (MultiSpinner) view.findViewById(R.id.filter_category_logger);
-        Call<List<CategoryService>> callCategory = RestService.getService().getCategories();
-        callCategory.enqueue(new Callback<List<CategoryService>>() {
-            @Override
-            public void onResponse(Call<List<CategoryService>> call, Response<List<CategoryService>> response) {
-                if (response.isSuccessful() && response.body() != null) {
+        List<Integer> codes = new LinkedList<Integer>();
+        List<String> names = new LinkedList<String>();
+        codes.add(0);
+        names.add("Переводы");
+        for (CategoryService cs : Constants.categoryServices) {
+            codes.add(cs.Code);
+            names.add(cs.Name);
 
-                    List<Integer> codes = new LinkedList<Integer>();
-                    List<String> names = new LinkedList<String>();
-                    codes.add(0);
-                    names.add("Переводы");
-                    for (CategoryService cs : response.body()) {
-                        codes.add(cs.Code);
-                        names.add(cs.Name);
+        }
 
-                    }
+        spinnerCategory.setItems(names, codes);
 
-                    spinnerCategory.setItems(names, codes);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<CategoryService>> call, Throwable t) {
-
-            }
-        });
 
         spinnerUser = (MultiSpinner) view.findViewById(R.id.filter_user_logger);
 

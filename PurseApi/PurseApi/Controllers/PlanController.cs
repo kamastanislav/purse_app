@@ -136,18 +136,5 @@ namespace PurseApi.Controllers
                 return NotFound();
             }
         }
-
-        [Route("filter_data")]
-        public IHttpActionResult PostSendFilterPlan()
-        {
-            try
-            {
-                return Ok(FilterManager.GetFilterPlan());
-            }
-            catch (Exception)
-            {
-                return NotFound();
-            }
-        }
     }
 }

@@ -7,7 +7,6 @@ import com.purse.entity.Information;
 import com.purse.entity.Plan;
 import com.purse.entity.UserData;
 import com.purse.helper.FilterData;
-import com.purse.helper.FilterPlan;
 import com.purse.helper.UserLogin;
 
 import java.math.BigDecimal;
@@ -16,8 +15,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -25,9 +22,6 @@ import retrofit2.http.Query;
 
 public interface PurseService {
     /*user controller*/
-    @GET("user/list")
-    public Call<List<UserData>> registration();
-
     @POST("user/registration")
     public Call<Integer> registrationUser(@Body UserData user);
 
@@ -72,9 +66,6 @@ public interface PurseService {
     public Call<Integer> createFamily();
 
     /*plan controller*/
-    @POST("plan/filter_data")
-    public Call<FilterPlan> setFilterPlan();
-
     @POST("plan/categories")
     public Call<List<CategoryService>> getCategories();
 
