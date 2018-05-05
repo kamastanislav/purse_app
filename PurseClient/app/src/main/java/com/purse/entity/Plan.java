@@ -13,9 +13,7 @@ public class Plan {
     public long EndDate;
     public BigDecimal PlannedBudget;
     public BigDecimal ActualBudget;
-    public int FamilyCode;
     public int Status;
-    public int CountFlight;
     public int CategoryCode;
     public int ServiceCode;
 }

@@ -122,12 +122,11 @@ namespace PurseApi.Models.Repositories
             {"PlannedBudget", "PLANNED_BUDGET_PLAN" },
             {"ActualBudget", "ACTUAL_BUDGET_PLAN" },
             {"Status", "STATUS" },
-            {"CountFlight", "COUNT_FLIGHT"},
             {"CategoryCode", "CATEGORY_CODE"},
             {"ServiceCode", "SERVICE_CODE"}
         };
 
-        private readonly Dictionary<string, string> fieldInsert = new Dictionary<string, string>()
+        private readonly Dictionary<string, string> fieldInsertUpdate = new Dictionary<string, string>()
         {
             {"Name", "NAME" },
             {"CreateDate", "DATE_CREATE" },
@@ -139,24 +138,6 @@ namespace PurseApi.Models.Repositories
             {"PlannedBudget", "PLANNED_BUDGET_PLAN" },
             {"ActualBudget", "ACTUAL_BUDGET_PLAN" },
             {"Status", "STATUS" },
-            {"CountFlight", "COUNT_FLIGHT"},
-            {"CategoryCode", "CATEGORY_CODE"},
-            {"ServiceCode", "SERVICE_CODE"}
-        };
-
-        private readonly Dictionary<string, string> fieldUpdate = new Dictionary<string, string>()
-        {
-            {"Name", "NAME" },
-            {"CreateDate", "DATE_CREATE" },
-            {"LastUpdate", "LAST_UPDATE_PLAN" },
-            {"OwnerCode", "OWNER_CODE" },
-            {"ExecutorCode", "EXECUTOR_CODE" },
-            {"StartDate", "START_DATE_PLAN" },
-            {"EndDate", "END_DATE_PLAN" },
-            {"PlannedBudget", "PLANNED_BUDGET_PLAN" },
-            {"ActualBudget", "ACTUAL_BUDGET_PLAN" },
-            {"Status", "STATUS" },
-            {"CountFlight", "COUNT_FLIGHT"},
             {"CategoryCode", "CATEGORY_CODE"},
             {"ServiceCode", "SERVICE_CODE"}
         };
@@ -176,9 +157,9 @@ namespace PurseApi.Models.Repositories
                 case (int)Action.Select:
                     return fieldSelect;
                 case (int)Action.Insert:
-                    return fieldInsert;
+                    return fieldInsertUpdate;
                 case (int)Action.Update:
-                    return fieldUpdate.Where(x => _fields.Any(y => ((Constants.PlanField)y).ToString() == x.Key)).ToDictionary(x => x.Key, x => x.Value);
+                    return fieldInsertUpdate.Where(x => _fields.Any(y => ((Constants.PlanField)y).ToString() == x.Key)).ToDictionary(x => x.Key, x => x.Value);
                 default:
                     return new Dictionary<string, string>();
             }

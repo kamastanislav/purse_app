@@ -32,7 +32,6 @@ namespace PurseApi.Models.Entities
         public decimal PlannedBudget { get; set; }
         public decimal ActualBudget { get; set; }
         public int Status { get; set; }
-        public int CountFlight { get; set; }
         public int CategoryCode { get; set; }
         public int ServiceCode { get; set; }
 
@@ -75,8 +74,6 @@ namespace PurseApi.Models.Entities
             this.Status = plan.Status;
             this.CategoryCode = plan.CategoryCode;
             this.ServiceCode = plan.ServiceCode;
-       /*     this.CurrencyCode = plan.CurrencyCode;*/
-            this.CountFlight = plan.CountFlight;
         }
     }
 }
