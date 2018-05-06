@@ -173,7 +173,14 @@ namespace PurseApi.Models
             try
             {
                 PropertyInfo[] properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-                
+                Action<T, object>[] setterArray = new Action<T, object>[properties.Length];
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    PropertyInfo p = properties[i];
+                    if (p.CanWrite)
+                        setterArray[i] = BuildUntypedSetter(p);
+                }
+
                 Type[] types = new Type[] { typeof(int) };
                 var constructorInfo = typeof(T).GetConstructor(types);
 
@@ -204,10 +211,13 @@ namespace PurseApi.Models
                                 if (p.CanWrite && GetFieldsConformity((int)Action.Select).ContainsKey(p.Name))
                                 {
                                     object fieldValue = rdr.GetValue(j); // columns and fields must be in the same order 
-
-                                    fieldValue = null;
-                                    p.SetValue(instance, fieldValue, null);
-
+                                    if (fieldValue == DBNull.Value)
+                                    {
+                                        fieldValue = null;
+                                        p.SetValue(instance, fieldValue, null);
+                                    }
+                                    else
+                                        setterArray[i]((T)instance, fieldValue);
                                     j++;
                                 }
                             }
@@ -299,6 +309,19 @@ namespace PurseApi.Models
         protected virtual string TableWhere { get { return ""; } }
 
         protected abstract Dictionary<string, string> GetFieldsConformity(int action);
-  
+
+        private Action<T, object> BuildUntypedSetter(PropertyInfo propertyInfo)
+        {
+            var targetType = propertyInfo.DeclaringType;
+            var methodInfo = propertyInfo.SetMethod;
+            var exTarget = Expression.Parameter(targetType, "t");
+            var exValue = Expression.Parameter(typeof(object), "p");
+            var exBody = Expression.Call(exTarget, methodInfo,
+            Expression.Convert(exValue, propertyInfo.PropertyType));
+            var lambda = Expression.Lambda<Action<T, object>>(exBody, exTarget, exValue);
+            var action = lambda.Compile();
+            return action;
+        }
+
     }
 }
