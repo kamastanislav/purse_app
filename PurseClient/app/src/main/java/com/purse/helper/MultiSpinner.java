@@ -31,10 +31,7 @@ public class MultiSpinner extends AppCompatSpinner implements
 
     @Override
     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-        if (isChecked)
-            selected[which] = true;
-        else
-            selected[which] = false;
+        selected[which] = isChecked;
     }
 
     @Override
@@ -42,7 +39,7 @@ public class MultiSpinner extends AppCompatSpinner implements
         StringBuffer spinnerBuffer = new StringBuffer();
         boolean someUnselected = false;
         for (int i = 0; i < items.size(); i++) {
-            if (selected[i] == true) {
+            if (selected[i]) {
                 spinnerBuffer.append(items.get(i));
                 spinnerBuffer.append(", ");
             } else {
@@ -98,10 +95,7 @@ public class MultiSpinner extends AppCompatSpinner implements
 
         selected = new boolean[items.size()];
         for (int i = 0; i < selected.length; i++) {
-            if (index != i)
-                selected[i] = false;
-            else
-                selected[i] = true;
+            selected[i] = index == i;
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),

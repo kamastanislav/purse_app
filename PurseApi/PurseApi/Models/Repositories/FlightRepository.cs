@@ -63,24 +63,13 @@ namespace PurseApi.Models.Repositories
             }
         }
 
-        private readonly Dictionary<string, string> fieldInsert = new Dictionary<string, string>()
+        private readonly Dictionary<string, string> fieldInsertUpdate = new Dictionary<string, string>()
         {
             { "PlanCode", "PLAN_CODE" },
             { "PlannedBudget", "PLANNED_BUDGET" },
             { "ActualBudget", "ACTUAL_BUDGET" },
-         //   { "CurrencyCode", "CURRCODE" },
             { "Comment", "COMMENT" },
             { "OwnerCode", "OWNER" },
-            { "Status", "STATUS" },
-            { "DateCreate", "DATE_CREATE" }
-        };
-
-        private readonly Dictionary<string, string> fieldUpdate = new Dictionary<string, string>()
-        {
-            { "PlannedBudget", "PLANNED_BUDGET" },
-            { "ActualBudget", "ACTUAL_BUDGET" },
-           // { "CurrencyCode", "CURRCODE" },
-            { "Comment", "COMMENT" },
             { "Status", "STATUS" },
             { "DateCreate", "DATE_CREATE" }
         };
@@ -92,9 +81,9 @@ namespace PurseApi.Models.Repositories
                 case (int)Action.Select:
                     return fieldSelect;
                 case (int)Action.Insert:
-                    return fieldInsert;
+                    return fieldInsertUpdate;
                 case (int)Action.Update:
-                    return fieldUpdate.Where(x => _fields.Any(y => ((Constants.FlightField)y).ToString() == x.Key)).ToDictionary(x => x.Key, x => x.Value);
+                    return fieldInsertUpdate.Where(x => _fields.Any(y => ((Constants.FlightField)y).ToString() == x.Key)).ToDictionary(x => x.Key, x => x.Value);
                 default:
                     return new Dictionary<string, string>();
             }

@@ -9,10 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.purse.entity.HistoryCash;
-import com.purse.entity.Information;
 import com.purse.purseclient.R;
 
-import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;

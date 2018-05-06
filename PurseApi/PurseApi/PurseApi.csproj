@@ -143,7 +143,7 @@
     <Compile Include="Models\Helpers\FilterData.cs" />
     <Compile Include="Models\Helpers\SessionControllerHandler.cs" />
     <Compile Include="Models\Helpers\UserLogin.cs" />
-    <Compile Include="Models\Logger\Logger.cs" />
+    <Compile Include="Models\Helpers\Logger.cs" />
     <Compile Include="Models\Managers\FamilyManager.cs" />
     <Compile Include="Models\Managers\FlightManager.cs" />
     <Compile Include="Models\Managers\HistoryManager.cs" />
@@ -162,7 +162,7 @@
     <Compile Include="Models\Repositories\TemplateRepository.cs" />
     <Compile Include="Models\Repositories\TotalLogRepository.cs" />
     <Compile Include="Models\Repositories\UserRepository.cs" />
-    <Compile Include="Models\UserSession.cs" />
+    <Compile Include="Models\Helpers\UserSession.cs" />
     <Compile Include="Models\Utils\Connection.cs" />
     <Compile Include="Models\Utils\DbCommand.cs" />
     <Compile Include="Models\Utils\DbConnection.cs" />
@@ -176,6 +176,7 @@
     </Content>
     <Content Include="ClassDiagram1.cd" />
     <Content Include="ClassDiagram2.cd" />
+    <Content Include="ClassDiagram3.cd" />
     <None Include="Properties\PublishProfiles\Setup.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
