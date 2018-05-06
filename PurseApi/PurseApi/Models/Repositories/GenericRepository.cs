@@ -173,14 +173,7 @@ namespace PurseApi.Models
             try
             {
                 PropertyInfo[] properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-                Action<T, object>[] setterArray = new Action<T, object>[properties.Length];
-                for (int i = 0; i < properties.Length; i++)
-                {
-                    PropertyInfo p = properties[i];
-                    if (p.CanWrite)
-                        setterArray[i] = FastInvoke.BuildUntypedSetter<T>(p);
-                }
-
+                
                 Type[] types = new Type[] { typeof(int) };
                 var constructorInfo = typeof(T).GetConstructor(types);
 
@@ -211,13 +204,10 @@ namespace PurseApi.Models
                                 if (p.CanWrite && GetFieldsConformity((int)Action.Select).ContainsKey(p.Name))
                                 {
                                     object fieldValue = rdr.GetValue(j); // columns and fields must be in the same order 
-                                    if (fieldValue == DBNull.Value)
-                                    {
-                                        fieldValue = null;
-                                        p.SetValue(instance, fieldValue, null);
-                                    }
-                                    else
-                                        setterArray[i]((T)instance, fieldValue);
+
+                                    fieldValue = null;
+                                    p.SetValue(instance, fieldValue, null);
+
                                     j++;
                                 }
                             }

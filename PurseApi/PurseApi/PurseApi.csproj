@@ -137,7 +137,7 @@
     <Compile Include="Models\Entities\Service.cs" />
     <Compile Include="Models\Entities\TemplatePlan.cs" />
     <Compile Include="Models\Entities\TotalLog.cs" />
-    <Compile Include="Models\Helpers\UserData.cs" />
+    <Compile Include="Models\Entities\UserData.cs" />
     <Compile Include="Models\Helpers\Constants.cs" />
     <Compile Include="Models\Helpers\FastInvoke.cs" />
     <Compile Include="Models\Helpers\FilterData.cs" />
