@@ -26,6 +26,21 @@ namespace PurseApi.Controllers
             return Ok(user);
         }
 
+        [Route("restore_password")]
+        [ResponseType(typeof(UserData))]
+        public IHttpActionResult PostRestorePassword(UserLogin login)
+        {
+            try
+            {
+                var result = UserManager.RestorePassword(login);
+                return Ok(result);
+            }
+            catch
+            {
+                return NotFound();
+            };
+        }
+
         [Route("session")]
         [ResponseType(typeof(UserData))]
         public IHttpActionResult PostSessionUser()
@@ -72,7 +87,6 @@ namespace PurseApi.Controllers
         {
             try
             {
-                Logger.WriteInfo("PutUser");
                 var updateUser = UserManager.UpdateUserData(user);
                 return Ok(updateUser);
             }

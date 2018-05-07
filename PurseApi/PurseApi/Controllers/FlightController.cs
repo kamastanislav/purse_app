@@ -46,7 +46,6 @@ namespace PurseApi.Controllers
         [ResponseType(typeof(bool))]
         public IHttpActionResult PostCreateFlight(int planCode, decimal plannedBudget, string comment)
         {
-            Logger.WriteInfo("create");
             try
             {
                 var result = FlightManager.CreateFlight(planCode, plannedBudget, comment);

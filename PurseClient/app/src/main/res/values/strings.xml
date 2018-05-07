@@ -74,4 +74,5 @@
     <string name="view_plans">Планы</string>
     <string name="view_template">Шаблоны планов</string>
     <string name="use_template_how_plan">Создать план</string>
+    <string name="restore_password">Восстановить пароль</string>
 </resources>

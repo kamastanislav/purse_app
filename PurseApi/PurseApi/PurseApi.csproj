@@ -139,7 +139,6 @@
     <Compile Include="Models\Entities\TotalLog.cs" />
     <Compile Include="Models\Entities\UserData.cs" />
     <Compile Include="Models\Helpers\Constants.cs" />
-    <Compile Include="Models\Helpers\FastInvoke.cs" />
     <Compile Include="Models\Helpers\FilterData.cs" />
     <Compile Include="Models\Helpers\SessionControllerHandler.cs" />
     <Compile Include="Models\Helpers\UserLogin.cs" />
@@ -162,7 +161,7 @@
     <Compile Include="Models\Repositories\TemplateRepository.cs" />
     <Compile Include="Models\Repositories\TotalLogRepository.cs" />
     <Compile Include="Models\Repositories\UserRepository.cs" />
-    <Compile Include="Models\Helpers\UserSession.cs" />
+    <Compile Include="Models\UserSession.cs" />
     <Compile Include="Models\Utils\Connection.cs" />
     <Compile Include="Models\Utils\DbCommand.cs" />
     <Compile Include="Models\Utils\DbConnection.cs" />

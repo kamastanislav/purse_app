@@ -98,7 +98,6 @@ namespace PurseApi.Controllers
         {
             try
             {
-                Logger.WriteInfo("delete/{code}");
                 var result = PlanManager.DeletePlan(code);
                 return Ok(result);
             }
@@ -113,7 +112,6 @@ namespace PurseApi.Controllers
         {
             try
             {
-                Logger.WriteInfo("delete/{code}");
                 var result = PlanManager.UndeletePlan(code);
                 return Ok(result);
             }

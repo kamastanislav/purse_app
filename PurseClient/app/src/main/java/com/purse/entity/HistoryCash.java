@@ -10,5 +10,4 @@ public class HistoryCash {
     public int CategoryCode;
     public String Name ;
     public int PlanCode ;
-    public int FamilyCode ;
 }

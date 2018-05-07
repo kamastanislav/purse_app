@@ -5,6 +5,9 @@ using PurseApi.Models.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -32,6 +35,53 @@ namespace PurseApi.Models.Managers
             UserRepository userRepo = new UserRepository((int)Constants.UserAction.Code);
             var user = userRepo.GetUser(userCode);
             return user;
+        }
+
+        public static bool RestorePassword(UserLogin login)
+        {
+            UserRepository userRepo = new UserRepository((int)Constants.UserAction.Restore);
+            var user = userRepo.GetList(login.NickName).FirstOrDefault();
+            if (user != null)
+            {
+                var password = SendNewPassword(string.Format("{0} {1} ({2})", user.FirstName, user.LastName, user.NickName), user.Email, login.Password, user.Code);
+                user.Password = password;
+                userRepo.SetActionCode((int)Constants.UserAction.Code);
+                user = userRepo.UpdateUserData(user.Code, user, new List<int>() { (int)Constants.UserField.Password });
+                if (user != null)
+                    return true;
+            }
+            throw new NotImplementedException();
+        }
+
+        private static string SendNewPassword(string name, string email, string password, int code)
+        {
+            int port = 587;
+            string smtp = "smtp.mail.ru";
+            bool SSL = true;
+            NetworkCredential login = new NetworkCredential("e.gallery.sys@mail.ru", "egallery2905Sys");
+            SmtpClient client = new SmtpClient(smtp);
+            MailMessage msg;
+            Random random = new Random();
+
+            int verificationCode = random.Next(1000000, 9999999);
+            password += verificationCode;
+            client.Port = port;
+            client.EnableSsl = SSL;
+            client.Credentials = login;
+            msg = new MailMessage()
+            {
+                From = new MailAddress("e.gallery.sys@mail.ru", "E-Family Purse", Encoding.UTF8)
+            };
+            msg.To.Add(new MailAddress(email));
+            msg.Subject = "Восстановление пароля.";
+            msg.Body = "Добрый день, " + name + ", Ваш новый пароль: " + "<b>" + password + "</b>";
+            msg.BodyEncoding = Encoding.UTF8;
+            msg.IsBodyHtml = true;
+            msg.Priority = MailPriority.Normal;
+            msg.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+            client.Send(msg);
+
+            return password;
         }
 
         public static int CreateNewUser(UserData user)

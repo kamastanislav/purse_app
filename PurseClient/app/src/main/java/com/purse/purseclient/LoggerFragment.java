@@ -38,6 +38,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import im.dacer.androidcharts.BarView;
+import im.dacer.androidcharts.LineView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

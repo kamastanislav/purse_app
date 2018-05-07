@@ -49,6 +49,9 @@ public interface PurseService {
     @PUT("user/update_password")
     public Call<Boolean> updatePasswordUser(@Query("password") String password);
 
+    @POST("user/restore_password")
+    public Call<Boolean> restorePassword(@Body UserLogin userLogin);
+
     /*family controller*/
     @POST("family/info")
     public Call<List<Boolean>> infoFamily();

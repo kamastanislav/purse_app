@@ -54,7 +54,7 @@
 
             <Button
                 android:id="@+id/email_sign_in_button"
-                style="?android:textAppearanceSmall"
+                style="@android:style/Widget.Material.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -68,6 +68,14 @@
                 android:layout_height="wrap_content"
                 android:onClick="registrationView"
                 android:text="@string/menu_registration"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/restore_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="restorePassword"
+                android:text="@string/restore_password"
                 tools:ignore="HardcodedText" />
 
         </LinearLayout>

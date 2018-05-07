@@ -75,7 +75,6 @@ namespace PurseApi.Models.Managers
             var user = UserSession.Current.User;
             if (user != null)
             {
-                Logger.Logger.WriteInfo(Constants.TotalMillisecondsTwoWeeksOld.ToString());
                 var infoRepo = new InformationRepository(1, (int)Constants.InformationAction.Select);
                 return infoRepo.List;
             }

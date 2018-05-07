@@ -80,7 +80,6 @@ namespace PurseApi.Models.Managers
                 var fields = CheckFieldsForUpdate(plan, result);
                 if (fields.Count == 1)
                     return false;
-                Logger.Logger.WriteInfo("Category " + plan.CategoryCode);
                 var repo = new PlanRepository(false, (int)Constants.PlanAction.Code);
                 plan.LastUpdate = Constants.TotalMilliseconds;
                 return repo.UpdatePlan(plan, fields) != null;

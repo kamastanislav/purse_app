@@ -61,6 +61,7 @@ namespace PurseApi.Models
                         User = userLogin != null ? userLogin : user,
                         CreatedDate = DateTime.Now                       
                     };
+                    Logger.Logger.WriteInfo(user.NickName);
                     HttpContext.Current.Session.Add(SESSION_NAME, ret);
                 }
             }

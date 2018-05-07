@@ -193,7 +193,7 @@ namespace PurseApi.Models
                 string sql = GenerateSelectQuery();
                 if (String.IsNullOrEmpty(sql))
                     throw new Exception("Impossible to obtain data from a database for [" + this.ToString() + "] Repository");
-
+                Logger.Logger.WriteInfo(sql);
                 using (var conn = Connection.GetConnection(Constants.MAIN_CONNECTION))
                 {
                     var cmd = conn.CreateCommand(sql);
@@ -322,6 +322,5 @@ namespace PurseApi.Models
             var action = lambda.Compile();
             return action;
         }
-
     }
 }

@@ -86,7 +86,8 @@ namespace PurseApi.Models.Helper
             Login = 2,
             List = 3,
             Family = 4,
-            Nick = 5
+            Nick = 5,
+            Restore = 6
         }
 
         public enum HistoryCashInsertAction
